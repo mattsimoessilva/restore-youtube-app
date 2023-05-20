@@ -1,20 +1,32 @@
 {% extends 'base.html' %}
 
 {% block content %}
-    <h1>Resultados da Pesquisa</h1>
-    
-    <form action="{% url 'search_videos' %}" method="get">
-        <input type="text" name="q" placeholder="Pesquisar">
-        <button type="submit">Pesquisar</button>
-    </form>
-    
-    <h2>Resultados para "{{ query }}"</h2>
-    
-    <ul>
+<div class="container mt-4">
+    <h2>Resultados da Pesquisa</h2>
+    <br>
+    <div class="video-grid">
         {% for video in videos %}
-            <li>{{ video.snippet.title }}</li>
-        {% empty %}
-            <li>Nenhum resultado encontrado.</li>
+            {% with video_id=video.id.videoId %}
+                <div class="video-card">
+                    <a href="{% url 'video_player' video_id=video_id %}" class="card-link">
+                        <div class="video-thumbnail">
+                            <img src="{{ video.snippet.thumbnails.medium.url }}" alt="Thumbnail">
+                        </div>
+                        <div class="video-info">
+                            <h2 class="video-title">{{ video.snippet.title }}</h2>
+                    </a>
+                        <div class="channel-info">
+                            <img class="channel-thumbnail" src="{{ video.channel_thumbnail }}" alt="Channel Thumbnail">
+                            <div class="channel-details">
+                                <h3 class="channel-title">{{ video.channel_title }}</h3>
+                                <p class="video-views">{{ video.statistics.viewCount }} views</p>
+                                <p class="video-published">{{ video.snippet.publishedAt|date:"F d, Y" }}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endwith %}
         {% endfor %}
-    </ul>
+    </div>
+  </div>
 {% endblock %}

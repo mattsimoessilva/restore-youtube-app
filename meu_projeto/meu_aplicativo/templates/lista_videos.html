@@ -4,24 +4,26 @@
     <br>
     <div class="video-grid">
         {% for video in videos %}
-            <div class="video-card">
-                <div class="video-thumbnail">
-                    <img src="{{ video.snippet.thumbnails.medium.url }}" alt="Thumbnail">
-                </div>
-                <div class="video-info">
-                    <h2 class="video-title">{{ video.snippet.title }}</h2>
-                    <div class="channel-info">
-                        <img class="channel-thumbnail" src="{{ video.channel_thumbnail }}" alt="Channel Thumbnail">
-                        <div class="channel-details">
-                            <h3 class="channel-title">{{ video.channel_title }}</h3>
-                            <p class="video-views">{{ video.statistics.viewCount }} views</p>
-                            <p class="video-published">{{ video.snippet.publishedAt|date:"F d, Y" }}</p>
+            {% with video_id=video.id.videoId %}
+                <div class="video-card">
+                    <a href="{% url 'video_player' video_id=video_id %}" class="card-link">
+                        <div class="video-thumbnail">
+                            <img src="{{ video.snippet.thumbnails.medium.url }}" alt="Thumbnail">
+                        </div>
+                        <div class="video-info">
+                            <h2 class="video-title">{{ video.snippet.title }}</h2>
+                    </a>
+                        <div class="channel-info">
+                            <img class="channel-thumbnail" src="{{ video.channel_thumbnail }}" alt="Channel Thumbnail">
+                            <div class="channel-details">
+                                <h3 class="channel-title">{{ video.channel_title }}</h3>
+                                <p class="video-views">{{ video.statistics.viewCount }} views</p>
+                                <p class="video-published">{{ video.snippet.publishedAt|date:"F d, Y" }}</p>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        
-            
+            {% endwith %}
         {% endfor %}
     </div>
 {% endblock %}
