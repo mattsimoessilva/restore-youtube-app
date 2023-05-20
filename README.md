@@ -26,8 +26,6 @@ The Restore YouTube App is a Django-based web application that provides an easy 
 
 - Search for videos using the search bar on the home page.
 - Click on a video thumbnail to watch the video.
-- Use the navigation menu to browse videos by category and popularity.
-- Click on the bookmark icon to add a video to your bookmarks.
 
 ## Contributing
 
