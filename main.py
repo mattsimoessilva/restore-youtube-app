@@ -1,8 +1,9 @@
 from googleapiclient.discovery import build
+from config import API_KEY, PROJECT_ID
 
 # Defina a chave de API e o ID do projeto
-api_key = 'AIzaSyCWbkbCj3eNg8pv8pe9V4fN7wUGpzytIWs'
-project_id = '110577150454415986421'
+api_key = API_KEY
+project_id = PROJECT_ID
 
 # Crie uma instância do serviço da API do YouTube
 youtube = build('youtube', 'v3', developerKey=api_key)
