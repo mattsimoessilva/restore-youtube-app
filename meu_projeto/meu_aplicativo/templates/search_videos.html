@@ -16,10 +16,8 @@
                             <h2 class="video-title">{{ video.snippet.title }}</h2>
                     </a>
                         <div class="channel-info">
-                            <img class="channel-thumbnail" src="{{ video.channel_thumbnail }}" alt="Channel Thumbnail">
                             <div class="channel-details">
-                                <h3 class="channel-title">{{ video.channel_title }}</h3>
-                                <p class="video-views">{{ video.statistics.viewCount }} views</p>
+                                <p class="channel-title">{{ video.snippet.channelTitle }}</p>
                                 <p class="video-published">{{ video.snippet.publishedAt|date:"F d, Y" }}</p>
                             </div>
                         </div>

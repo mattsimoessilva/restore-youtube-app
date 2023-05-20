@@ -9,6 +9,7 @@
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     overflow: hidden;
+    width: 100%;
 }
 
 .video-thumbnail {
@@ -28,17 +29,19 @@
 
 .video-info {
     padding: 10px;
+    width: 100%;
 }
 
 .video-title {
     font-weight: bold;
     margin-bottom: 5px;
+    width: 100%; /* Ajuste o valor conforme necessário */
 }
 
 .channel-info {
     display: flex;
-    align-items: center;
-    margin-top: 10px;
+    margin-top: 90%;
+    width: 100%;
 }
 
 .channel-thumbnail {
@@ -95,8 +98,63 @@
   }
 
   .card {
-    width: 350px; /* Ajuste o valor de acordo com o tamanho desejado */
-    height: 350px; /* Ajuste o valor de acordo com o tamanho desejado */
+    width: 100%; /* Ajuste o valor de acordo com o tamanho desejado */
+    height: 100%; /* Ajuste o valor de acordo com o tamanho desejado */
+    background-color: #f9f9f9;
     border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
 }
+
+.player-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 500px; /* Ajuste a altura conforme necessário */
+  }
   
+  .video-details {
+    text-align: center;
+    margin-top: 20px;
+  }
+  
+  .channel-info {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+  }
+  
+  .channel-info img {
+    width: 50px; /* Ajuste o tamanho conforme necessário */
+    height: 50px; /* Ajuste o tamanho conforme necessário */
+    border-radius: 50%;
+    margin-right: 10px;
+  }
+  
+  .channel-name {
+    font-weight: bold;
+  }
+  
+  .video-details {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 20px;
+}
+
+.video-player {
+    width: 70%;
+}
+
+.similar-videos {
+    width: 30%;
+}
+
+.similar-video-card {
+    margin-bottom: 10px;
+}
+
+a {
+    text-decoration: none;
+    color: #000; /* Define a cor do link como preto */
+}
