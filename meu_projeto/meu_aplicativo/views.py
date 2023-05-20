@@ -5,6 +5,7 @@ from django.conf import settings
 from django.shortcuts import render
 from config import API_KEY
 import requests
+from django.http import JsonResponse
 
 def lista_videos(request):
     youtube = build('youtube', 'v3', developerKey=API_KEY)
@@ -70,36 +71,31 @@ def video_player(request, video_id):
     return render(request, 'player.html', context)
 
 def get_similar_videos(video_id):
-    # Configuração da API do YouTube
-    api_key = API_KEY  # Substitua com sua própria chave de API do YouTube
-    youtube = build('youtube', 'v3', developerKey=api_key)
+    youtube = build('youtube', 'v3', developerKey=API_KEY)
 
     try:
-        # Define a data de referência como 1º de janeiro de 2016
-        reference_date = datetime(2016, 1, 1).isoformat() + "Z"
-
         # Faz a chamada para a API do YouTube para obter vídeos relacionados
         response = youtube.search().list(
             part='snippet',
             type='video',
             relatedToVideoId=video_id,
-            maxResults=5,  # Defina o número máximo de vídeos similares que você deseja obter
-            publishedBefore=reference_date  # Filtra apenas vídeos publicados antes de 2016
+            maxResults=10,  # Altere o número de vídeos desejado
+            order='date'  # Ordena por data de publicação
         ).execute()
 
-        # Extrai as informações relevantes dos vídeos similares
-        similar_videos = []
-        for item in response['items']:
-            video = {
+        videos = [
+            {
                 'video_id': item['id']['videoId'],
                 'title': item['snippet']['title'],
                 'thumbnail': item['snippet']['thumbnails']['default']['url'],
-                'channel_name': item['snippet']['channelTitle'],
+                'published': item['snippet']['publishedAt']
             }
-            similar_videos.append(video)
+            for item in response['items']
+            if item['snippet']['publishedAt'] < '2016-01-01'  # Filtra vídeos publicados antes de 2016
+        ]
 
-        return similar_videos
+        return videos
 
-    except HttpError as e:
-        print(f'Erro ao buscar vídeos similares: {e}')
+    except Exception as e:
+        print(f'Erro ao obter vídeos similares: {e}')
         return []
