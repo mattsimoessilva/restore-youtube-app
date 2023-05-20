@@ -3,9 +3,10 @@ from datetime import datetime
 from googleapiclient.discovery import build
 from django.conf import settings
 from django.shortcuts import render
+from config import API_KEY
 
 def lista_videos(request):
-    youtube = build('youtube', 'v3', developerKey=settings.YOUTUBE_API_KEY)
+    youtube = build('youtube', 'v3', developerKey=API_KEY)
     published_before = datetime(year=2016, month=1, day=1).isoformat() + 'Z'
     youtube_request = youtube.search().list(
         part='snippet',
@@ -25,7 +26,7 @@ def lista_videos(request):
 
 def search_videos(request):
     query = request.GET.get('q', '')  # Obtém o valor da consulta de pesquisa da URL
-    youtube = build('youtube', 'v3', developerKey=settings.YOUTUBE_API_KEY)
+    youtube = build('youtube', 'v3', developerKey=API_KEY)
     published_before = datetime(year=2016, month=1, day=1).isoformat() + 'Z'
     youtube_request = youtube.search().list(
         part='snippet',
