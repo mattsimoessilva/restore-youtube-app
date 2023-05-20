@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h1>Resultados da Pesquisa</h1>
+    
+    <form action="{% url 'search_videos' %}" method="get">
+        <input type="text" name="q" placeholder="Pesquisar">
+        <button type="submit">Pesquisar</button>
+    </form>
+    
+    <h2>Resultados para "{{ query }}"</h2>
+    
+    <ul>
+        {% for video in videos %}
+            <li>{{ video.snippet.title }}</li>
+        {% empty %}
+            <li>Nenhum resultado encontrado.</li>
+        {% endfor %}
+    </ul>
+{% endblock %}
