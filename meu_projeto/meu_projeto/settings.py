@@ -35,6 +35,7 @@ STATICFILES_DIRS = [
 # Application definition
 
 INSTALLED_APPS = [
+    'meu_aplicativo',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

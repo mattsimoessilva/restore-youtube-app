@@ -1,39 +1,65 @@
 {% extends 'base.html' %}
 
 {% block content %}
+<nav class="navbar navbar-expand custom-navbar custom-shadow">
+    <div class="container">
+        <!-- Botão de Voltar -->
+        <a href="javascript:history.back()" class="btn btn-dark text-white back-button">
+            Voltar
+        </a>
 
-      <div class="row">
-        <div class="col-md-8">
-          <!-- Player de Vídeo -->
-          <div id="video-player">
-            <br>
-            <iframe width="700" height="500" src="https://www.youtube.com/embed/{{ video_id }}" frameborder="0" allowfullscreen></iframe>
-          </div>
-      
-          <!-- Detalhes do Vídeo -->
-          <br>
-          <h2>{{ video_data.snippet.title }}</h2>
-          <div>
-            <p>{{ video_data.snippet.channelTitle }}</p>
-            <p>{{ video_data.snippet.description }}</p>
-          </div>
+        <div class="d-flex align-items-center justify-content-center position-absolute top-50 start-50 translate-middle" style="left: 50%; transform: translate(-50%, -50%); top: 50%;">
+            <a id="page-title">
+                {{ titulo }}
+            </a>
         </div>
-      
-        <div class="col-md-3">
-          <!-- Lista de Vídeos Similares -->
-          <br>
-          <div class="card-list">
+        <div class="ml-auto"> <!-- Mantém a barra de pesquisa no canto direito -->
+            <form class="form-inline" action="{% url 'search_videos' %}" method="get">         
+                <input class="form-control rounded-pill mr-sm-2" type="search" placeholder="YouTube" aria-label="Pesquisar" name="q">
+            </form>
+        </div>
+    </div>
+</nav>
+
+<div class="row">
+    <div class="col-md-8">
+        <!-- Custom Video Player -->
+        <div class="custom-video-player">
+            <iframe width="700" height="500" src="{{ video.url }}" frameborder="0" allowfullscreen></iframe>
+        </div>
+
+        <!-- Video Details -->
+        <br>
+        <h2>{{ title }}</h2>
+        <div>
+            <p>{{ video.channel }}</p>
+            <p>{{ video.description }}</p>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <!-- List of Similar Videos -->
+        <br>
+        <div class="card-list">
             {% for similar_video in similar_videos %}
-                <a href="{% url 'video_player' similar_video.video_id %}">
-                    <div class="card small-card">
-                        <img src="{{ similar_video.thumbnail }}" width="100%" height="100%" alt="Imagem do vídeo similar">
+            <div class="video-card">
+                <a href="{% url 'video_player' similar_video.id %}" class="card-link">
+                    <div class="video-thumbnail">
+                        <img src="{{ similar_video.thumbnail }}" alt="Thumbnail">
+                    </div>
                 </a>
-                        <h4>{{ similar_video.title }}</h4>
-                <p>{{ similar_video.channel_name }}</p>
+                <div class="video-info">
+                    <h3 class="video-title">{{ similar_video.title }}</h3>
+                    <div class="channel-info">
+                        <div class="channel-details">
+                            <p class="channel-title">{{ similar_video.channel }}</p>
+                        </div>
+                    </div>
                 </div>
-                <br>
+            </div>
             {% endfor %}
-          </div>
         </div>
-      </div>
+    </div>
+</div>
+
 {% endblock %}
