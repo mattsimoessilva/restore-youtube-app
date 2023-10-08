@@ -3,6 +3,12 @@
 {% block content %}
 <nav class="navbar navbar-expand custom-navbar custom-shadow">
     <div class="container">
+
+        <!-- Botão de Voltar -->
+        <a href="{% url 'lista_videos' %}" class="btn btn-dark text-white back-button">
+            Voltar
+        </a>
+
         <div class="d-flex align-items-center justify-content-center position-absolute top-50 start-50 translate-middle" style="left: 50%; transform: translate(-50%, -50%); top: 50%;">
             <a id="page-title">
                 {{ titulo }}
@@ -17,23 +23,22 @@
 </nav>
 
 <div class="container mt-4">
-    <h2>Resultados da Pesquisa</h2>
+    <h2>Resultados da Pesquisa "{{ query }}"</h2>
     <br>
     <div class="video-grid">
         {% for video in videos %}
             {% with video_id=video.id.videoId %}
                 <div class="video-card">
-                    <a href="{% url 'video_player' video_id=video_id %}" class="card-link">
+                    <a href="{% url 'video_player' video_id=video.id %}" class="card-link">
                         <div class="video-thumbnail">
-                            <img src="{{ video.snippet.thumbnails.medium.url }}" alt="Thumbnail">
+                            <img src="{{ video.thumbnail }}" alt="Thumbnail">
                         </div>
-                        <div class="video-info">
-                            <h2 class="video-title">{{ video.snippet.title }}</h2>
                     </a>
+                        <div class="video-info">
+                            <h2 class="video-title" id="test">{{ video.title }}</h2>
                         <div class="channel-info">
                             <div class="channel-details">
-                                <p class="channel-title">{{ video.snippet.channelTitle }}</p>
-                                <p class="video-published">{{ video.snippet.publishedAt|date:"F d, Y" }}</p>
+                                <p class="channel-title">{{ video.channel }}</p>
                             </div>
                         </div>
                     </div>

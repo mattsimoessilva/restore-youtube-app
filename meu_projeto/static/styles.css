@@ -194,3 +194,15 @@ a {
     color: #8c8c8c; /* Define a cor do link como preto */
     font-weight: bold;
 }
+
+#test {
+  text-decoration: none;
+  color: #8c8c8c; /* Define a cor do link como preto */
+  font-weight: bold;
+}
+
+/* Define the custom column class */
+.custom-column {
+  width: 33.33%;
+  /* Other styling properties if needed */
+}

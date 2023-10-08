@@ -7,4 +7,4 @@ class VideoAdmin(admin.ModelAdmin):
 
 @admin.register(Channel)
 class ChannelAdmin(admin.ModelAdmin):
-    list_display = ('name', 'background_image_url')
+    list_display = ('name',)

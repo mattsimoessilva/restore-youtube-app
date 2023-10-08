@@ -1,26 +1,42 @@
 from random import sample
 from django.shortcuts import get_object_or_404, render
-from .models import Video
+from .models import Video, Channel
 from datetime import datetime
+from django.db.models import Q
+import random
+
+from random import sample
 
 def lista_videos(request):
     """
-    Retrieve the latest videos from the database and render them on the 'lista_videos' template.
+    Retrieve random videos from the database and render them on the 'lista_videos' template.
     """
-    latest_videos = Video.objects.all().order_by('-id')[:10]  # Order by primary key in descending order
+    # Retrieve all videos from the database
+    all_videos = Video.objects.all()
+    
+    # Get a random sample of videos (up to the number of available videos)
+    random_videos = sample(list(all_videos), min(10, len(all_videos)))
+    
+    # Shuffle the list of random videos to display them in a random order
+    random.shuffle(random_videos)
+    
     titulo = "Em Destaque"
     context = {
-        'videos': latest_videos,
+        'videos': random_videos,
         'titulo': titulo,
     }
     return render(request, 'lista_videos.html', context)
+
 
 def search_videos(request):
     """
     Perform a database query to search for videos that match the user's query and render them on the 'search_videos' template.
     """
     query = request.GET.get('q', '')  # Get the user's search query from the URL parameter
-    videos = Video.objects.filter(title__icontains=query)  # You can extend this to search in description or other fields
+    
+    # Use Q objects to search for videos where title or channel name contains the query
+    videos = Video.objects.filter(Q(title__icontains=query) | Q(channel__name__icontains=query))
+    
     context = {'videos': videos, 'query': query, 'titulo': 'Pesquisar'}
     return render(request, 'search_videos.html', context)
 
@@ -36,7 +52,7 @@ def video_player(request, video_id):
         all_videos = Video.objects.exclude(id=video_id)
         
         # Get a random sample of videos (up to the number of available videos)
-        similar_videos = sample(list(all_videos), min(10, len(all_videos)))
+        similar_videos = sample(list(all_videos), min(3, len(all_videos)))
     except Exception as e:
         # In case of an error, set similar_videos to an empty list
         print(f'Error getting random similar videos: {e}')
@@ -48,5 +64,24 @@ def video_player(request, video_id):
         'similar_videos': similar_videos,
     }
     return render(request, 'player.html', context)
+
+def channel_page(request, channel_id):
+    """
+    Retrieve channel information and list of channel videos ordered by publishing date,
+    and render them on the 'channel_page' template.
+    """
+    # Retrieve the channel object from the database based on the channel_id
+    channel = get_object_or_404(Channel, id=channel_id)
+    
+    # Retrieve the videos associated with the channel, ordered by publishing date
+    channel_videos = Video.objects.filter(channel=channel).order_by('-published_date')
+    
+    context = {
+        'channel': channel,
+        'titulo': 'Canal',
+        'videos': channel_videos,
+    }
+    return render(request, 'channel_page.html', context)
+
 
 

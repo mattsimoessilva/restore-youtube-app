@@ -3,9 +3,15 @@
 {% block content %}
 <nav class="navbar navbar-expand custom-navbar custom-shadow">
     <div class="container">
+
+         <!-- Botão de Voltar -->
+         <a href="{% url 'lista_videos' %}" class="btn btn-dark text-white back-button">
+            Voltar
+        </a>
+
         <div class="d-flex align-items-center justify-content-center position-absolute top-50 start-50 translate-middle" style="left: 50%; transform: translate(-50%, -50%); top: 50%;">
             <a id="page-title">
-                {{ titulo }}
+                {{ channel.name }}
             </a>
         </div>
         <div class="ml-auto"> <!-- Mantém a barra de pesquisa no canto direito -->
