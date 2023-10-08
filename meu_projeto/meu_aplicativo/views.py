@@ -4,7 +4,6 @@ from .models import Video, Channel
 from datetime import datetime
 from django.db.models import Q
 import random
-
 from random import sample
 
 def lista_videos(request):
@@ -36,7 +35,13 @@ def search_videos(request):
     # Use Q objects to search for videos where title or channel name contains the query
     videos = Video.objects.filter(Q(title__icontains=query) | Q(channel__name__icontains=query))
     
-    context = {'videos': videos, 'query': query, 'titulo': 'Pesquisar'}
+    # Convert the videos queryset to a list
+    videos_list = list(videos)
+    
+    # Randomly shuffle the list of videos
+    random.shuffle(videos_list)
+    
+    context = {'videos': videos_list, 'query': query, 'titulo': 'Pesquisar'}
     return render(request, 'search_videos.html', context)
 
 def video_player(request, video_id):
