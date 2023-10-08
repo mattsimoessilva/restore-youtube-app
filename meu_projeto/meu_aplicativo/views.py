@@ -15,7 +15,7 @@ def lista_videos(request):
     all_videos = Video.objects.all()
     
     # Get a random sample of videos (up to the number of available videos)
-    random_videos = sample(list(all_videos), min(10, len(all_videos)))
+    random_videos = sample(list(all_videos), min(12, len(all_videos)))
     
     # Shuffle the list of random videos to display them in a random order
     random.shuffle(random_videos)
@@ -26,7 +26,6 @@ def lista_videos(request):
         'titulo': titulo,
     }
     return render(request, 'lista_videos.html', context)
-
 
 def search_videos(request):
     """
