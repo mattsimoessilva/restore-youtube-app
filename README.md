@@ -1,10 +1,12 @@
 # Restore YouTube App
 
-The Restore YouTube App is a Django-based web application that provides an easy way to watch old YouTube videos.
+Django web app to archive YouTube videos. Inspired by the old YouTube iPad layout.
 
 ## Features
 
-- Search for and watch Youtube videos uploaded before 2016
+- Store YouTube videos
+- Play stored YouTube videos
+- Search stored YouTube videos
 
 ## Installation
 
@@ -24,8 +26,8 @@ The Restore YouTube App is a Django-based web application that provides an easy 
 
 ## Usage
 
-- Search for videos using the search bar on the home page.
-- Click on a video thumbnail to watch the video.
+- Create a super user to use the admin page.
+- Use the admin page to register YouTube videos.
 
 ## Contributing
 
