@@ -5,7 +5,11 @@
 
 /* Estilo da Barra Superior Personalizada */
 .custom-navbar {
+  overflow: hidden;
   background-color: #f5f5f5 !important; /* Cinza claro semelhante ao estilo Apple */
+  top: 0;
+  z-index: 1000;
+  position: sticky;
 }
 
 /* Estilo do Título */
