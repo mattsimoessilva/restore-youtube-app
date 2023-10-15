@@ -7,12 +7,6 @@
         <a href="{% url 'lista_videos' %}">
             <img src="{% static 'logo.png' %}" class="logo" alt="Logo">
         </a>
-
-        <div class="d-flex align-items-center justify-content-center position-absolute top-50 start-50 translate-middle" style="left: 50%; transform: translate(-50%, -50%); top: 50%;">
-            <a id="page-title">
-                {{ titulo }}
-            </a>
-        </div>
         <div class="ml-auto"> <!-- Mantém a barra de pesquisa no canto direito -->
             <form class="form-inline" action="{% url 'search_videos' %}" method="get">         
                 <input class="form-control mr-sm-2 rounded-pill" type="search" placeholder="Pesquisar" aria-label="Pesquisar" name="q">
@@ -21,29 +15,19 @@
     </div>
 </nav>
 
-<div class="container mt-4">
-    <h2>Resultados da Pesquisa "{{ query }}"</h2>
+<div class="my-container">
+    <h2>Resultado da Pesquisa "{{ query }}"</h2>
     <br>
-    <div class="video-grid">
+    <div class="video-grid" id="video-grid">
         {% for video in videos %}
-            {% with video_id=video.id.videoId %}
-                <div class="video-card">
-                    <a href="{% url 'video_player' video_id=video.id %}" class="card-link">
-                        <div class="video-thumbnail">
-                            <img src="{{ video.thumbnail }}" alt="Thumbnail">
-                        </div>
-                    </a>
-                        <div class="video-info">
-                            <h2 class="video-title" id="test">{{ video.title }}</h2>
-                        <div class="channel-info">
-                            <div class="channel-info">
-                                <a href="{% url 'channel_page' video.channel.id %}"><p><b>{{ video.channel }}</a></b> | {{ video.published_date }}</p>
-                            </div>
-                        </div>
+            <div class="video-card">
+                <a href="{% url 'video_player' video.id %}" class="card-link">
+                    <div class="video-thumbnail">
+                        <img src="{{ video.thumbnail }}" alt="Thumbnail">
                     </div>
-                </div>
-            {% endwith %}
+                </a>
+            </div>
         {% endfor %}
     </div>
-  </div>
+</div>
 {% endblock %}

@@ -5,6 +5,40 @@ from datetime import datetime
 from django.db.models import Q
 import random
 from random import sample
+from django.http import JsonResponse
+from django.core.paginator import Paginator, EmptyPage
+from django.urls import reverse
+from random import choice
+
+def load_more_videos(request):
+    # Get the page number from the AJAX request
+    page = int(request.GET.get('page', 1))
+    videos_per_page = 12
+
+    # Use Django's Paginator to handle pagination
+    all_videos = Video.objects.all()
+    print(len(all_videos))
+    paginator = Paginator(all_videos, videos_per_page)
+
+    # Get the videos for the requested page
+    while True:
+        try:
+            videos = paginator.page(page)
+            if videos:
+                break
+            else:
+                page += 1
+        except EmptyPage:
+            # If the page is out of range, return an empty list
+            videos = []
+            break
+
+    # Serialize the videos to JSON
+    video_data = [{'title': video.title, 'thumbnail': video.thumbnail, 'url': reverse('video_player',  args=[video.id]), 'channel_url': reverse('channel_page', args=[video.channel.id]), 'channel': video.channel.name, 'published_date': video.published_date} for video in videos]
+
+    # Return the video data as JSON response
+    return JsonResponse({'videos': video_data})
+
 
 def lista_videos(request):
     """
@@ -15,12 +49,16 @@ def lista_videos(request):
     
     # Get a random sample of videos (up to the number of available videos)
     random_videos = sample(list(all_videos), min(12, len(all_videos)))
+
+    # Select a random video from the list
+    random_video = choice(all_videos)
     
     # Shuffle the list of random videos to display them in a random order
     random.shuffle(random_videos)
     
     titulo = "Em Destaque"
     context = {
+        'random_video': random_video,
         'videos': random_videos,
         'titulo': titulo,
     }

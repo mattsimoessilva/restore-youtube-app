@@ -8,11 +8,6 @@
             <img src="{% static 'logo.png' %}" class="logo" alt="Logo">
         </a>
 
-        <div class="d-flex align-items-center justify-content-center position-absolute top-50 start-50 translate-middle" style="left: 50%; transform: translate(-50%, -50%); top: 50%;">
-            <a id="page-title" style="white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 500px;">
-                {{ titulo }}
-            </a>
-        </div>
         <div class="ml-auto"> <!-- Mantém a barra de pesquisa no canto direito -->
             <form class="form-inline" action="{% url 'search_videos' %}" method="get">         
                 <input class="form-control mr-sm-2 rounded-pill" type="search" placeholder="Pesquisar" aria-label="Pesquisar" name="q">
@@ -21,58 +16,10 @@
     </div>
 </nav>
 
-<div class="row" style="max-width: 100%; overflow-x: hidden;">
-    <div class="col-md-8">
-        <!-- Custom Video Player -->
-        <div class="custom-video-player">
-            <iframe width="100%" height="500" src="{{ video.url }}" frameborder="0" allowfullscreen></iframe>
-        </div>
-        
-          <!-- Taller bar below the player -->
-          <nav class="navbar navbar-expand custom-navbar custom-shadow" style="height: 50px; width: 100%;">
-            <div class="container">
-                <div class="d-flex align-items-center justify-content-center position-absolute top-50 start-50 translate-middle" style="left: 50%; transform: translate(-50%, -50%); top: 50%;">
-                    <a id="page-title" style="padding: 20px;">Sobre</a>
-                </div>
-            </div>
-        </nav>
-
-        <!-- Video Details with inner shadow on the right -->
-        <div style="position: relative; height: 600px; max-width: 100%; overflow-x: hidden;">
-            <div style="box-shadow: inset 0px -10px 10px 10px rgba(0, 0, 0, 0.4); padding: 20px; height: 100%;">
-                <a href="{% url 'channel_page' video.channel.id %}">
-                    <p><b>{{ video.channel }}</b></p>
-                </a>
-                <p>{{ video.published_date }}</p>
-                <p>{{ video.description }}</p>
-            </div>
-        </div>
-
-
-    </div>
-
-    <div class="col-lg-4" style="box-shadow: inset 0px -10px 10px 10px rgba(0, 0, 0, 0.4); height: 100%; width: 900px;">
-        <div class="col">
-        <!-- List of Similar Videos -->
-        <br>
-        <div class="card-list">
-            {% for similar_video in similar_videos %}
-            <div class="video-card">
-                <a href="{% url 'video_player' similar_video.id %}" class="card-link">
-                    <div class="video-thumbnail">
-                        <img src="{{ similar_video.thumbnail }}" alt="Thumbnail">
-                    </div>
-                </a>
-                <div class="video-info">
-                    <h3 class="video-title">{{ similar_video.title }}</h3>
-                    <div class="channel-info">
-                        <a href="{% url 'channel_page' similar_video.channel.id %}"><p><b>{{ similar_video.channel }}</a></b> | {{ similar_video.published_date }}</p>
-                    </div>
-                </div>
-            </div>
-            {% endfor %}
-        </div>
-    </div>
+<div style="width: 100%;">
+    <!-- Custom Video Player -->
+    <div class="custom-video-player">
+        <iframe width="100%" height="590px" src="{{ video.url }}" frameborder="0" allowfullscreen></iframe>
     </div>
 </div>
 

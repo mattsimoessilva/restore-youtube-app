@@ -11,6 +11,8 @@ class Video(models.Model):
     channel = models.ForeignKey(Channel, on_delete=models.CASCADE)  # Chave estrangeira para o canal
     url = models.URLField()
     thumbnail = models.URLField()
+    wallpaper = models.URLField()
+    logo = models.URLField()
     published_date = models.DateTimeField()
 
     def __str__(self):
