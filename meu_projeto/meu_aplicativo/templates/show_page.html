@@ -31,9 +31,9 @@
                 <a href="{% url 'episode_player' episode.id %}" class="card-link">
                     <div class="episode-list-thumbnail">
                         <img src="{{ episode.thumbnail }}" alt="Thumbnail">
-                        <br>
-                        <p>{{ episode.title }}</p>
                     </div>
+                    <br>
+                    <p>{{ episode.title }}</p>
                 </a>
         {% endfor %}
     </div>
