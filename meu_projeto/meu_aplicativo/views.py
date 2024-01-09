@@ -114,26 +114,34 @@ def lista_videos(request):
 
     return render(request, 'lista_videos.html', context)
 
-
-
 def search_videos(request):
     query = request.GET.get('q', '')  # Get the user's search query from the URL parameter
 
-    # Use Q objects to search for videos where title, channel name, or tags contain the query
+    # Use Q objects to search for videos and shows where title, channel name, or tags contain the query
     videos = Video.objects.filter(
         Q(title__icontains=query) |
         Q(channel__name__icontains=query) |
         Q(tags__name__icontains=query)
     ).distinct()
 
-    # Convert the videos queryset to a list
+    shows = Show.objects.filter(
+        Q(title__icontains=query) |
+        Q(tags__name__icontains=query)
+    ).distinct()
+
+    # Convert the videos and shows querysets to lists
     videos_list = list(videos)
+    shows_list = list(shows)
 
-    # Randomly shuffle the list of videos
-    shuffle(videos_list)  # Shuffle the list directly
+    # Combine the lists of videos and shows
+    content_list = videos_list + shows_list
 
-    context = {'videos': videos_list, 'query': query, 'titulo': 'Pesquisar'}
+    # Randomly shuffle the list of videos and shows
+    shuffle(content_list)  # Shuffle the list directly
+
+    context = {'content': content_list, 'query': query, 'titulo': 'Pesquisar'}
     return render(request, 'search_videos.html', context)
+
 
 def video_player(request, video_id):
     """

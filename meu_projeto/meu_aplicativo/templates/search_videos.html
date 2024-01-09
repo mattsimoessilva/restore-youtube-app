@@ -19,11 +19,15 @@
     <h2>Resultado da Pesquisa "{{ query }}"</h2>
     <br>
     <div class="video-grid" id="video-grid">
-        {% for video in videos %}
+        {% for content in content %}
             <div class="video-card">
-                <a href="{% url 'video_player' video.id %}" class="card-link">
+                {% if content.get_class_name == "Show" %}
+                    <a href="{% url 'show_page' content.id %}" class="card-link">
+                {% else %}
+                    <a href="{% url 'video_player' content.id %}" class="card-link">
+                {% endif %}
                     <div class="video-thumbnail">
-                        <img src="{{ video.thumbnail }}" alt="Thumbnail">
+                        <img src="{{ content.thumbnail }}" alt="Thumbnail">
                     </div>
                 </a>
             </div>
@@ -31,3 +35,4 @@
     </div>
 </div>
 {% endblock %}
+
