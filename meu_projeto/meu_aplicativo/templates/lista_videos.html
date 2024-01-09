@@ -42,11 +42,19 @@
     <br>
     <div class="video-list" id="video-grid">
         {% for video in videos %}
+            {% if video.get_class_name == "Show" %}
+                <a href="{% url 'show_page' video.id %}" class="card-link">
+                    <div class="video-list-thumbnail">
+                        <img src="{{ video.thumbnail }}" alt="Thumbnail">
+                    </div>
+                </a>
+            {% else %}
                 <a href="{% url 'video_player' video.id %}" class="card-link">
                     <div class="video-list-thumbnail">
                         <img src="{{ video.thumbnail }}" alt="Thumbnail">
                     </div>
                 </a>
+            {% endif %}
         {% endfor %}
     </div>
 </div>
