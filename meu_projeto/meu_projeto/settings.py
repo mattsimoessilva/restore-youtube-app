@@ -17,6 +17,8 @@ import os
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
+
+
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
@@ -26,7 +28,7 @@ SECRET_KEY = 'django-insecure-mx9skj%x&5p%td8-a0l7q9^^#f-vk*49#cy_4g_$@v#_g@cxfj
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['mattsimoessilva.pythonanywhere.com', 'localhost', 'a23b-2804-14d-3c83-803e-8165-d36d-1395-a2b8.ngrok-free.app']
+ALLOWED_HOSTS = ['mattsimoessilva.pythonanywhere.com', 'localhost', 'c137-2804-14d-3c83-803e-f1d9-2f13-1cf0-1523.ngrok-free.app']
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static')
@@ -42,6 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'pwa',
 ]
 
 MIDDLEWARE = [

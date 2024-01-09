@@ -14,6 +14,39 @@ class Video(models.Model):
     wallpaper = models.URLField()
     logo = models.URLField()
     published_date = models.DateTimeField()
+    tags = models.ManyToManyField('Tag')
+
+    def __str__(self):
+        return self.title
+    
+    def get_class_name(self):
+        return self.__class__.__name__
+
+class Tag(models.Model):
+    name = models.CharField(max_length=50, unique=True)
+
+    def __str__(self):
+        return self.name
+    
+class Show(models.Model):
+    title = models.CharField(max_length=100)
+    thumbnail = models.URLField()
+    wallpaper = models.URLField()
+    logo = models.URLField()
+    tags = models.ManyToManyField('Tag')
+
+    def __str__(self):
+        return self.title
+    
+    def get_class_name(self):
+        return self.__class__.__name__
+    
+class Episode(models.Model):
+    title = models.CharField(max_length=100)
+    show = models.ForeignKey(Show, on_delete=models.CASCADE)  # Chave estrangeira para o show
+    season = models.IntegerField()
+    url = models.URLField()
+    thumbnail = models.URLField()
 
     def __str__(self):
         return self.title

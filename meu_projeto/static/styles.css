@@ -1,268 +1,344 @@
+@media (max-width: 600px) {
+  .video-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr) !important;
+      gap: 20px;
+  }
+
+  body, html {
+      height: 100%; /* Ensure the body and html elements cover the full page height */
+  }
+
+  .random-video-wallpaper {
+      height: 50%; /* Set a minimum height of 50% of the viewport height */
+      overflow: hidden;
+  }
+
+  .wallpaper-image {
+      width: 100vh !important;
+      height: 100vh !important; 
+      object-fit: cover; /* Change this from fill to cover */
+      object-position: center top; /* Center vertically and keep zoom effect at the top */
+  }
+
+  .text-overlay .logo-image {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 90% !important;
+    max-height: 90% !important;
+    width: auto;
+    height: auto;
+  }
+}
+
+@media (max-width: 500px) {
+  .video-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr) !important;
+      gap: 20px;
+  }
+}
+
+.video-list {
+  white-space: nowrap;  /* Prevent wrapping to the next line */
+  overflow-x: scroll;  /* Enable horizontal scrolling */
+  display: flex;      /* Make child elements flex items for proper alignment */
+}
+
+/* Optional: Hide the horizontal scrollbar */
+.video-list::-webkit-scrollbar {
+  display: none;
+}
+
 .back-button {
- background-color: #4d4d4d;
- color: white;
-}
-
-.logo {
-  width: 100px;
-  height: 40px;
-}
-
-.random-video-wallpaper {
-  position: relative;
-  width: 100%;
-  height: 350px;
-  overflow: hidden;
-}
-
-.wallpaper-image {
-  width: 100%; /* Set the width of the image to 100% to stretch it */
-  height: auto; /* Allow the height to adjust automatically */
-}
-
-.text-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: #4d4d4d;
   color: white;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-}
+ }
+ 
+ .logo {
+   width: 100px;
+   height: 40px;
+ }
+ 
+ #a{
+     position:fixed;
+     top:0;
+     left:0;
+     width:224px;
+     height:429px;
+ }
+ 
+ .random-video-wallpaper {
+   position: relative;
+   width: 100%;
+   height: 350px;
+   overflow: hidden;
+ }
+ 
+ .wallpaper-image {
+   width: 100%; /* Set the width of the image to 100% to stretch it */
+   height: auto; /* Allow the height to adjust automatically */
+ }
+ 
+ .text-overlay {
+   position: absolute;
+   top: 0;
+   left: 0;
+   width: 100%;
+   height: 100%;
+   background-color: rgba(0, 0, 0, 0.5);
+   color: white;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+ }
+ 
+ .text-overlay .logo-image {
+   position: absolute;
+   top: 50%;
+   left: 50%;
+   transform: translate(-50%, -50%);
+   max-width: 50%;
+   max-height: 50%;
+   width: auto;
+   height: auto;
+ }
+ 
+ body {
+   background-color: black;
+ }
+ 
+ p, h2, a, b, h3 {
+   color: white;
+   font-family: 'Segoe UI';
+ }
+ 
+ /* Estilo da Barra Superior Personalizada */
+ .custom-navbar {
+   overflow: hidden;
+   background-color: black !important; /* Cinza claro semelhante ao estilo Apple */
+   top: 0;
+   z-index: 1000;
+   position: sticky;
+ }
+ 
+ /* Estilo do Título */
+ #page-title {
+   font-weight: bold; /* Fonte em negrito */
+   color: white; /* Cinza escuro */
+   font-family: 'Segoe UI';
+ }
+ 
+ /* Classe para Sombra 3D no Canto Inferior */
+ .custom-shadow-button {
+   position: relative;
+   background-color: #f5f5f5; /* Cor de fundo da barra */
+ }
+ 
+ .custom-shadow-button {
+   position: relative;
+   background-color: #4d4d4d; /* Cor de fundo da barra */
+ }
+ 
+ .custom-shadow::before {
+   content: '';
+   position: absolute;
+   bottom: -0px; /* Alterando para um valor negativo para posicionar a sombra acima */
+   left: 0;
+   width: 100%;
+   height: 20px; /* Altura da sombra no canto inferior */
+   background: linear-gradient(to top, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0) 100%);
+ }
+ 
+ .my-container {
+   padding: 2% 5% 5% 5%;
+ }
+ 
+ .video-grid {
+     display: grid;
+     grid-template-columns: repeat(7, 1fr); /* 7 videos per row */
+     gap: 20px;
+ }
+ 
+ .video-card {
+   border-radius: 0px;
+   overflow: hidden;
+   width: 100%;
+ }
 
-.text-overlay .logo-image {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  max-width: 50%;
-  max-height: 50%;
-  width: auto;
-  height: auto;
-}
+.video-list-thumbnail img {
+   width: 16vh;
+   height: 25vh;
+   object-fit: cover;
+   overflow: hidden;
+ }
 
-body {
-  background-color: black;
-}
-
-p, h2, a, b, h3 {
-  color: white;
-  font-family: 'Segoe UI';
-}
-
-/* Estilo da Barra Superior Personalizada */
-.custom-navbar {
-  overflow: hidden;
-  background-color: black !important; /* Cinza claro semelhante ao estilo Apple */
-  top: 0;
-  z-index: 1000;
-  position: sticky;
-}
-
-/* Estilo do Título */
-#page-title {
-  font-weight: bold; /* Fonte em negrito */
-  color: white; /* Cinza escuro */
-  font-family: 'Segoe UI';
-}
-
-/* Classe para Sombra 3D no Canto Inferior */
-.custom-shadow-button {
-  position: relative;
-  background-color: #f5f5f5; /* Cor de fundo da barra */
-}
-
-.custom-shadow-button {
-  position: relative;
-  background-color: #4d4d4d; /* Cor de fundo da barra */
-}
-
-.custom-shadow::before {
-  content: '';
-  position: absolute;
-  bottom: -0px; /* Alterando para um valor negativo para posicionar a sombra acima */
-  left: 0;
-  width: 100%;
-  height: 20px; /* Altura da sombra no canto inferior */
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.4) 0%, rgba(0, 0, 0, 0) 100%);
-}
-
-.my-container {
-  padding: 2% 5% 5% 5%;
-}
-
-.video-grid {
-    display: grid;
-    grid-template-columns: repeat(7, 1fr); /* 7 videos per row */
-    gap: 20px;
-}
-
-.video-card {
-  border-radius: 0px;
-  overflow: hidden;
-  width: 100%;
-}
-
-.video-thumbnail {
-  position: relative;
-  height: 0;
-  padding-bottom: 150%; /* 9:16 aspect ratio */
-}
-
-.video-thumbnail img {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
+ .episode-list-thumbnail img {
+  width: 30vh;
+  height: 20vh;
   object-fit: cover;
+  overflow: hidden;
 }
-
-.video-info {
-    padding: 10px;
-    width: 100%;
-}
-
-.video-title {
-    font-weight: bold;
-    margin-bottom: 5px;
-    width: 100%; /* Ajuste o valor conforme necessário */
-}
-
-.channel-info {
-    display: flex;
-    margin-top: 90%;
-    width: 100%;
-}
-
-.channel-thumbnail {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    margin-right: 10px;
-}
-
-.channel-details {
-    display: flex;
-    flex-direction: column;
-}
-
-.channel-title {
-    font-weight: bold;
-    margin-bottom: 2px;
-}
-
-.video-views,
-.video-published {
-    font-size: 12px;
-    color: #888;
-    margin: 0;
-}
-
-.channel-info {
-    display: flex;
-    align-items: center;
-    margin-top: 10px;
-  }
-  
-  .channel-thumbnail {
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    margin-right: 10px;
-  }
-  
-  .channel-details {
-    display: flex;
-    flex-direction: column;
-  }
-  
-  .channel-name {
-    font-weight: bold;
-  }
-  
-  .views,
-  .posted {
-    font-size: 12px;
-    color: #888;
-    margin: 0;
-  }
-
-  .card {
-    width: 100%; /* Ajuste o valor de acordo com o tamanho desejado */
-    height: 100%; /* Ajuste o valor de acordo com o tamanho desejado */
-    background-color: #f9f9f9;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
-}
-
-.player-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 500px; /* Ajuste a altura conforme necessário */
-  }
-  
-  .video-details {
-    text-align: center;
-    margin-top: 20px;
-  }
-  
-  .channel-info {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-top: 10px;
-  }
-  
-  .channel-info img {
-    width: 50px; /* Ajuste o tamanho conforme necessário */
-    height: 50px; /* Ajuste o tamanho conforme necessário */
-    border-radius: 50%;
-    margin-right: 10px;
-  }
-  
-  .channel-name {
-    font-weight: bold;
-  }
-  
-  .video-details {
-    display: flex;
-    align-items: flex-start;
-    margin-bottom: 20px;
-}
-
-.video-player {
-    width: 70%;
-}
-
-.similar-videos {
-    width: 30%;
-}
-
-.similar-video-card {
-    margin-bottom: 10px;
-}
-
-a {
-    text-decoration: none;
-    color: #8c8c8c; /* Define a cor do link como preto */
-    font-weight: bold;
-}
-
-#test {
-  text-decoration: none;
-  color: #8c8c8c; /* Define a cor do link como preto */
-  font-weight: bold;
-}
-
-/* Define the custom column class */
-.custom-column {
-  width: 33.33%;
-  /* Other styling properties if needed */
-}
+ 
+ .video-thumbnail {
+   position: relative;
+   height: 0;
+   padding-bottom: 150%; /* 9:16 aspect ratio */
+ }
+ 
+ .video-thumbnail img {
+   position: absolute;
+   top: 0;
+   left: 0;
+   width: 100%;
+   height: 100%;
+   object-fit: cover;
+ }
+ 
+ .video-info {
+     padding: 10px;
+     width: 100%;
+ }
+ 
+ .video-title {
+     font-weight: bold;
+     margin-bottom: 5px;
+     width: 100%; /* Ajuste o valor conforme necessário */
+ }
+ 
+ .channel-info {
+     display: flex;
+     margin-top: 90%;
+     width: 100%;
+ }
+ 
+ .channel-thumbnail {
+     width: 40px;
+     height: 40px;
+     border-radius: 50%;
+     margin-right: 10px;
+ }
+ 
+ .channel-details {
+     display: flex;
+     flex-direction: column;
+ }
+ 
+ .channel-title {
+     font-weight: bold;
+     margin-bottom: 2px;
+ }
+ 
+ .video-views,
+ .video-published {
+     font-size: 12px;
+     color: #888;
+     margin: 0;
+ }
+ 
+ .channel-info {
+     display: flex;
+     align-items: center;
+     margin-top: 10px;
+   }
+ 
+   .channel-thumbnail {
+     width: 40px;
+     height: 40px;
+     border-radius: 50%;
+     margin-right: 10px;
+   }
+ 
+   .channel-details {
+     display: flex;
+     flex-direction: column;
+   }
+ 
+   .channel-name {
+     font-weight: bold;
+   }
+ 
+   .views,
+   .posted {
+     font-size: 12px;
+     color: #888;
+     margin: 0;
+   }
+ 
+   .card {
+     width: 100%; /* Ajuste o valor de acordo com o tamanho desejado */
+     height: 100%; /* Ajuste o valor de acordo com o tamanho desejado */
+     background-color: #f9f9f9;
+     border-radius: 8px;
+     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+     overflow: hidden;
+ }
+ 
+ .player-container {
+     display: flex;
+     justify-content: center;
+     align-items: center;
+     height: 500px; /* Ajuste a altura conforme necessário */
+   }
+ 
+   .video-details {
+     text-align: center;
+     margin-top: 20px;
+   }
+ 
+   .channel-info {
+     display: flex;
+     align-items: center;
+     justify-content: center;
+     margin-top: 10px;
+   }
+ 
+   .channel-info img {
+     width: 50px; /* Ajuste o tamanho conforme necessário */
+     height: 50px; /* Ajuste o tamanho conforme necessário */
+     border-radius: 50%;
+     margin-right: 10px;
+   }
+ 
+   .channel-name {
+     font-weight: bold;
+   }
+ 
+   .video-details {
+     display: flex;
+     align-items: flex-start;
+     margin-bottom: 20px;
+ }
+ 
+ .video-player {
+     width: 70%;
+ }
+ 
+ .similar-videos {
+     width: 30%;
+ }
+ 
+ .similar-video-card {
+     margin-bottom: 10px;
+ }
+ 
+ a {
+     text-decoration: none;
+     color: #8c8c8c; /* Define a cor do link como preto */
+     font-weight: bold;
+ }
+ 
+ #test {
+   text-decoration: none;
+   color: #8c8c8c; /* Define a cor do link como preto */
+   font-weight: bold;
+ }
+ 
+ /* Define the custom column class */
+ .custom-column {
+   width: 33.33%;
+   /* Other styling properties if needed */
+ }

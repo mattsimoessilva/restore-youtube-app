@@ -7,38 +7,69 @@
             <img src="{% static 'logo.png' %}" class="logo" alt="Logo">
         </a>
         <div class="ml-auto"> <!-- Mantém a barra de pesquisa no canto direito -->
-            <form class="form-inline" action="{% url 'search_videos' %}" method="get">         
+            <form class="form-inline" action="{% url 'search_videos' %}" method="get">
                 <input class="form-control mr-sm-2 rounded-pill" type="search" placeholder="Pesquisar" aria-label="Pesquisar" name="q">
             </form>
         </div>
     </div>
 </nav>
 <div class="random-video">
-    <a href="{% url 'video_player' random_video.id %}">
-        <div class="random-video-wallpaper">
-            <img src="{{ random_video.wallpaper }}" alt="wallpaper" class="wallpaper-image">
-            <div class="text-overlay">
-                <img src="{{ random_video.logo }}" alt="logo" class="logo-image">
+    {% if random_video.get_class_name == "Show" %}
+        <a href="{% url 'show_page' random_video.id %}">
+            <div class="random-video-wallpaper">
+                <img src="{{ random_video.wallpaper }}" alt="wallpaper" class="wallpaper-image">
+                <div class="text-overlay">
+                    <img src="{{ random_video.logo }}" alt="logo" class="logo-image">
+                </div>
             </div>
-        </div>
-    </a>
+        </a>
+    {% else %}
+        <a href="{% url 'video_player' random_video.id %}">
+            <div class="random-video-wallpaper">
+                <img src="{{ random_video.wallpaper }}" alt="wallpaper" class="wallpaper-image">
+                <div class="text-overlay">
+                    <img src="{{ random_video.logo }}" alt="logo" class="logo-image">
+                </div>
+            </div>
+        </a>
+    {% endif %}
 </div>
 
 
 <div class="my-container">
+    <br>
     <h3>Recomendado</h3>
     <br>
-    <div class="video-grid" id="video-grid">
+    <div class="video-list" id="video-grid">
         {% for video in videos %}
-            <div class="video-card">
                 <a href="{% url 'video_player' video.id %}" class="card-link">
-                    <div class="video-thumbnail">
+                    <div class="video-list-thumbnail">
                         <img src="{{ video.thumbnail }}" alt="Thumbnail">
                     </div>
                 </a>
-            </div>
         {% endfor %}
     </div>
 </div>
 
+{% for tag_content in content_by_tags %}
+    <div class="my-container">
+        <h3>{{ tag_content.tag_name }}</h3>
+        <br>
+        <div class="video-list" id="video-grid">
+            {% for content in tag_content.content %}
+                {% if content.get_class_name == "Show" %}
+                    <a href="{% url 'show_page' content.id %}" class="card-link">
+                {% else %}
+                    <a href="{% url 'video_player' content.id %}" class="card-link">
+                {% endif %}
+                        <div class="video-list-thumbnail">
+                            <img src="{{ content.thumbnail }}" alt="Thumbnail">
+                        </div>
+                    </a>
+            {% endfor %}
+        </div>
+    </div>
+{% endfor %}
+
 {% endblock %}
+

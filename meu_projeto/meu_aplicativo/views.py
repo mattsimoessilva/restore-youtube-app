@@ -1,6 +1,6 @@
 from random import sample
 from django.shortcuts import get_object_or_404, render
-from .models import Video, Channel
+from .models import Video, Channel, Tag, Show, Episode
 from datetime import datetime
 from django.db.models import Q
 import random
@@ -8,7 +8,28 @@ from random import sample
 from django.http import JsonResponse
 from django.core.paginator import Paginator, EmptyPage
 from django.urls import reverse
-from random import choice
+from random import choice, shuffle, sample
+from django.http import HttpResponse
+
+from django.shortcuts import render, get_object_or_404
+from .models import Show, Episode
+
+def show_page(request, show_id):
+    """
+    Retrieve a Show object and its associated Episodes from the database and render them on the 'show_page' template.
+    """
+    # Retrieve the Show object with the given id
+    show = get_object_or_404(Show, id=show_id)
+
+    # Retrieve all Episodes associated with this Show
+    episodes = Episode.objects.filter(show=show)
+
+    context = {
+        'show': show,
+        'episodes': episodes,
+    }
+
+    return render(request, 'show_page.html', context)
 
 def load_more_videos(request):
     # Get the page number from the AJAX request
@@ -42,43 +63,75 @@ def load_more_videos(request):
 
 def lista_videos(request):
     """
-    Retrieve random videos from the database and render them on the 'lista_videos' template.
+    Retrieve random videos and shows for a sample of tags from the database and render them on the 'lista_videos' template.
     """
-    # Retrieve all videos from the database
-    all_videos = Video.objects.all()
-    
-    # Get a random sample of videos (up to the number of available videos)
-    random_videos = sample(list(all_videos), min(12, len(all_videos)))
+    # Retrieve all tags from the database
+    all_tags = Tag.objects.all()
 
-    # Select a random video from the list
-    random_video = choice(all_videos)
-    
-    # Shuffle the list of random videos to display them in a random order
-    random.shuffle(random_videos)
-    
+    # Get a random sample of tags (up to the number of available tags)
+    random_tags = sample(list(all_tags), min(5, len(all_tags)))  # Change '5' to the desired number of random tags
+
+    # Initialize an empty list to store videos and shows for each tag
+    content_by_tags = []
+
+    for tag in random_tags:
+        # Retrieve all videos and shows for the current tag
+        tag_videos = Video.objects.filter(tags=tag)  # Assuming you have a 'tags' field in your Video model
+        tag_shows = Show.objects.filter(tags=tag)  # Assuming you have a 'tags' field in your Show model
+
+        if tag_videos or tag_shows:
+            # Get a random sample of videos and shows (up to the number of available videos and shows for this tag)
+            tag_content_sample = sample(list(tag_videos) + list(tag_shows), min(10, len(tag_videos) + len(tag_shows)))
+            # Shuffle the list of random videos and shows to display them in a random order
+            shuffle(tag_content_sample)
+            content_by_tags.append({
+                'tag_name': tag.name,  # Assuming your Tag model has a 'name' field
+                'content': tag_content_sample,
+            })
+
+    # Retrieve all videos and shows from the database
+    all_videos = Video.objects.all()
+    all_shows = Show.objects.all()
+
+    # Get a random sample of videos and shows (up to the number of available videos and shows)
+    random_content = sample(list(all_videos) + list(all_shows), min(10, len(all_videos) + len(all_shows)))
+
+    # Select a random video or show from the list
+    random_video_or_show = choice(list(all_videos) + list(all_shows))
+
+    # Shuffle the list of random videos and shows to display them in a random order
+    shuffle(random_content)
+
     titulo = "Em Destaque"
     context = {
-        'random_video': random_video,
-        'videos': random_videos,
+        'random_video': random_video_or_show,
+        'videos': random_content,
         'titulo': titulo,
+        'content_by_tags': content_by_tags,  # Include the videos and shows grouped by tags
     }
+
+    print(content_by_tags)
+
     return render(request, 'lista_videos.html', context)
 
+
+
 def search_videos(request):
-    """
-    Perform a database query to search for videos that match the user's query and render them on the 'search_videos' template.
-    """
     query = request.GET.get('q', '')  # Get the user's search query from the URL parameter
-    
-    # Use Q objects to search for videos where title or channel name contains the query
-    videos = Video.objects.filter(Q(title__icontains=query) | Q(channel__name__icontains=query))
-    
+
+    # Use Q objects to search for videos where title, channel name, or tags contain the query
+    videos = Video.objects.filter(
+        Q(title__icontains=query) |
+        Q(channel__name__icontains=query) |
+        Q(tags__name__icontains=query)
+    ).distinct()
+
     # Convert the videos queryset to a list
     videos_list = list(videos)
-    
+
     # Randomly shuffle the list of videos
-    random.shuffle(videos_list)
-    
+    shuffle(videos_list)  # Shuffle the list directly
+
     context = {'videos': videos_list, 'query': query, 'titulo': 'Pesquisar'}
     return render(request, 'search_videos.html', context)
 
@@ -87,12 +140,12 @@ def video_player(request, video_id):
     Retrieve the video object from the database based on the video_id and render it on the 'player' template.
     """
     video = get_object_or_404(Video, id=video_id)
-    
+
     # Retrieve random similar videos from the database
     try:
         # Retrieve all videos excluding the current video_id
         all_videos = Video.objects.exclude(id=video_id)
-        
+
         # Get a random sample of videos (up to the number of available videos)
         similar_videos = sample(list(all_videos), min(3, len(all_videos)))
     except Exception as e:
@@ -101,11 +154,32 @@ def video_player(request, video_id):
         similar_videos = []
 
     context = {
-        'video': video,
+        'url': video.url,
         'titulo': video.title,
         'similar_videos': similar_videos,
     }
     return render(request, 'player.html', context)
+
+def episode_player(request, episode_id):
+
+    episode = get_object_or_404(Episode, id=episode_id)
+
+    try:
+
+        all_episodes = Episode.objects.exclude(id=episode_id)
+
+        similar_episodes = sample(list(all_episodes), min(3, len(all_episodes)))
+    except Exception as e:
+
+        print(f'Error getting random similar episodes: {e}')
+        similar_episodes = []
+
+    context = {
+        'url': episode.url,
+        'titulo': episode.title,
+        'similar_episodes': similar_episodes,
+    }
+    return render(request, 'episode_player.html', context)
 
 def channel_page(request, channel_id):
     """
@@ -114,10 +188,10 @@ def channel_page(request, channel_id):
     """
     # Retrieve the channel object from the database based on the channel_id
     channel = get_object_or_404(Channel, id=channel_id)
-    
+
     # Retrieve the videos associated with the channel, ordered by publishing date
     channel_videos = Video.objects.filter(channel=channel).order_by('-published_date')
-    
+
     context = {
         'channel': channel,
         'titulo': 'Canal',
