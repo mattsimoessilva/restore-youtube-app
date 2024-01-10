@@ -19,6 +19,26 @@
                 <div class="text-overlay">
                     <img src="{{ show.logo }}" alt="logo" class="logo-image">
                 </div>
+                <div class="rating">
+                    <p>
+                        <span class="material-symbols-outlined">
+                        thumb_up
+                        </span>
+                        {{ show.rating }}%
+                    </p>
+                </div>
+                <div class="description">
+                    <p>{{ show.description }}</p>
+                </div>
+                <div class="watch-button">
+                    <a href="{% url 'episode_player' first_episode.id %}">
+                        <button type="button" class="btn btn-light">
+                            <span class="material-symbols-outlined">
+                            video_library
+                            </span> Assistir
+                        </button>
+                    </a>
+                </div>
             </div>
 </div>
 
@@ -32,7 +52,7 @@
                     <div class="episode-list-thumbnail">
                         <img src="{{ episode.thumbnail }}" alt="Thumbnail" class="episode-image">
                         <br>
-                        <p class="episode-title">{{ episode.title }}</p>
+                        <p class="episode-title"><b>{{ episode.title }}</b></p>
                     </div>
                 </a>
         {% endfor %}

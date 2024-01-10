@@ -24,7 +24,10 @@ def show_page(request, show_id):
     # Retrieve all Episodes associated with this Show
     episodes = Episode.objects.filter(show=show)
 
+    first_episode = episodes.first
+
     context = {
+        'first_episode': first_episode,
         'show': show,
         'episodes': episodes,
     }

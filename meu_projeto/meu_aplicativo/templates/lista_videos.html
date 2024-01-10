@@ -21,6 +21,17 @@
                 <div class="text-overlay">
                     <img src="{{ random_video.logo }}" alt="logo" class="logo-image">
                 </div>
+                <div class="rating">
+                    <p>
+                        <span class="material-symbols-outlined">
+                        thumb_up
+                        </span>
+                        {{ random_video.rating }}%
+                    </p>
+                </div>
+                <div class="description">
+                    <p>{{ random_video.description }}</p>
+                </div>
             </div>
         </a>
     {% else %}
@@ -29,6 +40,17 @@
                 <img src="{{ random_video.wallpaper }}" alt="wallpaper" class="wallpaper-image">
                 <div class="text-overlay">
                     <img src="{{ random_video.logo }}" alt="logo" class="logo-image">
+                </div>
+                <div class="rating">
+                    <p>
+                        <span class="material-symbols-outlined">
+                        thumb_up
+                        </span>
+                        {{ random_video.rating }}%
+                    </p>
+                </div>
+                <div class="description">
+                    <p>{{ random_video.description }}</p>
                 </div>
             </div>
         </a>

@@ -21,16 +21,85 @@
       object-position: center top; /* Center vertically and keep zoom effect at the top */
   }
 
+  .text-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  }
+  
   .text-overlay .logo-image {
     position: absolute;
-    top: 50%;
-    left: 50%;
+    top: 25% !important;
+    left: 50% !important;
     transform: translate(-50%, -50%);
-    max-width: 90% !important;
-    max-height: 90% !important;
-    width: auto;
-    height: auto;
+    max-width: 70% !important;
+    max-height: 70% !important;
+    width: auto !important;
+    height: auto !important;
   }
+
+  .rating .material-symbols-outlined {
+    margin-right: 10% !important;
+  }
+  
+  .rating p {
+    position: absolute;
+    top: 43% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+ 
+  .description {
+    position: absolute;
+    top: 65% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    max-width: 100% !important;
+    max-height: 100% !important;
+    width: max-content !important;
+    height: auto !important;
+    white-space: normal !important;
+    padding: 10% !important;
+    text-align: justify;
+    overflow-y: scroll !important; /* Allows vertical scrolling */
+    scrollbar-width: none !important; /* For Firefox */
+    -ms-overflow-style: none !important; /* For Internet Explorer and Edge */
+  }
+  
+  .description::-webkit-scrollbar {
+    display: none !important; /* For Chrome, Safari and Opera */
+  }
+  
+ 
+ .watch-button {
+   position: absolute;
+   top: 90% !important;
+   left: 50% !important;
+   transform: translate(-50%, -50%);
+   max-width: 40% !important;
+   max-height: 40% !important;
+   width: auto !important;
+   height: auto !important;
+   white-space: pre-line !important;
+ }
+ 
+ .watch-button button {
+   color: black;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+ }
 }
 
 @media (max-width: 500px) {
@@ -45,6 +114,77 @@
   white-space: nowrap;  /* Prevent wrapping to the next line */
   overflow-x: scroll;  /* Enable horizontal scrolling */
   display: flex;      /* Make child elements flex items for proper alignment */
+}
+
+.text-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.text-overlay .logo-image {
+  position: absolute;
+  top: 30%;
+  left: 25%;
+  transform: translate(-50%, -50%);
+  max-width: 40%;
+  max-height: 40%;
+  width: auto;
+  height: auto;
+}
+
+.rating .material-symbols-outlined {
+  margin-right: 10%;
+}
+
+.rating p {
+  position: absolute;
+  top: 53%;
+  left: 25%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.description {
+ position: absolute;
+ top: 70%;
+ left: 25%;
+ transform: translate(-50%, -50%);
+ max-width: 40%;
+ max-height: 40%;
+ width: auto;
+ height: auto;
+ white-space: pre-line;
+ text-align: justify;
+}
+
+.watch-button {
+ position: absolute;
+ top: 90%;
+ left: 25%;
+ transform: translate(-50%, -50%);
+ max-width: 40%;
+ max-height: 40%;
+ width: auto;
+ height: auto;
+ white-space: pre-line;
+}
+
+.watch-button button {
+ color: black;
+ display: flex;
+ align-items: center;
+ justify-content: center;
 }
 
 /* Optional: Hide the horizontal scrollbar */
@@ -73,7 +213,7 @@
  .random-video-wallpaper {
    position: relative;
    width: 100%;
-   height: 350px;
+   height: 600px;
    overflow: hidden;
  }
  
@@ -82,30 +222,7 @@
    height: auto; /* Allow the height to adjust automatically */
  }
  
- .text-overlay {
-   position: absolute;
-   top: 0;
-   left: 0;
-   width: 100%;
-   height: 100%;
-   background-color: rgba(0, 0, 0, 0.5);
-   color: white;
-   display: flex;
-   align-items: center;
-   justify-content: center;
-   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
- }
  
- .text-overlay .logo-image {
-   position: absolute;
-   top: 50%;
-   left: 50%;
-   transform: translate(-50%, -50%);
-   max-width: 50%;
-   max-height: 50%;
-   width: auto;
-   height: auto;
- }
  
  body {
    background-color: black;
@@ -210,6 +327,7 @@
      padding: 10px;
      width: 100%;
  }
+
  
  .video-title {
      font-weight: bold;
@@ -336,7 +454,6 @@
  a {
      text-decoration: none;
      color: #8c8c8c; /* Define a cor do link como preto */
-     font-weight: bold;
  }
  
  #test {
@@ -350,3 +467,13 @@
    width: 33.33%;
    /* Other styling properties if needed */
  }
+
+a:hover {
+  text-decoration: none !important;
+}
+
+.watch-button .material-symbols-outlined {
+  margin-right: 10%;
+  margin-top: 5%;
+}
+

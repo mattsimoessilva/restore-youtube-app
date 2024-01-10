@@ -15,6 +15,8 @@ class Video(models.Model):
     logo = models.URLField()
     published_date = models.DateTimeField()
     tags = models.ManyToManyField('Tag')
+    description = models.CharField(max_length=340)
+    rating = models.IntegerField()
 
     def __str__(self):
         return self.title
@@ -34,6 +36,8 @@ class Show(models.Model):
     wallpaper = models.URLField()
     logo = models.URLField()
     tags = models.ManyToManyField('Tag')
+    description = models.CharField(max_length=340)
+    rating = models.IntegerField()
 
     def __str__(self):
         return self.title
