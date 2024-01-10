@@ -52,7 +52,7 @@
   
   .rating p {
     position: absolute;
-    top: 43% !important;
+    top: 40% !important;
     left: 50% !important;
     transform: translate(-50%, -50%);
     display: flex;
@@ -407,7 +407,7 @@
      display: flex;
      justify-content: center;
      align-items: center;
-     height: 500px; /* Ajuste a altura conforme necessário */
+     height: 490px; /* Ajuste a altura conforme necessário */
    }
  
    .video-details {
