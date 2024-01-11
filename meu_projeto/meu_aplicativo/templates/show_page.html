@@ -17,7 +17,7 @@
             <div class="random-video-wallpaper">
                 <img src="{{ show.wallpaper }}" alt="wallpaper" class="wallpaper-image">
                 <div class="text-overlay">
-                    <img src="{{ show.logo }}" alt="logo" class="logo-image">
+                    <img draggable="false" src="{{ show.logo }}" alt="logo" class="logo-image">
                 </div>
                 <div class="rating">
                     <p>
@@ -42,17 +42,18 @@
             </div>
 </div>
 
-<div class="my-container">
+<div class="my-container dragscroll">
     <br>
     <h3>Episódios</h3>
     <br>
     <div class="video-list" id="video-grid">
         {% for episode in episodes %}
-                <a href="{% url 'episode_player' episode.id %}" class="card-link">
+                <a draggable="false" href="{% url 'episode_player' episode.id %}" class="card-link">
                     <div class="episode-list-thumbnail">
-                        <img src="{{ episode.thumbnail }}" alt="Thumbnail" class="episode-image">
+                        <img draggable="false" src="{{ episode.thumbnail }}" alt="Thumbnail" class="episode-image">
                         <br>
                         <p class="episode-title"><b>{{ episode.title }}</b></p>
+                        <br>
                     </div>
                 </a>
         {% endfor %}
