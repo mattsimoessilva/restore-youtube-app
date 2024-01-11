@@ -35,11 +35,11 @@
             </div>
         </a>
     {% else %}
-        <a href="{% url 'video_player' random_video.id %}">
+        <a draggable="false" href="{% url 'video_player' random_video.id %}">
             <div class="random-video-wallpaper">
                 <img src="{{ random_video.wallpaper }}" alt="wallpaper" class="wallpaper-image">
                 <div class="text-overlay">
-                    <img src="{{ random_video.logo }}" alt="logo" class="logo-image">
+                    <img draggable="false" src="{{ random_video.logo }}" alt="logo" class="logo-image">
                 </div>
                 <div class="rating">
                     <p>
@@ -65,15 +65,15 @@
     <div class="video-list" id="video-grid">
         {% for video in videos %}
             {% if video.get_class_name == "Show" %}
-                <a href="{% url 'show_page' video.id %}" class="card-link">
+                <a draggable="false" href="{% url 'show_page' video.id %}" class="card-link">
                     <div class="video-list-thumbnail">
-                        <img src="{{ video.thumbnail }}" alt="Thumbnail">
+                        <img draggable="false" src="{{ video.thumbnail }}" alt="Thumbnail">
                     </div>
                 </a>
             {% else %}
-                <a href="{% url 'video_player' video.id %}" class="card-link">
+                <a draggable="false" href="{% url 'video_player' video.id %}" class="card-link">
                     <div class="video-list-thumbnail">
-                        <img src="{{ video.thumbnail }}" alt="Thumbnail">
+                        <img draggable="false" src="{{ video.thumbnail }}" alt="Thumbnail">
                     </div>
                 </a>
             {% endif %}
@@ -90,10 +90,10 @@
                 {% if content.get_class_name == "Show" %}
                     <a href="{% url 'show_page' content.id %}" class="card-link">
                 {% else %}
-                    <a href="{% url 'video_player' content.id %}" class="card-link">
+                    <a draggable="false" href="{% url 'video_player' content.id %}" class="card-link">
                 {% endif %}
                         <div class="video-list-thumbnail">
-                            <img src="{{ content.thumbnail }}" alt="Thumbnail">
+                            <img draggable="false" src="{{ content.thumbnail }}" alt="Thumbnail">
                         </div>
                     </a>
             {% endfor %}
