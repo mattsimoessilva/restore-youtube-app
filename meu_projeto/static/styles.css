@@ -9,6 +9,11 @@
       height: 100%; /* Ensure the body and html elements cover the full page height */
   }
 
+  input[type="search"] {
+    width: 20vh !important;  /* Adjust this value as needed */
+    height: 5vh;
+  }
+
   .random-video-wallpaper {
       height: 50%; /* Set a minimum height of 50% of the viewport height */
       overflow: hidden;
@@ -199,7 +204,7 @@
  
  .logo {
    width: 100px;
-   height: 40px;
+   height: 32px;
  }
  
  #a{
@@ -221,7 +226,6 @@
    width: 100%; /* Set the width of the image to 100% to stretch it */
    height: auto; /* Allow the height to adjust automatically */
  }
- 
  
  
  body {
@@ -476,4 +480,5 @@ a:hover {
   margin-right: 10%;
   margin-top: 5%;
 }
+
 
