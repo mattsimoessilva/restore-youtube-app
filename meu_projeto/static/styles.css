@@ -307,6 +307,12 @@
   margin-top: 2vh;
   white-space: pre-line;
 }
+
+.episode-description {
+  white-space: pre-line;
+  font-size:2vh;
+  color: white;
+}
  
  .video-thumbnail {
    position: relative;

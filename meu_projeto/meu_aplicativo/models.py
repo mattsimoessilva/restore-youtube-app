@@ -51,6 +51,7 @@ class Episode(models.Model):
     season = models.IntegerField()
     url = models.URLField()
     thumbnail = models.URLField()
+    description = models.CharField(max_length=130)
 
     def __str__(self):
         return self.title
