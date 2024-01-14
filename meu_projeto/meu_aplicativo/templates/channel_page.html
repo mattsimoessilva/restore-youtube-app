@@ -8,20 +8,19 @@
             <img src="{% static 'logo.png' %}" class="logo" alt="Logo">
         </a>
 
-        <div class="d-flex align-items-center justify-content-center position-absolute top-50 start-50 translate-middle" style="left: 50%; transform: translate(-50%, -50%); top: 50%;">
-            <a id="page-title">
-                {{ channel.name }}
-            </a>
-        </div>
         <div class="ml-auto"> <!-- Mantém a barra de pesquisa no canto direito -->
-            <form class="form-inline" action="{% url 'search_videos' %}" method="get">         
-                <input class="form-control mr-sm-2 rounded-pill" type="search" placeholder="Pesquisae" aria-label="Pesquisar" name="q">
+            <form class="form-inline" action="{% url 'search_videos' %}" method="get">
+                <input class="form-control-sm mr-sm-2 rounded-pill" type="search" placeholder="Pesquisar" aria-label="Pesquisar" name="q">
             </form>
         </div>
     </div>
 </nav>
-
 <div class="container">
+    <div class="row">
+        <div class="col-md-6 mx-auto">
+            <h2 class="d-flex justify-content-center">{{ channel.name }}</h2>
+        </div>
+    </div>
     <br>
     <div class="video-grid">
         {% for video in videos %}
@@ -42,3 +41,4 @@
     </div>
 </div>
 {% endblock %}
+

@@ -12,6 +12,13 @@ class Video(models.Model):
     url = models.URLField()
     thumbnail = models.URLField()
     published_date = models.DateTimeField()
+    tags = models.ManyToManyField('Tag')
 
     def __str__(self):
         return self.title
+    
+class Tag(models.Model):
+    name = models.CharField(max_length=50, unique=True)
+
+    def __str__(self):
+        return self.name

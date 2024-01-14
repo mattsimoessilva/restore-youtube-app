@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Video, Channel
+from .models import Video, Channel, Tag
 
 @admin.register(Video)
 class VideoAdmin(admin.ModelAdmin):
@@ -7,4 +7,8 @@ class VideoAdmin(admin.ModelAdmin):
 
 @admin.register(Channel)
 class ChannelAdmin(admin.ModelAdmin):
+    list_display = ('name',)
+
+@admin.register(Tag)
+class TagAdmin(admin.ModelAdmin):
     list_display = ('name',)

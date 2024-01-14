@@ -1,3 +1,72 @@
+@media (max-width: 1000px) {
+  .video-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr) !important;
+      gap: 20px;
+  }
+
+
+  body, html {
+      height: 100%; /* Ensure the body and html elements cover the full page height */
+  }
+
+  .random-video-wallpaper {
+      height: 50%; /* Set a minimum height of 50% of the viewport height */
+      overflow: hidden;
+  }
+
+  .wallpaper-image {
+      width: 100vh !important;
+      height: 100vh !important; 
+      object-fit: cover; /* Change this from fill to cover */
+      object-position: center top; /* Center vertically and keep zoom effect at the top */
+  }
+
+  .text-overlay .logo-image {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    max-width: 90% !important;
+    max-height: 90% !important;
+    width: auto;
+    height: auto;
+  }
+
+
+  iframe {
+    width: 100%;
+    height: 400px !important;
+  }
+}
+
+@media (max-width: 500px) {
+  .video-grid {
+      display: grid;
+      grid-template-columns: repeat(1, 1fr) !important;
+      gap: 20px;
+  }
+
+
+  
+  iframe {
+    width: 100vm;
+    height: 300px !important;
+  }
+}
+
+.related {
+  max-width: 100%; /* Set the maximum width for your container */
+  margin: 5% 5% 5% 5%; /* Center the container horizontally */
+  padding: 5% 5% 5% 5%; /* Add padding to the left and right sides */
+  box-sizing: border-box; /* Include padding in the width */
+}
+
+iframe {
+  width: 100%;
+  height: 600px;
+}
+
 .back-button {
  background-color: #4d4d4d;
  color: white;
@@ -56,7 +125,7 @@ p, h2, a, b, h3 {
 
 .video-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    grid-template-columns: repeat(3, 1fr);
     gap: 20px;
 }
 
