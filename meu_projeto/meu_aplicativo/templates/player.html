@@ -19,19 +19,56 @@
 <div id="a" style="width: 100%;">
     <!-- Custom Video Player -->
     <div class="custom-video-player">
-        <iframe width="100%" height="590px" src="{{ url }}" frameborder="0" allowfullscreen id="video-frame"></iframe>
+        <iframe width="100%" height="590px" src="{{ url }}" frameborder="0" allowfullscreen id="video-frame" referrerpolicy="no-referrer"></iframe>
     </div>
 </div>
 
 <script>
     // Assuming you have an iframe with id 'video-frame'
+        // Assuming you have an iframe with id 'video-frame'
     var videoIframe = document.getElementById('video-frame');
+
+    // Function to remove all <a> tags within the iframe
+    function removeAnchorTags() {
+        // Access the contentDocument of the iframe
+        var iframeDocument = videoIframe.contentDocument || videoIframe.contentWindow.document;
+
+        // Find and remove all <a> tags within the iframe
+        var anchorTags = iframeDocument.getElementsByTagName('a');
+        for (var i = 0; i < anchorTags.length; i++) {
+            anchorTags[i].parentNode.removeChild(anchorTags[i]);
+        }
+
+        // Log to the console if <a> tags were found and removed
+        if (anchorTags.length > 0) {
+            console.log('Removed ' + anchorTags.length + ' <a> tags from the iframe.');
+        }
+    }
 
     // Check if the iframe exists
     if (videoIframe) {
-        // Remove the href property from the iframe
-        videoIframe.removeAttribute('href');
+        // Access the contentDocument of the iframe
+        var iframeDocument = videoIframe.contentDocument || videoIframe.contentWindow.document;
+
+        // Remove all <a> tags within the iframe initially
+        removeAnchorTags();
+
+        // Create a MutationObserver to observe changes in the iframe's content
+        var observer = new MutationObserver(function(mutations) {
+            // Remove all <a> tags within the iframe whenever content changes
+            removeAnchorTags();
+        });
+
+        // Configure the observer to watch for changes in the subtree and attributes
+        var config = { childList: true, subtree: true };
+
+        // Start observing the target node for configured mutations
+        observer.observe(iframeDocument.body, config);
     }
+
+
+
+
 
 </script>
 
