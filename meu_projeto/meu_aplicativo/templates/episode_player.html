@@ -24,12 +24,15 @@
 </div>
 
 <script>
-    document.getElementById('video-frame').addEventListener('click', function (event) {
-        // You can add your redirection prevention logic here if needed
-        // For example, checking if a video is allowed to play
-        // If no redirection is needed, prevent the default behavior to avoid redirection:
-        event.preventDefault();
-    });
+    // Assuming you have an iframe with id 'video-frame'
+    var videoIframe = document.getElementById('video-frame');
+
+    // Check if the iframe exists
+    if (videoIframe) {
+        // Remove the href property from the iframe
+        videoIframe.removeAttribute('href');
+    }
+
 </script>
 
 {% endblock %}

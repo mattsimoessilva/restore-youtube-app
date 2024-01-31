@@ -3,13 +3,13 @@
 {% block content %}
 <nav class="navbar navbar-expand custom-navbar custom-shadow">
     <div class="container">
-        
+
         <a href="{% url 'lista_videos' %}">
             <img src="{% static 'logo.png' %}" class="logo" alt="Logo">
         </a>
 
         <div class="ml-auto"> <!-- Mantém a barra de pesquisa no canto direito -->
-            <form class="form-inline" action="{% url 'search_videos' %}" method="get">         
+            <form class="form-inline" action="{% url 'search_videos' %}" method="get">
                 <input class="form-control mr-sm-2 rounded-pill" type="search" placeholder="Pesquisar" aria-label="Pesquisar" name="q">
             </form>
         </div>
@@ -24,12 +24,16 @@
 </div>
 
 <script>
-    document.getElementById('video-frame').addEventListener('click', function (event) {
-        // You can add your redirection prevention logic here if needed
-        // For example, checking if a video is allowed to play
-        // If no redirection is needed, prevent the default behavior to avoid redirection:
-        event.preventDefault();
-    });
+    // Assuming you have an iframe with id 'video-frame'
+    var videoIframe = document.getElementById('video-frame');
+
+    // Check if the iframe exists
+    if (videoIframe) {
+        // Remove the href property from the iframe
+        videoIframe.removeAttribute('href');
+    }
+
 </script>
+
 
 {% endblock %}
