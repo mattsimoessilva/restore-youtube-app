@@ -117,8 +117,10 @@
 
 .video-list {
   white-space: nowrap;  /* Prevent wrapping to the next line */
-  overflow-x: scroll;  /* Enable horizontal scrolling */
+  overflow-x: visible;  /* Enable horizontal scrolling */
   display: flex;      /* Make child elements flex items for proper alignment */
+  height: 40vh;
+  padding-top: 10vh;
 }
 
 .text-overlay {
@@ -234,7 +236,7 @@
  
  p, h2, a, b, h3 {
    color: white;
-   font-family: 'Segoe UI';
+   font-family: 'Arial';
  }
  
  /* Estilo da Barra Superior Personalizada */
@@ -295,7 +297,14 @@
    height: 25vh;
    object-fit: cover;
    overflow: hidden;
+   border-radius: 5%;
+   transition: transform 0.3s ease;
  }
+
+ .video-list-thumbnail img:hover {
+  box-shadow: 0 0 5vh #fff;
+  transform: scale(1.1);
+}
 
  .episode-list-thumbnail {
   width: 30vh !important;
