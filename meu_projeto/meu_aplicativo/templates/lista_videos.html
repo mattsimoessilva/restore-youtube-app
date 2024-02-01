@@ -61,7 +61,6 @@
 <div class="my-container">
     <br>
     <h3>Recomendado</h3>
-    <br>
     <div class="video-list" id="video-grid">
         {% for video in videos %}
             {% if video.get_class_name == "Show" %}
@@ -84,7 +83,6 @@
 {% for tag_content in content_by_tags %}
     <div class="my-container">
         <h3>{{ tag_content.tag_name }}</h3>
-        <br>
         <div class="video-list" id="video-grid">
             {% for content in tag_content.content %}
                 {% if content.get_class_name == "Show" %}

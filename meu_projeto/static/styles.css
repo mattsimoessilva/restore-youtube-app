@@ -37,7 +37,6 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
   }
   
   .text-overlay .logo-image {
@@ -105,6 +104,14 @@
    align-items: center;
    justify-content: center;
  }
+
+ .video-list {
+  white-space: nowrap;  /* Prevent wrapping to the next line */
+  overflow-x: visible;  /* Enable horizontal scrolling */
+  display: flex;      /* Make child elements flex items for proper alignment */
+  height: 40vh;
+  padding-top: 10vh;
+}
 }
 
 @media (max-width: 500px) {
@@ -117,7 +124,7 @@
 
 .video-list {
   white-space: nowrap;  /* Prevent wrapping to the next line */
-  overflow-x: visible;  /* Enable horizontal scrolling */
+  overflow-x: scroll;  /* Enable horizontal scrolling */
   display: flex;      /* Make child elements flex items for proper alignment */
   height: 40vh;
   padding-top: 10vh;
