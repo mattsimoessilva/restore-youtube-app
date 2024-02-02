@@ -84,7 +84,7 @@ def lista_videos(request):
 
         if tag_videos or tag_shows:
             # Get a random sample of videos and shows (up to the number of available videos and shows for this tag)
-            tag_content_sample = sample(list(tag_videos) + list(tag_shows), min(10, len(tag_videos) + len(tag_shows)))
+            tag_content_sample = sample(list(tag_videos) + list(tag_shows), min(9, len(tag_videos) + len(tag_shows)))
             # Shuffle the list of random videos and shows to display them in a random order
             shuffle(tag_content_sample)
             content_by_tags.append({
@@ -97,7 +97,7 @@ def lista_videos(request):
     all_shows = Show.objects.all()
 
     # Get a random sample of videos and shows (up to the number of available videos and shows)
-    random_content = sample(list(all_videos) + list(all_shows), min(10, len(all_videos) + len(all_shows)))
+    random_content = sample(list(all_videos) + list(all_shows), min(9, len(all_videos) + len(all_shows)))
 
     # Select a random video or show from the list
     random_video_or_show = choice(list(all_videos) + list(all_shows))
