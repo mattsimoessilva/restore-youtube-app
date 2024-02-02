@@ -126,7 +126,7 @@
   white-space: nowrap;  /* Prevent wrapping to the next line */
   overflow-x: scroll;  /* Enable horizontal scrolling */
   display: flex;      /* Make child elements flex items for proper alignment */
-  height: 40vh;
+  height: 45vh;
   padding-top: 10vh;
 }
 
