@@ -1,18 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-<nav class="navbar navbar-expand custom-navbar custom-shadow">
-    <div class="container">
-        <a href="{% url 'lista_videos' %}">
-            <img src="{% static 'logo.png' %}" class="logo" alt="Logo">
-        </a>
-        <div class="ml-auto"> <!-- Mantém a barra de pesquisa no canto direito -->
-            <form class="form-inline" action="{% url 'search_videos' %}" method="get">
-                <input class="form-control mr-sm-2 rounded-pill" type="search" placeholder="Pesquisar" aria-label="Pesquisar" name="q">
-            </form>
-        </div>
-    </div>
-</nav>
 <div class="random-video">
     {% if random_video.get_class_name == "Show" %}
         <a href="{% url 'show_page' random_video.id %}">
@@ -57,6 +45,18 @@
     {% endif %}
 </div>
 
+    <div class="container">
+        <a href="{% url 'lista_videos' %}" class="esquerda">
+            <img src="{% static 'logo.png' %}" class="logo" alt="Logo">
+        </a>
+        <div class="direita"> <!-- Mantém a barra de pesquisa no canto direito -->
+            <form class="form-inline" action="{% url 'search_videos' %}" method="get">
+                <div class="search-box">
+                    <input type="text" class="input-search" placeholder="Pesquisar">
+                </div>
+            </form>
+        </div>
+    </div>
 
 <div class="my-container">
     <br>

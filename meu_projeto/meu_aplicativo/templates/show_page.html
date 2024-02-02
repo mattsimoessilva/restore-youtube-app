@@ -1,18 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-<nav class="navbar navbar-expand custom-navbar custom-shadow">
-    <div class="container">
-        <a href="{% url 'lista_videos' %}">
-            <img src="{% static 'logo.png' %}" class="logo" alt="Logo">
-        </a>
-        <div class="ml-auto"> <!-- Mantém a barra de pesquisa no canto direito -->
-            <form class="form-inline" action="{% url 'search_videos' %}" method="get">
-                <input class="form-control mr-sm-2 rounded-pill" type="search" placeholder="Pesquisar" aria-label="Pesquisar" name="q">
-            </form>
-        </div>
-    </div>
-</nav>
 <div class="random-video">
             <div class="random-video-wallpaper">
                 <img src="{{ show.wallpaper }}" alt="wallpaper" class="wallpaper-image">
@@ -30,25 +18,29 @@
                 <div class="description">
                     <p>{{ show.description }}</p>
                 </div>
-                <div class="watch-button">
-                    <a href="{% url 'episode_player' first_episode.id %}">
-                        <button type="button" class="btn btn-light">
-                            <span class="material-symbols-outlined">
-                            video_library
-                            </span> Assistir
-                        </button>
-                    </a>
-                </div>
             </div>
+</div>
+
+<div class="container">
+    <a href="{% url 'lista_videos' %}" class="esquerda">
+        <img src="{% static 'logo.png' %}" class="logo" alt="Logo">
+    </a>
+    <div class="direita"> <!-- Mantém a barra de pesquisa no canto direito -->
+        <form class="form-inline" action="{% url 'search_videos' %}" method="get">
+            <div class="search-box">
+                <input type="text" class="input-search" placeholder="Pesquisar">
+            </div>
+        </form>
+    </div>
 </div>
 
 <div class="my-container dragscroll">
     <br>
     <h3>Episódios</h3>
     <br>
-    <div class="video-list" id="video-grid">
+    <div class="episode-grid">
         {% for episode in episodes %}
-                <a draggable="false" href="{% url 'episode_player' episode.id %}" class="card-link">
+                <a draggable="false" href="{% url 'episode_player' episode.id %}">
                     <div class="episode-list-thumbnail">
                         <img draggable="false" src="{{ episode.thumbnail }}" alt="Thumbnail" class="episode-image">
                         <br>

@@ -1,25 +1,11 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-<nav class="navbar navbar-expand custom-navbar custom-shadow">
-    <div class="container">
-        
-        <a href="{% url 'lista_videos' %}">
-            <img src="{% static 'logo.png' %}" class="logo" alt="Logo">
-        </a>
-
-        <div class="ml-auto"> <!-- Mantém a barra de pesquisa no canto direito -->
-            <form class="form-inline" action="{% url 'search_videos' %}" method="get">         
-                <input class="form-control mr-sm-2 rounded-pill" type="search" placeholder="Pesquisar" aria-label="Pesquisar" name="q">
-            </form>
-        </div>
-    </div>
-</nav>
 
 <div id="a" style="width: 100%;">
     <!-- Custom Video Player -->
     <div class="custom-video-player">
-        <iframe width="100%" height="590px" src="{{ url }}" frameborder="0" allowfullscreen id="video-frame" referrerpolicy="no-referrer"></iframe>
+        <iframe width="100%" height="700vh" src="{{ url }}" frameborder="0" allowfullscreen id="video-frame" referrerpolicy="no-referrer"></iframe>
     </div>
 </div>
 
