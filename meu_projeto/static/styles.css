@@ -118,7 +118,7 @@
 
 .episode-grid {
   display: grid;
-  grid-template-columns: repeat(5, 1fr) !important;
+  grid-template-columns: repeat(4, 1fr) !important;
   gap: 20px;
 }
 
@@ -309,6 +309,7 @@
   display: grid;
   grid-template-columns: repeat(7, 1fr); /* 7 videos per row */
   gap: 20px;
+  height: 100vmax;
 }
  
  .video-card {
