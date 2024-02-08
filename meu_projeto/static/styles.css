@@ -169,6 +169,18 @@
   justify-content: center;
 }
 
+.menu-icon {
+  text-decoration: none;
+}
+
+.menu-icon span {
+  vertical-align: text-bottom;
+}
+
+.menu-icon-two span {
+  vertical-align: bottom;
+}
+
 .description {
  position: absolute;
  top: 60%;
@@ -226,9 +238,10 @@
  
  .random-video-wallpaper {
    position: relative;
-   width: 100%;
+   width: auto;
    height: 400px;
    overflow: hidden;
+   margin-top: 0;
  }
  
  .wallpaper-image {
@@ -492,7 +505,12 @@
  
  a {
      text-decoration: none;
-     color: #8c8c8c; /* Define a cor do link como preto */
+     color: gray; /* Define a cor do link como preto */
+ }
+
+ a:hover {
+    text-decoration: none;
+    color: white;
  }
  
  #test {
