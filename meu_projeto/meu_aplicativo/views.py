@@ -1,5 +1,5 @@
 from random import sample
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, render, redirect
 from .models import Movie, Company, Tag, Show, Episode
 from datetime import datetime
 from django.db.models import Q
@@ -254,7 +254,7 @@ def video_player(request, video_id):
         similar_videos = []
 
     context = {
-        'video': video.url,
+        'video': video,
         'similar_videos': similar_videos,
     }
     return render(request, 'video_player.html', context)
@@ -277,5 +277,24 @@ def company_page(request, company_id):
     }
     return render(request, 'company_page.html', context)
 
+def mark_as_watched(request, video_id):
+
+    video = get_object_or_404(Video, id=video_id)
+
+    video.watched = True
+    video.save()
+
+    previous_path = request.META.get('HTTP_REFERER')
+    return redirect(previous_path)
+
+def mark_as_not_watched(request, video_id):
+    video = get_object_or_404(Video, id=video_id)
+    
+    # Update the watched status of the video
+    video.watched = False
+    video.save()
+
+    previous_path = request.META.get('HTTP_REFERER')
+    return redirect(previous_path)
 
 

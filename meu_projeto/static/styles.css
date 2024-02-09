@@ -632,3 +632,96 @@ a:hover {
   height: 4vh;
   border-radius: 5vh;
 }
+
+.channel-icon-large {
+  width: 7vh;
+  height: 7vh;
+  border-radius: 5vh;
+  margin-top: 2vh;
+  margin-right: 2vh;
+}
+
+h1 {
+  color: white !important;
+  padding-top: 5vh;
+}
+
+.video-description {
+  padding-top: 3vh;
+  color: #888;
+}
+
+.channel-line {
+  display: flex;
+  width: 100%;
+  text-align: middle !important;
+}
+
+.channel-line .channel-name  {
+  padding-top: 3.5vh;
+  font-weight: lighter;
+  font-size: 2.5vh;
+}
+
+.channel-line .verified {
+  padding-top: 3.5vh;
+  margin-left: 1vh;
+}
+
+.verified {
+  color: gold;
+}
+
+.episode-channel-title .material-symbols-outlined {
+  font-size: 2vh;
+  color: gold;
+}
+
+.watched-button {
+  display: flex;
+  border-radius: 5vh;
+  font-size: 2vh;
+  height: 7vh;
+  padding-top: 2vh;
+  left: 170vh;
+  top: 85vh;
+  padding-left: 2.5vh;
+  position: absolute;
+  border: none;
+  transition: transform 0.3s ease;
+}
+
+.watched-button:hover {
+  box-shadow: 0 0 2vh #fff;
+  transform: scale(1.1);
+}
+
+.watched-button p {
+  color: black;
+}
+
+.watched {
+  top: 2.5vh;
+  margin-left: 1vh;
+  color: #222;
+  padding-right: 1vh;
+}
+
+.unwatched {
+  margin-bottom: 2.5vh;
+  margin-left: 1vh;
+  color: #222;
+  padding-right: 1vh;
+}
+
+.grayscale-img {
+  filter:brightness(50%);
+}
+
+.watched-mark {
+  position: fixed;
+  margin-top: 8vh;
+  margin-left: 10vh;
+  color: white;
+  z-index: 1;
+}

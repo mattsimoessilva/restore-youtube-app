@@ -72,6 +72,7 @@ class Video(models.Model):
     published_date = models.DateTimeField()
     description = models.CharField(max_length=500)
     tags = models.ManyToManyField('Tag')
+    watched = models.BooleanField(default=False)
 
     def __str__(self):
         return self.title

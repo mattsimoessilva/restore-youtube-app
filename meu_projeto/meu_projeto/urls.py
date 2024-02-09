@@ -1,5 +1,5 @@
 from django.urls import path, include, re_path
-from meu_aplicativo.views import lista_movies, search_movies, movie_player, company_page, load_more_movies, show_page, episode_player, search_videos, lista_videos, channel_page, video_player
+from meu_aplicativo.views import lista_movies, search_movies, movie_player, company_page, load_more_movies, show_page, episode_player, search_videos, lista_videos, channel_page, video_player, mark_as_watched, mark_as_not_watched
 from django.conf.urls.static import static
 from django.conf import settings
 from django.contrib import admin
@@ -17,6 +17,8 @@ urlpatterns = [
     path('show/<int:show_id>/', show_page, name='show_page'),
     path('channel/<int:channel_id>/', channel_page, name='channel_page'),
     path('load_more_movies/', load_more_movies, name='load_more_movies'),
+    path('mark_as_watched/<str:video_id>//', mark_as_watched, name='mark_as_watched'),
+    path('mark_as_not_watched/<str:video_id>/', mark_as_not_watched, name='mark_as_not_watched'),
     re_path(r'', include('pwa.urls')),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 

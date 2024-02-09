@@ -5,20 +5,49 @@
 <div class="my-container">
     <!-- Custom Video Player -->
     <div class="custom-video-player">
-        <iframe width="100%" height="700vh" src="{{ url }}" frameborder="0" allowfullscreen id="video-frame" referrerpolicy="no-referrer"></iframe>
+        <iframe width="100%" height="500vh" src="{{ video.url }}" frameborder="0" allowfullscreen id="video-frame" referrerpolicy="no-referrer"></iframe>
     </div>
+    <h1 class="video-title">{{ video.title }}</h1>
+            <a href="{% url 'channel_page' video.channel.id %}">
+                <div class="channel-line">
+                    <p>
+                        <img class="channel-icon-large" src="{{ video.channel.logo}}">
+                        
+                    </p>
+                    <p class="channel-name">
+                        {{ video.channel.title }}
+                    </p>
+                    <p>
+                        <span class="material-symbols-outlined verified">
+                            verified
+                        </span>
+                    </p>
+                </div>      
+            </a>
+            {% if video.watched == False %}
+                <form id="mark-as-watched-form" method="POST" action="{% url 'mark_as_watched' video.id %}">
+                    {% csrf_token %}
+                    <button type="submit" class="watched-button" id="mark-as-watched-button">
+                        <p>Marcar como assistido</p>
+                        <span class="material-symbols-outlined watched">
+                            library_add_check
+                        </span>
+                    </button>
+                </form>              
+            {% elif video.watched == True %}
+                <form id="mark-as-not-watched-form" method="POST" action="{% url 'mark_as_not_watched' video.id %}">
+                    {% csrf_token %}
+                    <button type="submit" class="watched-button" id="mark-as-not-watched-button">
+                        <p>Desmarcar como assistido</p>
+                        <span class="material-symbols-outlined unwatched">
+                            cancel
+                        </span>
+                    </button>
+                </form>  
+            {% endif %}
+            <p class="video-description">
+                {{ video.description }}
+            </p>
 </div>
-
-<script>
-    // Assuming you have an iframe with id 'video-frame'
-    var videoIframe = document.getElementById('video-frame');
-
-    // Check if the iframe exists
-    if (videoIframe) {
-        // Remove the href property from the iframe
-        videoIframe.removeAttribute('href');
-    }
-
-</script>
 
 {% endblock %}
