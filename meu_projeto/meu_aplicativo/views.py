@@ -35,12 +35,12 @@ def show_page(request, show_id):
     return render(request, 'show_page.html', context)
 
 def channel_page(request, channel_id):
-
     channel = get_object_or_404(Channel, id=channel_id)
 
-    videos = Video.objects.filter(channel=channel)
+    # Order videos by release_date, older first
+    videos = Video.objects.filter(channel=channel).order_by('published_date')
 
-    first_video = videos.first
+    first_video = videos.first()
 
     context = {
         'first_video': first_video,
@@ -49,6 +49,7 @@ def channel_page(request, channel_id):
     }
 
     return render(request, 'channel_page.html', context)
+
 
 def load_more_movies(request):
     # Get the page number from the AJAX request
@@ -141,7 +142,6 @@ def lista_videos(request):
 
     shuffle(random_videos)
 
-    titulo = "Em Destaque"
     context = {
         'videos': random_videos,
     }
