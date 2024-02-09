@@ -25,7 +25,10 @@
                         <img draggable="false" src="{{ video.thumbnail }}" alt="Thumbnail" class="episode-image">
                         <br>
                         <p class="episode-title"><b>{{ video.title }}</b></p>
-                        <br>
+                        <p class="episode-channel-title">
+                            <img draggable="false" src="{{ video.channel.logo }}" class="channel-icon">
+                            {{ video.channel.title }}
+                        </p>
                     </div>
                 </a>
         {% endfor %}
