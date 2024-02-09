@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="container">
+    <div class="direita"> <!-- Mantém a barra de pesquisa no canto direito -->
+        <form class="form-inline" action="{% url 'search_movies' %}" method="get">
+            <div class="search-box">
+                <input type="text" class="input-search" placeholder="Pesquisar" name="q">
+            </div>
+        </form>
+    </div>
+</div>
+<br>
+<br>
+<br>
+<br>
+<br>
+<div class="my-container">
+    <h2>Resultado da Pesquisa "{{ query }}"</h2>
+    <br>
+    <div class="video-grid-search" id="video-grid">
+        {% for content in content %}
+            <div class="video-card">
+                {% if content.get_class_name == "Show" %}
+                    <a href="{% url 'show_page' content.id %}" class="card-link">
+                {% else %}
+                    <a href="{% url 'movie_player' content.id %}" class="card-link">
+                {% endif %}
+                    <div class="video-list-thumbnail">
+                        <img src="{{ content.thumbnail }}" alt="Thumbnail">
+                    </div>
+                </a>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
+

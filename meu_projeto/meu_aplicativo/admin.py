@@ -1,12 +1,12 @@
 from django.contrib import admin
-from .models import Video, Channel, Tag, Show, Episode
+from .models import Movie, Company, Tag, Show, Episode, Channel, Video
 
-@admin.register(Video)
-class VideoAdmin(admin.ModelAdmin):
-    list_display = ('title', 'channel', 'url')
+@admin.register(Movie)
+class MovieAdmin(admin.ModelAdmin):
+    list_display = ('title', 'company', 'url')
 
-@admin.register(Channel)
-class ChannelAdmin(admin.ModelAdmin):
+@admin.register(Company)
+class CompanyAdmin(admin.ModelAdmin):
     list_display = ('name',)
 
 
@@ -20,4 +20,12 @@ class ShowAdmin(admin.ModelAdmin):
 
 @admin.register(Episode)
 class EpisodeAdmin(admin.ModelAdmin):
+    list_display = ('title',)
+
+@admin.register(Channel)
+class ChannelAdmin(admin.ModelAdmin):
+    list_display = ('title',)
+
+@admin.register(Video)
+class VideoAdmin(admin.ModelAdmin):
     list_display = ('title',)

@@ -120,6 +120,7 @@
   display: grid;
   grid-template-columns: repeat(4, 1fr) !important;
   gap: 20px;
+  height: 100vmax;
 }
 
 .video-list {
@@ -352,7 +353,9 @@
 
 .episode-title {
   white-space: pre-line;
-  padding: 1.5vh;
+  padding-top: 1.5vh;
+  padding-left: 1.5vh;
+  font-size: 2vh;
 }
 
 .episode-description {

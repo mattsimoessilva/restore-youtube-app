@@ -1,14 +1,14 @@
 from django.db import models
 
-class Channel(models.Model):
+class Company(models.Model):
     name = models.CharField(max_length=100)  # Nome do canal
 
     def __str__(self):
         return self.name
 
-class Video(models.Model):
+class Movie(models.Model):
     title = models.CharField(max_length=100)
-    channel = models.ForeignKey(Channel, on_delete=models.CASCADE)  # Chave estrangeira para o canal
+    company = models.ForeignKey(Company, on_delete=models.CASCADE)  # Chave estrangeira para o canal
     url = models.URLField()
     thumbnail = models.URLField()
     wallpaper = models.URLField()
@@ -51,6 +51,27 @@ class Episode(models.Model):
     season = models.IntegerField()
     url = models.URLField()
     thumbnail = models.URLField()
+
+class Channel(models.Model):
+    title = models.CharField(max_length=100)
+    wallpaper = models.URLField()
+    logo = models.URLField()
+    description = models.CharField(max_length=500)
+
+    def __str__(self):
+        return self.title
+    
+    def get_class_name(self):
+        return self.__class__.__name__
+    
+class Video(models.Model):
+    title = models.CharField(max_length=100)
+    channel = models.ForeignKey(Channel, on_delete=models.CASCADE)  # Chave estrangeira para o show
+    url = models.URLField()
+    thumbnail = models.URLField()
+    published_date = models.DateTimeField()
+    description = models.CharField(max_length=500)
+    tags = models.ManyToManyField('Tag')
 
     def __str__(self):
         return self.title

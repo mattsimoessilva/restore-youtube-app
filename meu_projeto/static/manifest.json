@@ -2,7 +2,7 @@
   "name": "Deepflix",
   "short_name": "Deepflix",
   "description": "Stream the best movies",
-  "start_url": "/videos",
+  "start_url": "/movies",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#000000",

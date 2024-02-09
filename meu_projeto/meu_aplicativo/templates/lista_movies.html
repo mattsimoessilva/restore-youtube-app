@@ -1,0 +1,100 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="random-video">
+    {% if random_movie.get_class_name == "Show" %}
+        <a href="{% url 'show_page' random_movie.id %}">
+            <div class="random-video-wallpaper">
+                <img src="{{ random_movie.wallpaper }}" alt="wallpaper" class="wallpaper-image">
+                <div class="text-overlay">
+                    <img src="{{ random_movie.logo }}" alt="logo" class="logo-image">
+                </div>
+                <div class="rating">
+                    <p>
+                        <span class="material-symbols-outlined">
+                        thumb_up
+                        </span>
+                        {{ random_movie.rating }}%
+                    </p>
+                </div>
+                <div class="description">
+                    <p>{{ random_movie.description }}</p>
+                </div>
+            </div>
+        </a>
+    {% else %}
+        <a draggable="false" href="{% url 'movie_player' random_movie.id %}">
+            <div class="random-video-wallpaper">
+                <img src="{{ random_movie.wallpaper }}" alt="wallpaper" class="wallpaper-image">
+                <div class="text-overlay">
+                    <img draggable="false" src="{{ random_movie.logo }}" alt="logo" class="logo-image">
+                </div>
+                <div class="rating">
+                    <p>
+                        <span class="material-symbols-outlined">
+                        thumb_up
+                        </span>
+                        {{ random_movie.rating }}%
+                    </p>
+                </div>
+                <div class="description">
+                    <p>{{ random_movie.description }}</p>
+                </div>
+            </div>
+        </a>
+    {% endif %}
+</div>
+
+    <div class="container">
+        <div class="direita"> <!-- Mantém a barra de pesquisa no canto direito -->
+            <form class="form-inline" action="{% url 'search_movies' %}" method="get">
+                <div class="search-box">
+                    <input type="text" class="input-search" placeholder="Pesquisar Filmes e Séries" name="q">
+                </div>
+            </form>
+        </div>
+    </div>
+
+<div class="my-container">
+    <br>
+    <h3>Recomendado</h3>
+    <div class="video-list" id="video-grid">
+        {% for movie in movies %}
+            {% if movie.get_class_name == "Show" %}
+                <a draggable="false" href="{% url 'show_page' movie.id %}" class="card-link">
+                    <div class="video-list-thumbnail">
+                        <img draggable="false" src="{{ movie.thumbnail }}" alt="Thumbnail">
+                    </div>
+                </a>
+            {% else %}
+                <a draggable="false" href="{% url 'movie_player' movie.id %}" class="card-link">
+                    <div class="video-list-thumbnail">
+                        <img draggable="false" src="{{ movie.thumbnail }}" alt="Thumbnail">
+                    </div>
+                </a>
+            {% endif %}
+        {% endfor %}
+    </div>
+</div>
+
+{% for tag_content in content_by_tags %}
+    <div class="my-container">
+        <h3>{{ tag_content.tag_name }}</h3>
+        <div class="video-list" id="video-grid">
+            {% for content in tag_content.content %}
+                {% if content.get_class_name == "Show" %}
+                    <a href="{% url 'show_page' content.id %}" class="card-link">
+                {% else %}
+                    <a draggable="false" href="{% url 'movie_player' content.id %}" class="card-link">
+                {% endif %}
+                        <div class="video-list-thumbnail">
+                            <img draggable="false" src="{{ content.thumbnail }}" alt="Thumbnail">
+                        </div>
+                    </a>
+            {% endfor %}
+        </div>
+    </div>
+{% endfor %}
+
+{% endblock %}
+

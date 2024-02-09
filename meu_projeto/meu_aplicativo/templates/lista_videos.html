@@ -1,100 +1,35 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-<div class="random-video">
-    {% if random_video.get_class_name == "Show" %}
-        <a href="{% url 'show_page' random_video.id %}">
-            <div class="random-video-wallpaper">
-                <img src="{{ random_video.wallpaper }}" alt="wallpaper" class="wallpaper-image">
-                <div class="text-overlay">
-                    <img src="{{ random_video.logo }}" alt="logo" class="logo-image">
-                </div>
-                <div class="rating">
-                    <p>
-                        <span class="material-symbols-outlined">
-                        thumb_up
-                        </span>
-                        {{ random_video.rating }}%
-                    </p>
-                </div>
-                <div class="description">
-                    <p>{{ random_video.description }}</p>
-                </div>
-            </div>
-        </a>
-    {% else %}
-        <a draggable="false" href="{% url 'video_player' random_video.id %}">
-            <div class="random-video-wallpaper">
-                <img src="{{ random_video.wallpaper }}" alt="wallpaper" class="wallpaper-image">
-                <div class="text-overlay">
-                    <img draggable="false" src="{{ random_video.logo }}" alt="logo" class="logo-image">
-                </div>
-                <div class="rating">
-                    <p>
-                        <span class="material-symbols-outlined">
-                        thumb_up
-                        </span>
-                        {{ random_video.rating }}%
-                    </p>
-                </div>
-                <div class="description">
-                    <p>{{ random_video.description }}</p>
-                </div>
-            </div>
-        </a>
-    {% endif %}
-</div>
 
-    <div class="container">
-        <div class="direita"> <!-- Mantém a barra de pesquisa no canto direito -->
-            <form class="form-inline" action="{% url 'search_videos' %}" method="get">
-                <div class="search-box">
-                    <input type="text" class="input-search" placeholder="Pesquisar" name="q">
-                </div>
-            </form>
-        </div>
+<div class="container">
+    <div class="direita"> <!-- Mantém a barra de pesquisa no canto direito -->
+        <form class="form-inline" action="{% url 'search_videos' %}" method="get">
+            <div class="search-box">
+                <input type="text" class="input-search" placeholder="Pesquisar Vídeos" name="q">
+            </div>
+        </form>
     </div>
+</div>
+<br>
+<br>
+<br>
+<br>
+<br>
 
 <div class="my-container">
-    <br>
-    <h3>Recomendado</h3>
-    <div class="video-list" id="video-grid">
+    <div class="episode-grid">
         {% for video in videos %}
-            {% if video.get_class_name == "Show" %}
-                <a draggable="false" href="{% url 'show_page' video.id %}" class="card-link">
-                    <div class="video-list-thumbnail">
-                        <img draggable="false" src="{{ video.thumbnail }}" alt="Thumbnail">
+                <a draggable="false" href="{% url 'video_player' video.id %}">
+                    <div class="episode-list-thumbnail">
+                        <img draggable="false" src="{{ video.thumbnail }}" alt="Thumbnail" class="episode-image">
+                        <br>
+                        <p class="episode-title"><b>{{ video.title }}</b></p>
+                        <br>
                     </div>
                 </a>
-            {% else %}
-                <a draggable="false" href="{% url 'video_player' video.id %}" class="card-link">
-                    <div class="video-list-thumbnail">
-                        <img draggable="false" src="{{ video.thumbnail }}" alt="Thumbnail">
-                    </div>
-                </a>
-            {% endif %}
         {% endfor %}
     </div>
 </div>
 
-{% for tag_content in content_by_tags %}
-    <div class="my-container">
-        <h3>{{ tag_content.tag_name }}</h3>
-        <div class="video-list" id="video-grid">
-            {% for content in tag_content.content %}
-                {% if content.get_class_name == "Show" %}
-                    <a href="{% url 'show_page' content.id %}" class="card-link">
-                {% else %}
-                    <a draggable="false" href="{% url 'video_player' content.id %}" class="card-link">
-                {% endif %}
-                        <div class="video-list-thumbnail">
-                            <img draggable="false" src="{{ content.thumbnail }}" alt="Thumbnail">
-                        </div>
-                    </a>
-            {% endfor %}
-        </div>
-    </div>
-{% endfor %}
-
 {% endblock %}
-
