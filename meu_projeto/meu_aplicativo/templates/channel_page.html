@@ -3,7 +3,7 @@
 {% block content %}
 <div class="random-video">
             <div class="random-video-wallpaper">
-                <img src="{{ channel.wallpaper }}" alt="wallpaper" class="wallpaper-image">
+                <img src="{{ channel.wallpaper }}" alt="wallpaper" class="channel-wallpaper-image">
             </div>
 </div>
 
@@ -18,19 +18,38 @@
 </div>
 
 <div class="my-container dragscroll">
+    <img src="{{ channel.logo }}" class="channel-icon-largest">
+    <p class="channel-title-largest">
+        {{ channel.title }}
+        <span class="material-symbols-outlined large-title-check">
+            verified
+        </span>
+    </p>
+    <p class="channel-description">{{ channel.description }}</p>
     <br>
     <h3>Vídeos</h3>
     <br>
     <div class="episode-grid">
         {% for video in videos %}
-                <a draggable="false" href="{% url 'video_player' video.id %}">
-                    <div class="episode-list-thumbnail">
+            <a draggable="false" href="{% url 'video_player' video.id %}">
+                <div class="episode-list-thumbnail">
+                    {% if video.watched == True %}
+                        <label class="watched-mark">Assistido</label>
+                        <img draggable="false" src="{{ video.thumbnail }}" alt="Thumbnail" class="episode-image grayscale-img">
+                    {% elif video.watched == False %}
                         <img draggable="false" src="{{ video.thumbnail }}" alt="Thumbnail" class="episode-image">
-                        <br>
-                        <p class="episode-title"><b>{{ video.title }}</b></p>
-                        <br>
-                    </div>
-                </a>
+                    {% endif %}
+                    <br>
+                    <p class="episode-title"><b>{{ video.title }}</b></p>
+                    <p class="episode-channel-title">
+                        <img draggable="false" src="{{ video.channel.logo }}" class="channel-icon">
+                        {{ video.channel.title }}
+                        <span class="material-symbols-outlined">
+                            verified
+                        </span>
+                    </p>
+                </div>
+            </a>
         {% endfor %}
     </div>
 </div>

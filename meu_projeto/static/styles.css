@@ -249,6 +249,12 @@
    width: 100%; /* Set the width of the image to 100% to stretch it */
    height: auto; /* Allow the height to adjust automatically */
  }
+
+ .channel-wallpaper-image {
+  width: 100%; /* Set the width of the image to 100% to stretch it */
+  height: auto; /* Allow the height to adjust automatically */
+  filter: brightness(50%);
+}
  
  
  body {
@@ -329,7 +335,6 @@
  }
 
  .video-list-thumbnail img:hover {
-  box-shadow: 0 0 5vh #fff;
   transform: scale(1.1);
 }
 
@@ -348,7 +353,6 @@
 }
 
 .episode-list-thumbnail:hover {
-  box-shadow: 0 0 5vh #fff;
   transform: scale(1.1);
   background-color: #222;
 }
@@ -641,6 +645,39 @@ a:hover {
   margin-right: 2vh;
 }
 
+.channel-icon-largest {
+  width: 20vh;
+  height: 20vh;
+  border-radius: 10vh;
+  margin-top: 2vh;
+  margin-right: 2vh;
+  position: absolute;
+  top: 20vh;
+  left: 45vh;
+}
+
+.channel-title-largest {
+  font-size: 5vh;
+  color: white;
+  position: absolute;
+  left: 70vh;
+  top: 30vh;
+}
+
+.large-title-check {
+  color: gold;
+}
+
+.channel-title-largest .material-symbols-outlined {
+  font-size: 5vh;
+  vertical-align: text-bottom;
+  margin-bottom: 0.5vh;
+}
+
+.channel-description {
+  color: #888;
+}
+
 h1 {
   color: white !important;
   padding-top: 5vh;
@@ -675,6 +712,8 @@ h1 {
 .episode-channel-title .material-symbols-outlined {
   font-size: 2vh;
   color: gold;
+  vertical-align: bottom;
+  margin-bottom: 1.2vh;
 }
 
 .watched-button {
@@ -683,7 +722,7 @@ h1 {
   font-size: 2vh;
   height: 7vh;
   padding-top: 2vh;
-  left: 170vh;
+  left: 165vh;
   top: 85vh;
   padding-left: 2.5vh;
   position: absolute;
@@ -692,7 +731,6 @@ h1 {
 }
 
 .watched-button:hover {
-  box-shadow: 0 0 2vh #fff;
   transform: scale(1.1);
 }
 
