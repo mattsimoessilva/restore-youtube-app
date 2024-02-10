@@ -12,7 +12,7 @@
                 <div class="channel-line">
                     <p>
                         <img class="channel-icon-large" src="{{ video.channel.logo}}">
-                        
+
                     </p>
                     <p class="channel-name">
                         {{ video.channel.title }}
@@ -22,29 +22,8 @@
                             verified
                         </span>
                     </p>
-                </div>      
+                </div>
             </a>
-            {% if video.watched == False %}
-                <form id="mark-as-watched-form" method="POST" action="{% url 'mark_as_watched' video.id %}">
-                    {% csrf_token %}
-                    <button type="submit" class="watched-button" id="mark-as-watched-button">
-                        <p>Marcar como assistido</p>
-                        <span class="material-symbols-outlined watched">
-                            library_add_check
-                        </span>
-                    </button>
-                </form>              
-            {% elif video.watched == True %}
-                <form id="mark-as-not-watched-form" method="POST" action="{% url 'mark_as_not_watched' video.id %}">
-                    {% csrf_token %}
-                    <button type="submit" class="watched-button" id="mark-as-not-watched-button">
-                        <p>Desmarcar como assistido</p>
-                        <span class="material-symbols-outlined unwatched">
-                            cancel
-                        </span>
-                    </button>
-                </form>  
-            {% endif %}
             <p class="video-description">
                 {{ video.description }}
             </p>
