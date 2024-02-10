@@ -70,7 +70,7 @@ class Video(models.Model):
     url = models.URLField()
     thumbnail = models.URLField()
     published_date = models.DateTimeField()
-    description = models.CharField(max_length=500)
+    description = models.CharField(max_length=1000)
     tags = models.ManyToManyField('Tag')
     watched = models.BooleanField(default=False)
 
