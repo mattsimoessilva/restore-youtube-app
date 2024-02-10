@@ -135,18 +135,38 @@ def lista_movies(request):
     return render(request, 'lista_movies.html', context)
 
 def lista_videos(request):
+    # Retrieve videos with the "Computação" tag
+    historia_videos = Video.objects.filter(tags__name='História')
 
-    all_videos = list(Video.objects.all())
+    # Randomly select up to 8 videos (or fewer if there are fewer than 8)
+    random_videos = sample(list(historia_videos), min(8, historia_videos.count()))
 
-    random_videos = sample(all_videos, min(8, len(all_videos)))
-
+    # Shuffle the selected videos
     shuffle(random_videos)
 
     context = {
         'videos': random_videos,
     }
 
-    return render(request, 'lista_videos.html', context)
+    return render(request, 'lista_info.html', context)
+
+
+def lista_info(request):
+    # Retrieve videos with the "Computação" tag
+    computacao_videos = Video.objects.filter(tags__name='Computação')
+
+    # Randomly select up to 8 videos (or fewer if there are fewer than 8)
+    random_videos = sample(list(computacao_videos), min(8, computacao_videos.count()))
+
+    # Shuffle the selected videos
+    shuffle(random_videos)
+
+    context = {
+        'videos': random_videos,
+    }
+
+    return render(request, 'lista_info.html', context)
+
 
 def search_movies(request):
     query = request.GET.get('q', '')  # Get the user's search query from the URL parameter

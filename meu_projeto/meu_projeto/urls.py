@@ -1,5 +1,5 @@
 from django.urls import path, include, re_path
-from meu_aplicativo.views import lista_movies, search_movies, movie_player, company_page, load_more_movies, show_page, episode_player, search_videos, lista_videos, channel_page, video_player, mark_as_watched, mark_as_not_watched
+from meu_aplicativo.views import lista_movies, search_movies, movie_player, company_page, load_more_movies, show_page, episode_player, search_videos, lista_videos, channel_page, video_player, mark_as_watched, mark_as_not_watched, lista_info
 from django.conf.urls.static import static
 from django.conf import settings
 from django.contrib import admin
@@ -9,7 +9,8 @@ urlpatterns = [
     path('search/', search_movies, name='search_movies'),
     path('search/video/', search_videos, name='search_videos'),
     path('', lista_movies, name='lista_movies'),
-    path('videos/', lista_videos, name='lista_videos'),
+    path('videos/history/', lista_videos, name='lista_videos'),
+    path('videos/computing/', lista_info, name='lista_info'),
     path('player/<str:movie_id>/', movie_player, name='movie_player'),
     path('video_player/<str:video_id>/', video_player, name='video_player'),
     path('episode_player/<str:episode_id>/', episode_player, name='episode_player'),
