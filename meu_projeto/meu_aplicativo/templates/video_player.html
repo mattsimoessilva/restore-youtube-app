@@ -4,8 +4,8 @@
 
 <div class="my-container">
     <!-- Custom Video Player -->
-    <div class="custom-video-player">
-        <iframe width="100%" height="500vh" src="{{ video.url }}" frameborder="0" allowfullscreen id="video-frame" referrerpolicy="no-referrer"></iframe>
+    <div>
+        <iframe width="1100vh" height="500vh" src="{{ video.url }}" frameborder="0" allowfullscreen id="video-frame" referrerpolicy="no-referrer"></iframe>
     </div>
     <h1 class="video-title">{{ video.title }}</h1>
             <a href="{% url 'channel_page' video.channel.id %}">

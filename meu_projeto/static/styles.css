@@ -273,6 +273,10 @@
    z-index: 1000;
    position: absolute;
  }
+
+ .custom-video-player {
+    height: 100vmax;
+ }
  
  /* Estilo do Título */
  #page-title {
