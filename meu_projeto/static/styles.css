@@ -691,6 +691,7 @@ h1 {
 .video-description {
   padding-top: 3vh;
   color: #888;
+  white-space: pre-line;
 }
 
 .channel-line {
