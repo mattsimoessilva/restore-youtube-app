@@ -415,7 +415,7 @@
     text-overflow: ellipsis;
     font-weight: bold;
     margin-bottom: 5px;
-    width: 100%; /* Ajuste o valor conforme necessário */
+    width: 100vh; /* Ajuste o valor conforme necessário */
  }
  
  .channel-info {
