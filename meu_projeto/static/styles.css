@@ -692,6 +692,7 @@ h1 {
   padding-top: 3vh;
   color: #888;
   white-space: pre-line;
+  width: 100vh;
 }
 
 .channel-line {
