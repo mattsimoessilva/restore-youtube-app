@@ -4,7 +4,7 @@
 <html>
 <head>
     {% progressive_web_app_meta %} 
-    <title>Deepflix</title>
+    <title>DeepHub</title>
     <!-- inclua seus estilos e scripts aqui -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
@@ -44,34 +44,16 @@
         <!-- Sidebar -->
         <nav id="sidebar">
             <div class="sidebar-header">
-                <h3>Deepflix</h3>
+                <h3>DeepHub</h3>
             </div>
             <ul class="list-unstyled components">
                 <br>
                 <li>
-                    <a href="{% url 'lista_movies' %}" class="menu-icon">
+                    <a href="{% url 'lista_videos' %}" class="menu-icon">
                         <span class="material-symbols-outlined">
                         home
                         </span>
                         Página Inicial
-                    </a>
-                </li>
-                <br>
-                <li>
-                    <a href="{% url 'lista_videos' %}" class="menu-icon-two">
-                        <span class="material-symbols-outlined">
-                            book
-                        </span>
-                        História
-                    </a>
-                </li>
-                <br>
-                <li>
-                    <a href="{% url 'lista_info' %}" class="menu-icon-two">
-                        <span class="material-symbols-outlined">
-                            code_blocks
-                        </span>
-                        Computação
                     </a>
                 </li>
             </ul>

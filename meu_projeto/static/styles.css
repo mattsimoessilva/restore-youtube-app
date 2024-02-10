@@ -240,7 +240,7 @@
  .random-video-wallpaper {
    position: relative;
    width: auto;
-   height: 400px;
+   height: 40vh;
    overflow: hidden;
    margin-top: 0;
  }
@@ -661,7 +661,7 @@ a:hover {
   margin-top: 2vh;
   margin-right: 2vh;
   position: absolute;
-  top: 20vh;
+  top: 30vh;
   left: 45vh;
 }
 
@@ -670,7 +670,7 @@ a:hover {
   color: white;
   position: absolute;
   left: 70vh;
-  top: 30vh;
+  top: 43vh;
 }
 
 .large-title-check {
