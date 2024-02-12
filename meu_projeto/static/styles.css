@@ -120,7 +120,6 @@
   display: grid;
   grid-template-columns: repeat(4, 1fr) !important;
   gap: 20px;
-  height: 100vmax;
 }
 
 .video-list {
@@ -307,6 +306,11 @@
  }
 
  .my-container {
+   padding: 2% 5% 5% 5%;
+   height: 100vmax;
+ }
+
+ .movie-container {
    padding: 2% 5% 5% 5%;
  }
 

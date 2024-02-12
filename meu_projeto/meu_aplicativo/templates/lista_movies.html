@@ -55,7 +55,7 @@
         </div>
     </div>
 
-<div class="my-container">
+<div class="movie-container">
     <br>
     <h3>Recomendado</h3>
     <div class="video-list" id="video-grid">
@@ -78,7 +78,7 @@
 </div>
 
 {% for tag_content in content_by_tags %}
-    <div class="my-container">
+    <div class="movie-container">
         <h3>{{ tag_content.tag_name }}</h3>
         <div class="video-list" id="video-grid">
             {% for content in tag_content.content %}
