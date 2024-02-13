@@ -187,8 +187,6 @@ def lista_videos(request):
                 'videos': random_videos,
             }
 
-            print(context)
-
             # Return the shuffled videos as a rendered HTML response
             return render(request, 'lista_info.html', context)
         else:
@@ -321,10 +319,11 @@ def video_player(request, video_id):
             video_info = response.json()
 
             context = {
-                'video': video_info,
+                'playback': video_info.get("videoStreams", [])
             }
 
-            print(context.video.url)          
+
+            print(context)          
 
             return render(request, 'video_player.html', context)
         else:
