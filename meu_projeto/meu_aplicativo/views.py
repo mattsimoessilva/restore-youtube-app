@@ -10,9 +10,11 @@ from django.core.paginator import Paginator, EmptyPage
 from django.urls import reverse
 from random import choice, shuffle, sample
 from django.http import HttpResponse
-
+import requests
 from django.shortcuts import render, get_object_or_404
 from .models import Show, Episode, Video, Channel
+from datetime import timedelta
+
 
 def show_page(request, show_id):
     """
@@ -135,20 +137,64 @@ def lista_movies(request):
     return render(request, 'lista_movies.html', context)
 
 def lista_videos(request):
-    # Retrieve videos with the "Computação" tag
-    historia_videos = Video.objects.filter(tags__name='História')
+    playlist_id = "PLN5fmudwjejFKHN_5TP8QT1baTr5XM_MO"
+    
+    # Define the API endpoint for getting playlist information
+    api_url = f"https://api.piped.privacydev.net/playlists/{playlist_id}"
 
-    # Randomly select up to 8 videos (or fewer if there are fewer than 8)
-    random_videos = sample(list(historia_videos), min(8, historia_videos.count()))
+    try:
+        # Make a request to the API
+        response = requests.get(api_url)
 
-    # Shuffle the selected videos
-    shuffle(random_videos)
+        # Check if the request was successful (status code 200)
+        if response.status_code == 200:
+            # Parse the JSON response
+            playlist_info = response.json()
 
-    context = {
-        'videos': random_videos,
-    }
+            # Extract video information from related streams
+            playlist_related_streams = playlist_info.get("relatedStreams", [])
 
-    return render(request, 'lista_info.html', context)
+            # Extract video information from related streams
+            videos = []
+            for stream in playlist_related_streams:
+                duration_seconds = stream.get('duration', 0)
+                
+                # Calculate duration in HH:MM:SS format
+                duration_formatted = str(timedelta(seconds=duration_seconds))
+
+                video_info = {
+                    'duration': duration_seconds,
+                    'duration_formatted': duration_formatted,
+                    'thumbnail': stream.get('thumbnail', ''),
+                    'title': stream.get('title', ''),
+                    'uploadedDate': stream.get('uploadedDate', ''),
+                    'uploaderAvatar': stream.get('uploaderAvatar', ''),
+                    'uploaderUrl': stream.get('uploaderUrl', ''),
+                    'uploaderVerified': stream.get('uploaderVerified', False),
+                    'uploader': stream.get('uploader', ''),
+                    'url': stream.get('url', ''),
+                    'views': stream.get('views', 0),
+                }
+                videos.append(video_info)
+
+            # Shuffle the selected videos from the playlist
+            shuffle(videos)
+
+            # Select a random sample of 24 videos
+            random_videos = videos[:24]
+
+            context = {
+                'videos': random_videos,
+            }
+
+            # Return the shuffled videos as a rendered HTML response
+            return render(request, 'lista_info.html', context)
+        else:
+            # Return an error response if the API request fails
+            return JsonResponse({"error": f"API request failed with status code {response.status_code}"})
+    except Exception as e:
+        # Handle exceptions, such as network errors or JSON parsing errors
+        return JsonResponse({"error": f"An error occurred: {str(e)}"})
 
 
 def lista_info(request):

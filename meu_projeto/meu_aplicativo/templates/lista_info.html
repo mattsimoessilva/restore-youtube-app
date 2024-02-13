@@ -20,22 +20,21 @@
 <div class="my-container">
     <div class="episode-grid">
         {% for video in videos %}
-                <a draggable="false" href="{% url 'video_player' video.id %}">
+                <a draggable="false" href="{% url 'video_player' video_id=video.url|cut:'/'|last %}">
                     <div class="episode-list-thumbnail">
-                        {% if video.watched == True %}
-                            <label class="watched-mark">Assistido</label>
-                            <img draggable="false" src="{{ video.thumbnail }}" alt="Thumbnail" class="episode-image grayscale-img">
-                        {% elif video.watched == False %}
-                            <img draggable="false" src="{{ video.thumbnail }}" alt="Thumbnail" class="episode-image">
-                        {% endif %}
+                       
+                        <img draggable="false" src="{{ video.thumbnail }}" alt="Thumbnail" class="episode-image">
+                       
                         <br>
                         <p class="episode-title"><b>{{ video.title }}</b></p>
                         <p class="episode-channel-title">
-                            <img draggable="false" src="{{ video.channel.logo }}" class="channel-icon">
-                            {{ video.channel.title }}
+                            <img draggable="false" src="{{ video.uploaderAvatar }}" class="channel-icon">
                             <span class="material-symbols-outlined">
                                 verified
                             </span>
+                        </p>
+                        <p class="duration">
+                            {{ video.duration_formatted }}
                         </p>
                     </div>
                 </a>

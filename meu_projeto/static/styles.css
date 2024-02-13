@@ -382,6 +382,13 @@
   display: inline;
 }
 
+.duration {
+  padding-top: 0vh;
+  padding-left: 12vh;
+  font-size: 1.8vh;
+  display: inline;
+}
+
 .episode-channel-title img {
   margin-right: 1vh;
 }
