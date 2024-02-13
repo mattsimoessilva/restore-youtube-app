@@ -187,6 +187,8 @@ def lista_videos(request):
                 'videos': random_videos,
             }
 
+            print(context)
+
             # Return the shuffled videos as a rendered HTML response
             return render(request, 'lista_info.html', context)
         else:
@@ -306,24 +308,31 @@ def episode_player(request, episode_id):
     return render(request, 'episode_player.html', context)
 
 def video_player(request, video_id):
-
-    video = get_object_or_404(Video, id=video_id)
+    # Define the API endpoint for getting video information
+    api_url = f"https://api.piped.privacydev.net/streams/ZsDxMA0v_G4"
 
     try:
+        # Make a request to the API
+        response = requests.get(api_url)
 
-        all_videos = Video.objects.exclude(id=video_id)
+        # Check if the request was successful (status code 200)
+        if response.status_code == 200:
+            # Parse the JSON response
+            video_info = response.json()
 
-        similar_videos = sample(list(all_videos), min(3, len(all_videos)))
+            context = {
+                'video': video_info,
+            }
+
+            print(context.video.url)          
+
+            return render(request, 'video_player.html', context)
+        else:
+            # Return an error response if the API request fails
+            return JsonResponse({"error": f"API request failed with status code {response.status_code}"})
     except Exception as e:
-
-        print(f'Error getting random similar videos: {e}')
-        similar_videos = []
-
-    context = {
-        'video': video,
-        'similar_videos': similar_videos,
-    }
-    return render(request, 'video_player.html', context)
+        # Handle exceptions, such as network errors or JSON parsing errors
+        return JsonResponse({"error": f"An error occurred: {str(e)}"})
 
 def company_page(request, company_id):
     """

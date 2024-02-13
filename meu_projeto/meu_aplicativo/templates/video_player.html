@@ -8,14 +8,14 @@
         <iframe width="1100vh" height="500vh" src="{{ video.url }}" frameborder="0" allowfullscreen id="video-frame" referrerpolicy="no-referrer"></iframe>
     </div>
     <h1 class="video-title">{{ video.title }}</h1>
-            <a href="{% url 'channel_page' video.channel.id %}">
+            <a href="">
                 <div class="channel-line">
                     <p>
-                        <img class="channel-icon-large" src="{{ video.channel.logo}}">
+                        <img class="channel-icon-large" src="{{ video.uploaderAvatar}}">
 
                     </p>
                     <p class="channel-name">
-                        {{ video.channel.title }}
+                        {{ video.uploaderName }}
                     </p>
                     <p>
                         <span class="material-symbols-outlined verified">
@@ -24,9 +24,6 @@
                     </p>
                 </div>
             </a>
-            <p class="video-description">
-                {{ video.description }}
-            </p>
 </div>
 
 {% endblock %}
