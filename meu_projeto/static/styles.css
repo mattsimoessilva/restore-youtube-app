@@ -785,3 +785,8 @@ h1 {
   color: white;
   z-index: 1;
 }
+
+.player-yt {
+  position: static !important;
+  overflow: hidden !important;
+}
