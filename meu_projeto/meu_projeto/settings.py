@@ -51,7 +51,7 @@ SECRET_KEY = 'django-insecure-mx9skj%x&5p%td8-a0l7q9^^#f-vk*49#cy_4g_$@v#_g@cxfj
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['galician.pythonanywhere.com', 'localhost', 'c137-2804-14d-3c83-803e-f1d9-2f13-1cf0-1523.ngrok-free.app']
+ALLOWED_HOSTS = ['galician.pythonanywhere.com', 'deepflix.onrender.com', 'localhost', 'c137-2804-14d-3c83-803e-f1d9-2f13-1cf0-1523.ngrok-free.app']
 
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static')
