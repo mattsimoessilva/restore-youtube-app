@@ -10,9 +10,12 @@ from django.core.paginator import Paginator, EmptyPage
 from django.urls import reverse
 from random import choice, shuffle, sample
 from django.http import HttpResponse
-
+import requests
 from django.shortcuts import render, get_object_or_404
 from .models import Show, Episode, Video, Channel
+from datetime import timedelta
+from urllib.parse import urlparse, parse_qs
+
 
 def show_page(request, show_id):
     """
@@ -35,20 +38,71 @@ def show_page(request, show_id):
     return render(request, 'show_page.html', context)
 
 def channel_page(request, channel_id):
-    channel = get_object_or_404(Channel, id=channel_id)
 
-    # Order videos by release_date, older first
-    videos = Video.objects.filter(channel=channel).order_by('published_date')
+   channel_api_url = f"https://api.piped.privacydev.net/channel/{channel_id}"
 
-    first_video = videos.first()
+   playlist_id = "PLzkTtcbyuIZ97FeRfsaQkVEpv2F5Xd1kV"
+    
+    # Define the API endpoint for getting playlist information
+   playlist_api_url = f"https://api.piped.privacydev.net/playlists/{playlist_id}"
 
-    context = {
-        'first_video': first_video,
-        'channel': channel,
-        'videos': videos,
-    }
+   try:
+       response = requests.get(channel_api_url)
+       second_response = requests.get(playlist_api_url)
 
-    return render(request, 'channel_page.html', context)
+       if response.status_code == 200 and second_response.status_code == 200:
+            channel_info = response.json()
+            videos_info = second_response.json().get('relatedStreams')
+
+            videos = []
+            for video in videos_info:
+                duration_seconds = video.get('duration', 0)
+                
+                # Calculate duration in HH:MM:SS format
+                duration_formatted = str(timedelta(seconds=duration_seconds))
+
+                url = video.get('url', '')
+                parsed_url = urlparse(url)
+                video_id = parse_qs(parsed_url.query).get('v', [''])[0]
+
+                channel_url = video.get('uploaderUrl', '')
+                print(channel_url)
+                parsed_channel_url = urlparse(channel_url)
+                this_channel_id = parsed_channel_url.path.lstrip("/channel/").split("?")[0]
+
+                video_info = {
+                    'duration': duration_seconds,
+                    'duration_formatted': duration_formatted,
+                    'thumbnail': video.get('thumbnail', ''),
+                    'title': video.get('title', ''),
+                    'uploadedDate': video.get('uploadedDate', ''),
+                    'uploaderAvatar': video.get('uploaderAvatar', ''),
+                    'uploaderUrl': video.get('uploaderUrl', ''),
+                    'uploaderVerified': video.get('uploaderVerified', False),
+                    'uploader': video.get('uploader', ''),
+                    'url': url,
+                    'video_id': video_id,
+                    'channel_id': this_channel_id,
+                    'views': video.get('views', 0),
+                }
+
+                if(video_info.get('channel_id') == channel_id):
+                    videos.append(video_info)
+
+            context = {
+               'channel': channel_info,
+               'videos': videos,
+            }
+
+            print(context)
+
+            return render(request, 'channel_page.html', context)
+       else:
+           return JsonResponse({"error": f"API request failed with status code {response.status_code}"})
+   except Exception as e:
+       return JsonResponse({"error": f"An error occurred: {str(e)}"})
+
+
 
 
 def load_more_movies(request):
@@ -135,20 +189,82 @@ def lista_movies(request):
     return render(request, 'lista_movies.html', context)
 
 def lista_videos(request):
-    # Retrieve videos with the "Computação" tag
-    historia_videos = Video.objects.filter(tags__name='História')
+    playlist_id = "PLzkTtcbyuIZ97FeRfsaQkVEpv2F5Xd1kV"
 
-    # Randomly select up to 8 videos (or fewer if there are fewer than 8)
-    random_videos = sample(list(historia_videos), min(8, historia_videos.count()))
+    # Define the API endpoint for getting playlist information
+    api_url = f"https://api.piped.privacydev.net/playlists/{playlist_id}"
 
-    # Shuffle the selected videos
-    shuffle(random_videos)
+    try:
+        # Make a request to the API
+        response = requests.get(api_url)
 
-    context = {
-        'videos': random_videos,
-    }
+        # Check if the request was successful (status code 200)
+        if response.status_code == 200:
+            # Parse the JSON response
+            playlist_info = response.json()
 
-    return render(request, 'lista_info.html', context)
+            # Extract video information from related streams
+            playlist_related_streams = playlist_info.get("relatedStreams", [])
+
+            # Extract video information from related streams
+            videos = []
+            channel_ids_seen = set()
+            for stream in playlist_related_streams:
+                duration_seconds = stream.get('duration', 0)
+
+                # Calculate duration in HH:MM:SS format
+                duration_formatted = str(timedelta(seconds=duration_seconds))
+
+                url = stream.get('url', '')
+                parsed_url = urlparse(url)
+                video_id = parse_qs(parsed_url.query).get('v', [''])[0]
+
+                channel_url = stream.get('uploaderUrl', '')
+                parsed_channel_url = urlparse(channel_url)
+                channel_id = parsed_channel_url.path.lstrip("/channel/").split("?")[0]
+
+                video_info = {
+                    'duration': duration_seconds,
+                    'duration_formatted': duration_formatted,
+                    'thumbnail': stream.get('thumbnail', ''),
+                    'title': stream.get('title', ''),
+                    'uploadedDate': stream.get('uploadedDate', ''),
+                    'uploaderAvatar': stream.get('uploaderAvatar', ''),
+                    'uploaderUrl': stream.get('uploaderUrl', ''),
+                    'uploaderVerified': stream.get('uploaderVerified', False),
+                    'uploader': stream.get('uploader', ''),
+                    'url': url,
+                    'video_id': video_id,
+                    'channel_id': channel_id,
+                    'views': stream.get('views', 0),
+                }
+
+                # Check if channel already has 2 entries
+                if channel_id in channel_ids_seen and len(channel_ids_seen) >= 2:
+                    continue  # Skip this video if channel already has 2 entries
+
+                channel_ids_seen.add(channel_id)  # Add channel_id to seen set
+                videos.append(video_info)
+
+            # Shuffle the selected videos from the playlist
+            shuffle(videos)
+
+            # Select a random sample of 24 videos
+            random_videos = videos[:24]
+
+            context = {
+                'videos': random_videos,
+            }
+
+            # Return the shuffled videos as a rendered HTML response
+            return render(request, 'lista_info.html', context)
+        else:
+            # Return an error response if the API request fails
+            return JsonResponse({"error": f"API request failed with status code {response.status_code}"})
+    except Exception as e:
+        # Handle exceptions, such as network errors or JSON parsing errors
+        return JsonResponse({"error": f"An error occurred: {str(e)}"})
+
 
 
 def lista_info(request):
@@ -197,20 +313,81 @@ def search_movies(request):
     return render(request, 'search_movies.html', context)
 
 def search_videos(request):
-    query = request.GET.get('q', '')  # Get the user's search query from the URL parameter
 
-    movies = Video.objects.filter(
-        Q(title__icontains=query) |
-        Q(channel__title__icontains=query) |
-        Q(tags__name__icontains=query)
-    ).distinct()
+    playlist_id = "PLzkTtcbyuIZ97FeRfsaQkVEpv2F5Xd1kV"
+    
+    # Define the API endpoint for getting playlist information
+    api_url = f"https://api.piped.privacydev.net/playlists/{playlist_id}"
 
-    videos_list = list(movies)
+    try:
+        # Make a request to the API
+        response = requests.get(api_url)
 
-    shuffle(videos_list) 
+        # Check if the request was successful (status code 200)
+        if response.status_code == 200:
+            # Parse the JSON response
+            playlist_info = response.json()
 
-    context = {'content': videos_list, 'query': query}
-    return render(request, 'search_videos.html', context)
+            # Extract video information from related streams
+            playlist_related_streams_first = playlist_info.get("relatedStreams", [])
+
+            query = request.GET.get('q', '')
+
+            playlist_related_streams = [stream for stream in playlist_related_streams_first if query in stream.get("title", "").lower()]
+
+
+            # Extract video information from related streams
+            videos = []
+            for stream in playlist_related_streams:
+                duration_seconds = stream.get('duration', 0)
+                
+                # Calculate duration in HH:MM:SS format
+                duration_formatted = str(timedelta(seconds=duration_seconds))
+
+                url = stream.get('url', '')
+                parsed_url = urlparse(url)
+                video_id = parse_qs(parsed_url.query).get('v', [''])[0]
+
+                channel_url = stream.get('uploaderUrl', '')
+                print(channel_url)
+                parsed_channel_url = urlparse(channel_url)
+                channel_id = parsed_channel_url.path.lstrip("/channel/").split("?")[0]
+
+                video_info = {
+                    'duration': duration_seconds,
+                    'duration_formatted': duration_formatted,
+                    'thumbnail': stream.get('thumbnail', ''),
+                    'title': stream.get('title', ''),
+                    'uploadedDate': stream.get('uploadedDate', ''),
+                    'uploaderAvatar': stream.get('uploaderAvatar', ''),
+                    'uploaderUrl': stream.get('uploaderUrl', ''),
+                    'uploaderVerified': stream.get('uploaderVerified', False),
+                    'uploader': stream.get('uploader', ''),
+                    'url': url,
+                    'video_id': video_id,
+                    'channel_id': channel_id,
+                    'views': stream.get('views', 0),
+                }
+                videos.append(video_info)
+
+            # Shuffle the selected videos from the playlist
+            shuffle(videos)
+
+            # Select a random sample of 24 videos
+            random_videos = videos[:24]
+
+            context = {
+                'videos': random_videos,
+            }
+
+            # Return the shuffled videos as a rendered HTML response
+            return render(request, 'lista_info.html', context)
+        else:
+            # Return an error response if the API request fails
+            return JsonResponse({"error": f"API request failed with status code {response.status_code}"})
+    except Exception as e:
+        # Handle exceptions, such as network errors or JSON parsing errors
+        return JsonResponse({"error": f"An error occurred: {str(e)}"})
 
 
 def movie_player(request, movie_id):
@@ -259,25 +436,37 @@ def episode_player(request, episode_id):
     }
     return render(request, 'episode_player.html', context)
 
-def video_player(request, video_id):
-
-    video = get_object_or_404(Video, id=video_id)
+def video_player(request, video_id, channel_id):
+    print(video_id)
+    # Define the API endpoint for getting video information
+    api_url = f"https://api.piped.privacydev.net/streams/{video_id}"
+    url = f"https://piped.privacydev.net/embed/{video_id}"
 
     try:
+        # Make a request to the API
+        response = requests.get(api_url)
 
-        all_videos = Video.objects.exclude(id=video_id)
+        # Check if the request was successful (status code 200)
+        if response.status_code == 200:
+            # Parse the JSON response
+            video_info = response.json()
 
-        similar_videos = sample(list(all_videos), min(3, len(all_videos)))
+            context = {
+                'video': video_info,
+                'url': url,
+                'channel_id': channel_id,
+            }
+
+
+            print(context)          
+
+            return render(request, 'video_player.html', context)
+        else:
+            # Return an error response if the API request fails
+            return JsonResponse({"error": f"API request failed with status code {response.status_code}"})
     except Exception as e:
-
-        print(f'Error getting random similar videos: {e}')
-        similar_videos = []
-
-    context = {
-        'video': video,
-        'similar_videos': similar_videos,
-    }
-    return render(request, 'video_player.html', context)
+        # Handle exceptions, such as network errors or JSON parsing errors
+        return JsonResponse({"error": f"An error occurred: {str(e)}"})
 
 def company_page(request, company_id):
     """

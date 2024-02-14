@@ -7,6 +7,7 @@
 
   body, html {
       height: 100%; /* Ensure the body and html elements cover the full page height */
+      overflow-x: hidden !important;
   }
 
   input[type="search"] {
@@ -379,6 +380,13 @@
   padding-left: 1.5vh;
   font-size: 2vh;
   font-size: 1.5vh;
+  display: inline;
+}
+
+.duration {
+  padding-top: 0vh;
+  padding-left: 10.5vh;
+  font-size: 1.8vh;
   display: inline;
 }
 
@@ -777,4 +785,9 @@ h1 {
   margin-left: 10vh;
   color: white;
   z-index: 1;
+}
+
+.player-yt {
+  position: static !important;
+  overflow: hidden !important;
 }
