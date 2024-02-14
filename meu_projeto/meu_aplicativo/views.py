@@ -41,7 +41,7 @@ def channel_page(request, channel_id):
 
    channel_api_url = f"https://api.piped.privacydev.net/channel/{channel_id}"
 
-   playlist_id = "PLN5fmudwjejFKHN_5TP8QT1baTr5XM_MO"
+   playlist_id = "PLzkTtcbyuIZ97FeRfsaQkVEpv2F5Xd1kV"
     
     # Define the API endpoint for getting playlist information
    playlist_api_url = f"https://api.piped.privacydev.net/playlists/{playlist_id}"
@@ -189,8 +189,8 @@ def lista_movies(request):
     return render(request, 'lista_movies.html', context)
 
 def lista_videos(request):
-    playlist_id = "PLN5fmudwjejFKHN_5TP8QT1baTr5XM_MO"
-    
+    playlist_id = "PLzkTtcbyuIZ97FeRfsaQkVEpv2F5Xd1kV"
+
     # Define the API endpoint for getting playlist information
     api_url = f"https://api.piped.privacydev.net/playlists/{playlist_id}"
 
@@ -205,6 +205,136 @@ def lista_videos(request):
 
             # Extract video information from related streams
             playlist_related_streams = playlist_info.get("relatedStreams", [])
+
+            # Extract video information from related streams
+            videos = []
+            channel_ids_seen = set()
+            for stream in playlist_related_streams:
+                duration_seconds = stream.get('duration', 0)
+
+                # Calculate duration in HH:MM:SS format
+                duration_formatted = str(timedelta(seconds=duration_seconds))
+
+                url = stream.get('url', '')
+                parsed_url = urlparse(url)
+                video_id = parse_qs(parsed_url.query).get('v', [''])[0]
+
+                channel_url = stream.get('uploaderUrl', '')
+                parsed_channel_url = urlparse(channel_url)
+                channel_id = parsed_channel_url.path.lstrip("/channel/").split("?")[0]
+
+                video_info = {
+                    'duration': duration_seconds,
+                    'duration_formatted': duration_formatted,
+                    'thumbnail': stream.get('thumbnail', ''),
+                    'title': stream.get('title', ''),
+                    'uploadedDate': stream.get('uploadedDate', ''),
+                    'uploaderAvatar': stream.get('uploaderAvatar', ''),
+                    'uploaderUrl': stream.get('uploaderUrl', ''),
+                    'uploaderVerified': stream.get('uploaderVerified', False),
+                    'uploader': stream.get('uploader', ''),
+                    'url': url,
+                    'video_id': video_id,
+                    'channel_id': channel_id,
+                    'views': stream.get('views', 0),
+                }
+
+                # Check if channel already has 2 entries
+                if channel_id in channel_ids_seen and len(channel_ids_seen) >= 2:
+                    continue  # Skip this video if channel already has 2 entries
+
+                channel_ids_seen.add(channel_id)  # Add channel_id to seen set
+                videos.append(video_info)
+
+            # Shuffle the selected videos from the playlist
+            shuffle(videos)
+
+            # Select a random sample of 24 videos
+            random_videos = videos[:24]
+
+            context = {
+                'videos': random_videos,
+            }
+
+            # Return the shuffled videos as a rendered HTML response
+            return render(request, 'lista_info.html', context)
+        else:
+            # Return an error response if the API request fails
+            return JsonResponse({"error": f"API request failed with status code {response.status_code}"})
+    except Exception as e:
+        # Handle exceptions, such as network errors or JSON parsing errors
+        return JsonResponse({"error": f"An error occurred: {str(e)}"})
+
+
+
+def lista_info(request):
+    # Retrieve videos with the "Computação" tag
+    computacao_videos = Video.objects.filter(tags__name='Computação')
+
+    # Randomly select up to 8 videos (or fewer if there are fewer than 8)
+    random_videos = sample(list(computacao_videos), min(8, computacao_videos.count()))
+
+    # Shuffle the selected videos
+    shuffle(random_videos)
+
+    context = {
+        'videos': random_videos,
+    }
+
+    return render(request, 'lista_info.html', context)
+
+
+def search_movies(request):
+    query = request.GET.get('q', '')  # Get the user's search query from the URL parameter
+
+    # Use Q objects to search for movies and shows where title, channel name, or tags contain the query
+    movies = Movie.objects.filter(
+        Q(title__icontains=query) |
+        Q(company__name__icontains=query) |
+        Q(tags__name__icontains=query)
+    ).distinct()
+
+    shows = Show.objects.filter(
+        Q(title__icontains=query) |
+        Q(tags__name__icontains=query)
+    ).distinct()
+
+    # Convert the movies and shows querysets to lists
+    movies_list = list(movies)
+    shows_list = list(shows)
+
+    # Combine the lists of movies and shows
+    content_list = movies_list + shows_list
+
+    # Randomly shuffle the list of movies and shows
+    shuffle(content_list)  # Shuffle the list directly
+
+    context = {'content': content_list, 'query': query, 'titulo': 'Pesquisar'}
+    return render(request, 'search_movies.html', context)
+
+def search_videos(request):
+
+    playlist_id = "PLzkTtcbyuIZ97FeRfsaQkVEpv2F5Xd1kV"
+    
+    # Define the API endpoint for getting playlist information
+    api_url = f"https://api.piped.privacydev.net/playlists/{playlist_id}"
+
+    try:
+        # Make a request to the API
+        response = requests.get(api_url)
+
+        # Check if the request was successful (status code 200)
+        if response.status_code == 200:
+            # Parse the JSON response
+            playlist_info = response.json()
+
+            # Extract video information from related streams
+            playlist_related_streams_first = playlist_info.get("relatedStreams", [])
+
+            query = request.GET.get('q', '')
+
+            playlist_related_streams = [stream for stream in playlist_related_streams_first if query in stream.get("title", "").lower()]
+
 
             # Extract video information from related streams
             videos = []
@@ -258,68 +388,6 @@ def lista_videos(request):
     except Exception as e:
         # Handle exceptions, such as network errors or JSON parsing errors
         return JsonResponse({"error": f"An error occurred: {str(e)}"})
-
-
-def lista_info(request):
-    # Retrieve videos with the "Computação" tag
-    computacao_videos = Video.objects.filter(tags__name='Computação')
-
-    # Randomly select up to 8 videos (or fewer if there are fewer than 8)
-    random_videos = sample(list(computacao_videos), min(8, computacao_videos.count()))
-
-    # Shuffle the selected videos
-    shuffle(random_videos)
-
-    context = {
-        'videos': random_videos,
-    }
-
-    return render(request, 'lista_info.html', context)
-
-
-def search_movies(request):
-    query = request.GET.get('q', '')  # Get the user's search query from the URL parameter
-
-    # Use Q objects to search for movies and shows where title, channel name, or tags contain the query
-    movies = Movie.objects.filter(
-        Q(title__icontains=query) |
-        Q(company__name__icontains=query) |
-        Q(tags__name__icontains=query)
-    ).distinct()
-
-    shows = Show.objects.filter(
-        Q(title__icontains=query) |
-        Q(tags__name__icontains=query)
-    ).distinct()
-
-    # Convert the movies and shows querysets to lists
-    movies_list = list(movies)
-    shows_list = list(shows)
-
-    # Combine the lists of movies and shows
-    content_list = movies_list + shows_list
-
-    # Randomly shuffle the list of movies and shows
-    shuffle(content_list)  # Shuffle the list directly
-
-    context = {'content': content_list, 'query': query, 'titulo': 'Pesquisar'}
-    return render(request, 'search_movies.html', context)
-
-def search_videos(request):
-    query = request.GET.get('q', '')  # Get the user's search query from the URL parameter
-
-    movies = Video.objects.filter(
-        Q(title__icontains=query) |
-        Q(channel__title__icontains=query) |
-        Q(tags__name__icontains=query)
-    ).distinct()
-
-    videos_list = list(movies)
-
-    shuffle(videos_list) 
-
-    context = {'content': videos_list, 'query': query}
-    return render(request, 'search_videos.html', context)
 
 
 def movie_player(request, movie_id):
