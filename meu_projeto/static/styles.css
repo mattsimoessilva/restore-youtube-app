@@ -5,6 +5,12 @@
       gap: 20px;
   }
 
+  .episode-grid {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr) !important;
+    gap: 20px;
+  }
+
   body, html {
       height: 100%; /* Ensure the body and html elements cover the full page height */
       overflow-x: hidden !important;
@@ -113,6 +119,12 @@
       display: grid;
       grid-template-columns: repeat(2, 1fr) !important;
       gap: 20px;
+  }
+
+  .episode-grid {
+    display: grid;
+    grid-template-columns: repeat(1, 1fr) !important;
+    gap: 20px;
   }
 
 }
