@@ -21,12 +21,19 @@
     <br>
     <div class="episode-grid" id="video-grid">
         {% for content in content %}
-            <a draggable="false" href="{% url 'video_player' content.id %}">
+            <a draggable="false" href="{% url 'video_player' content.video_id content.channel_id %}">
                 <div class="episode-list-thumbnail">
+                
                     <img draggable="false" src="{{ content.thumbnail }}" alt="Thumbnail" class="episode-image">
+                
                     <br>
                     <p class="episode-title"><b>{{ content.title }}</b></p>
-                    <br>
+                    <p class="episode-channel-title">
+                        
+                    </p>
+                    <p class="duration">
+                        {{ content.duration_formatted }}
+                    </p>
                 </div>
             </a>
         {% endfor %}
