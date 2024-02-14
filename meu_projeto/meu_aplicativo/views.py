@@ -17,6 +17,7 @@ from datetime import timedelta
 from urllib.parse import urlparse, parse_qs
 import json
 import urllib.parse
+import dateutil.parser 
 
 def show_page(request, show_id):
     """
@@ -88,7 +89,7 @@ def channel_page(request, channel_id):
 
             context = {
                'channel': channel_info,
-               'videos': videos,
+               'videos': sorted(videos, key=lambda x: parse_uploaded_date(x['uploadedDate'])),
             }
 
             return render(request, 'channel_page.html', context)
@@ -98,7 +99,12 @@ def channel_page(request, channel_id):
        return JsonResponse({"error": f"An error occurred: {str(e)}"})
 
 
-
+def parse_uploaded_date(uploaded_date):
+    if 'years ago' in uploaded_date:
+        years_ago = int(uploaded_date.split()[0])
+        return datetime.utcnow() - timedelta(days=365 * years_ago)
+    else:
+        return dateutil.parser.parse(uploaded_date)
 
 def load_more_movies(request):
     # Get the page number from the AJAX request
