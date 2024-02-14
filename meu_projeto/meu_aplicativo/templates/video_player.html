@@ -5,17 +5,17 @@
 <div class="my-container">
     <!-- Custom Video Player -->
     <div>
-        <iframe width="1100vh" height="500vh" src="https://piped.privacydev.net/embed/Ve2miT5iF2M" frameborder="0" allowfullscreen id="video-frame" referrerpolicy="no-referrer"></iframe>
+        <iframe width="1100vh" height="500vh" src="{{ url }}" frameborder="0" id="video-frame" referrerpolicy="no-referrer"></iframe>
     </div>
     <h1 class="video-title">{{ video.title }}</h1>
-            <a href="">
+            <a href="{% url 'channel_page' channel_id %}">
                 <div class="channel-line">
                     <p>
                         <img class="channel-icon-large" src="{{ video.uploaderAvatar}}">
 
                     </p>
                     <p class="channel-name">
-                        {{ video.uploaderName }}
+                        {{ video.uploader }}
                     </p>
                     <p>
                         <span class="material-symbols-outlined verified">
@@ -25,16 +25,4 @@
                 </div>
             </a>
 </div>
-
-<script>
-    // Wait for the iframe to load
-    const iframe = document.getElementById("video-frame");
-        iframe.addEventListener("load", () => {
-            // Access the iframe's document
-            const iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
-
-            // Set overflow hidden for the iframe's body
-            iframeDocument.body.style.overflow = "hidden";
-        });
-</script>
 {% endblock %}
