@@ -103,6 +103,21 @@ def parse_uploaded_date(uploaded_date):
     if 'years ago' in uploaded_date:
         years_ago = int(uploaded_date.split()[0])
         return datetime.utcnow() - timedelta(days=365 * years_ago)
+    elif 'months ago' in uploaded_date:
+        months_ago = int(uploaded_date.split()[0])
+        return datetime.utcnow() - timedelta(days=30 * months_ago)
+    elif 'days ago' in uploaded_date:
+        days_ago = int(uploaded_date.split()[0])
+        return datetime.utcnow() - timedelta(days=days_ago)
+    elif 'hours ago' in uploaded_date:
+        hours_ago = int(uploaded_date.split()[0])
+        return datetime.utcnow() - timedelta(hours=hours_ago)
+    elif 'minutes ago' in uploaded_date:
+        minutes_ago = int(uploaded_date.split()[0])
+        return datetime.utcnow() - timedelta(minutes=minutes_ago)
+    elif 'seconds ago' in uploaded_date:
+        seconds_ago = int(uploaded_date.split()[0])
+        return datetime.utcnow() - timedelta(seconds=seconds_ago)
     else:
         return dateutil.parser.parse(uploaded_date)
 
