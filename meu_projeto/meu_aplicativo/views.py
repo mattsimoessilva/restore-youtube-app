@@ -307,7 +307,7 @@ def lista_videos(request):
             print("Funfando...")
 
     # Shuffle the selected videos from the playlist
-    videos = shuffle(videos)
+    shuffle(videos)
 
     # Select a random sample of 24 videos
     random_videos = videos[:24]
