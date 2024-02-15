@@ -5,17 +5,13 @@
 <div class="my-container">
     <!-- Custom Video Player -->
     <div>
-        <iframe src="{{ url }}" frameborder="0" id="video-frame" referrerpolicy="no-referrer"></iframe>
+        <iframe src="{{ video.url }}" frameborder="0" id="video-frame" referrerpolicy="no-referrer"></iframe>
     </div>
     <h1 class="video-title">{{ video.title }}</h1>
-            <a href="{% url 'channel_page' channel_id %}">
+            <a href="{% url 'channel_page' video.channel.id %}">
                 <div class="channel-line">
-                    <p>
-                        <img class="channel-icon-large" src="{{ video.uploaderAvatar}}">
-
-                    </p>
                     <p class="channel-name">
-                        {{ video.uploader }}
+                        Canal
                     </p>
                     <p>
                         <span class="material-symbols-outlined verified">

@@ -1,11 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-<div class="random-video">
-            <div class="random-video-wallpaper">
-                <img src="{{ channel.bannerUrl }}" alt="wallpaper" class="channel-wallpaper-image">
-            </div>
-</div>
 
 <div class="container">
     <div class="direita"> <!-- Mantém a barra de pesquisa no canto direito -->
@@ -18,20 +13,17 @@
 </div>
 
 <div class="my-container dragscroll">
-    <img src="{{ channel.avatarUrl }}" class="channel-icon-largest">
     <p class="channel-title-largest">
-        {{ channel.name }}
-        <span class="material-symbols-outlined large-title-check">
-            verified
-        </span>
+        
+      
     </p>
-    <p class="channel-description">{{ channel.description }}</p>
+    <br>
     <br>
     <h3>Vídeos</h3>
     <br>
     <div class="episode-grid">
         {% for video in videos %}
-            <a draggable="false" href="{% url 'video_player' video.video_id video.channel_id %}">
+            <a draggable="false" href="{% url 'video_player' video.id video.channel.id %}">
                 <div class="episode-list-thumbnail">
                 
                         <img draggable="false" src="{{ video.thumbnail }}" alt="Thumbnail" class="episode-image">
@@ -40,9 +32,6 @@
                     <p class="episode-title"><b>{{ video.title }}</b></p>
                     <p class="episode-channel-title">
                         
-                    </p>
-                    <p class="duration">
-                        {{ video.duration_formatted }}
                     </p>
                 </div>
             </a>

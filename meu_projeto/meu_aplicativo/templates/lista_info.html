@@ -20,7 +20,7 @@
 <div class="my-container">
     <div class="episode-grid">
         {% for video in videos %}
-                <a draggable="false" href="{% url 'video_player' video.video_id video.channel_id %}">
+                <a draggable="false" href="{% url 'video_player' video.id video.channel.id %}">
                     <div class="episode-list-thumbnail">
                        
                         <img draggable="false" src="{{ video.thumbnail }}" alt="Thumbnail" class="episode-image">
