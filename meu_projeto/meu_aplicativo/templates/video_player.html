@@ -5,7 +5,7 @@
 <div class="my-container">
     <!-- Custom Video Player -->
     <div>
-        <iframe width="1100vh" height="500vh" src="{{ url }}" frameborder="0" id="video-frame" referrerpolicy="no-referrer"></iframe>
+        <iframe src="{{ url }}" frameborder="0" id="video-frame" referrerpolicy="no-referrer"></iframe>
     </div>
     <h1 class="video-title">{{ video.title }}</h1>
             <a href="{% url 'channel_page' channel_id %}">

@@ -5,12 +5,6 @@
       gap: 20px;
   }
 
-  .episode-grid {
-    display: grid;
-    grid-template-columns: repeat(1, 1fr) !important;
-    gap: 20px;
-  }
-
   body, html {
       height: 100%; /* Ensure the body and html elements cover the full page height */
       overflow-x: hidden !important;
@@ -125,14 +119,61 @@
     display: grid;
     grid-template-columns: repeat(1, 1fr) !important;
     gap: 20px;
+    margin-left: 5vh !important;
+
   }
 
+  #video-frame {
+    height: 20vh !important;
+    width: 42vh !important;
+    margin-top: 10vh !important;
+
+  }
+  
+  .video-title {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    font-weight: bold;
+    margin-bottom: 5px;
+    width: 50vh !important;
+ }
+
+ .channel-icon-largest {
+  width: 20vh;
+  height: 20vh;
+  border-radius: 10vh;
+  margin-top: 2vh;
+  margin-right: 2vh;
+  position: absolute;
+  top: 20vh;
+  left: 2vh !important;
+}
+
+.channel-title-largest {
+  font-size: 5vh;
+  color: white;
+  position: absolute;
+  left: 3vh !important;
+  top: 45vh !important;
+}
+
+.channel-description {
+  margin-top: 10vh !important;
+}
 }
 
 .episode-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr) !important;
+  grid-template-columns: repeat(4, 1fr);
   gap: 20px;
+  margin-left: 1vh;
+}
+
+#video-frame {
+  height: 100vh;
+  width: 180vh;
+  margin-top: 1vh;
 }
 
 .video-list {

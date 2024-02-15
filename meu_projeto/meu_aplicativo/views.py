@@ -43,7 +43,7 @@ def channel_page(request, channel_id):
 
    channel_api_url = f"https://api.piped.privacydev.net/channel/{channel_id}"
 
-   playlist_id = "PLzkTtcbyuIZ97FeRfsaQkVEpv2F5Xd1kV"
+   playlist_id = "PLzkTtcbyuIZ8XFtDSXaS0QfqbT54wWC92"
 
    try:
        response = requests.get(channel_api_url)
@@ -241,7 +241,7 @@ def get_playlist_videos(playlist_id):
 
 
 def lista_videos(request):
-    playlist_id = "PLzkTtcbyuIZ97FeRfsaQkVEpv2F5Xd1kV"
+    playlist_id = "PLzkTtcbyuIZ8XFtDSXaS0QfqbT54wWC92"
 
     # Fetch videos from the random page
     playlist_videos = get_playlist_videos(playlist_id)
@@ -350,7 +350,7 @@ def search_movies(request):
     return render(request, 'search_movies.html', context)
 
 def search_videos(request):
-            playlist_id = "PLzkTtcbyuIZ97FeRfsaQkVEpv2F5Xd1kV"
+            playlist_id = "PLzkTtcbyuIZ8XFtDSXaS0QfqbT54wWC92"
 
             # Fetch videos from the random page
             playlist_videos = get_playlist_videos(playlist_id)
