@@ -48,7 +48,7 @@ def parse_uploaded_date(uploaded_date):
     if uploaded_date.startswith('Streamed'):
         # Extract the portion after 'Streamed'
         uploaded_date = uploaded_date[len('Streamed'):].strip()
-        
+
     if 'ago' in uploaded_date:
         match = re.match(r'(\d+)\s+(\w+)', uploaded_date)
         if match:
@@ -368,7 +368,7 @@ class RegisterView(View):
 
             if video_id and channel_data:
                 # Optimize URL parsing
-                video_url = 'https://piped.privacydev.net/embed/' + video_id
+                video_url = 'https://invidious.fdn.fr/embed/' + video_id
 
                 channel_data = {
                     'title': channel_data.get('name', ''),
