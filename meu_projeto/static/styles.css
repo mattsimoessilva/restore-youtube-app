@@ -122,7 +122,7 @@
     display: grid;
     grid-template-columns: repeat(1, 1fr) !important;
     gap: 20px;
-    margin-left: 0vh !important;
+    margin-left: -3vh !important;
 
   }
 
