@@ -1,11 +1,14 @@
 from django.db import models
 import logging
 
+class Batch(models.Model):
+    number = models.IntegerField(unique=True)
+
 class Channel(models.Model):
     title = models.CharField(max_length=100, unique=True)
-    logo = models.URLField()
-    wallpaper = models.URLField(default='https://img.zcool.cn/community/03837b955deb1590000015995760355.jpg')
-    description = models.CharField(max_length=5000)
+    logo = models.URLField(null=True)
+    wallpaper = models.URLField(null=True)
+    description = models.CharField(max_length=5000, null=True)
 
     def __str__(self):
         return self.title
