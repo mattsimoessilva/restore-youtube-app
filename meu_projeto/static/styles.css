@@ -170,7 +170,7 @@
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 2vh;
-  margin-left: 28vh;
+  margin-left: 5vh;
 }
 
 #video-frame {

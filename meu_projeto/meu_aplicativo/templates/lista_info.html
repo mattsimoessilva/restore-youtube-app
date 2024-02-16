@@ -23,11 +23,11 @@
                 <a draggable="false" href="{% url 'video_player' video.id video.channel.id %}">
                     <div class="episode-list-thumbnail">
                        
-                        <img draggable="false" src="{{ video.thumbnail }}" alt="Thumbnail" class="episode-image">
+                        <img draggable="false" src="{{ video.thumbnail }}" alt="Thumbnail" class="episode-image" onerror="this.onerror=null;this.src='https://i0.wp.com/www.ecosmartinc.com/wp-content/uploads/2021/07/placeholder.png?resize=768%2C512&ssl=1';">
                        
                         <br>
                         <p class="episode-title">
-                            <img draggable="false" src="{{ video.channel.logo }}"class="channel-icon" >
+                            <img draggable="false" src="{{ video.channel.logo }}"class="channel-icon" onerror="this.onerror=null;this.src='https://i0.wp.com/www.ecosmartinc.com/wp-content/uploads/2021/07/placeholder.png?resize=768%2C512&ssl=1';">
                             <b>{{ video.title }}</b>
                         </p>
                         <p class="duration">
