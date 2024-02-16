@@ -122,13 +122,13 @@
     display: grid;
     grid-template-columns: repeat(1, 1fr) !important;
     gap: 20px;
-    margin-left: 5vh !important;
+    margin-left: 0vh !important;
 
   }
 
   #video-frame {
     height: 20vh !important;
-    width: 42vh !important;
+    width: 45vh !important;
     margin-top: 10vh !important;
 
   }
@@ -174,7 +174,7 @@
 }
 
 #video-frame {
-  height: 100vh;
+  height: 95vh;
   width: 180vh;
   margin-top: 1vh;
 }
