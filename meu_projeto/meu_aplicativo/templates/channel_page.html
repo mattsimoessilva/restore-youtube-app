@@ -26,12 +26,15 @@
             <a draggable="false" href="{% url 'video_player' video.id video.channel.id %}">
                 <div class="episode-list-thumbnail">
                 
-                        <img draggable="false" src="{{ video.thumbnail }}" alt="Thumbnail" class="episode-image">
-
+                    <img draggable="false" src="{{ video.thumbnail }}" alt="Thumbnail" class="episode-image">
+                
                     <br>
-                    <p class="episode-title"><b>{{ video.title }}</b></p>
-                    <p class="episode-channel-title">
-                        
+                    <p class="episode-title">
+                        <img draggable="false" src="{{ video.channel.logo }}"class="channel-icon" >
+                        <b>{{ video.title }}</b>
+                    </p>
+                    <p class="duration">
+                        {{ video.channel.title }} • {{ video.uploadedDate }}
                     </p>
                 </div>
             </a>

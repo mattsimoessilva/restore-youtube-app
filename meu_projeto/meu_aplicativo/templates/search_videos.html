@@ -27,9 +27,12 @@
                     <img draggable="false" src="{{ content.thumbnail }}" alt="Thumbnail" class="episode-image">
                 
                     <br>
-                    <p class="episode-title"><b>{{ content.title }}</b></p>
-                    <p class="episode-channel-title">
-                        
+                    <p class="episode-title">
+                        <img draggable="false" src="{{ content.channel.logo }}"class="channel-icon" >
+                        <b>{{ content.title }}</b>
+                    </p>
+                    <p class="duration">
+                        {{ content.channel.title }} • {{ content.uploadedDate }}
                     </p>
                 </div>
             </a>
