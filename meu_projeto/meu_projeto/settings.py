@@ -53,6 +53,9 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['galician.pythonanywhere.com', 'deepflix.onrender.com', 'localhost', 'c137-2804-14d-3c83-803e-f1d9-2f13-1cf0-1523.ngrok-free.app']
 
+CSRF_TRUSTED_ORIGINS = ['https://deepflix.onrender.com']
+
+
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, 'static')
 ]

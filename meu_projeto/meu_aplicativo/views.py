@@ -24,6 +24,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.views import View
 import concurrent.futures
 from django.db import transaction
+import re
 
 def channel_page(request, channel_id):
     
@@ -44,29 +45,34 @@ def channel_page(request, channel_id):
 
 
 def parse_uploaded_date(uploaded_date):
-    if 'years ago' in uploaded_date:
-        years_ago = int(uploaded_date.split()[0])
-        return datetime.utcnow() - timedelta(days=365 * years_ago)
-    elif 'months ago' in uploaded_date:
-        months_ago = int(uploaded_date.split()[0])
-        return datetime.utcnow() - timedelta(days=30 * months_ago)
-    elif 'weeks ago' in uploaded_date:
-            weeks_ago = int(uploaded_date.split()[0])
-            return datetime.utcnow() - timedelta(weeks=weeks_ago)
-    elif 'days ago' in uploaded_date:
-        days_ago = int(uploaded_date.split()[0])
-        return datetime.utcnow() - timedelta(days=days_ago)
-    elif 'hours ago' in uploaded_date:
-        hours_ago = int(uploaded_date.split()[0])
-        return datetime.utcnow() - timedelta(hours=hours_ago)
-    elif 'minutes ago' in uploaded_date:
-        minutes_ago = int(uploaded_date.split()[0])
-        return datetime.utcnow() - timedelta(minutes=minutes_ago)
-    elif 'seconds ago' in uploaded_date:
-        seconds_ago = int(uploaded_date.split()[0])
-        return datetime.utcnow() - timedelta(seconds=seconds_ago)
-    else:
-        return dateutil.parser.parse(uploaded_date)
+    if 'ago' in uploaded_date:
+        match = re.match(r'(\d+)\s+(\w+)', uploaded_date)
+        if match:
+            amount, unit = match.groups()
+            amount = int(amount)
+            
+            # Handle both singular and plural forms
+            if unit.endswith('s'):
+                unit = unit[:-1]  # Remove 's' from the end
+            
+            if unit == 'year':
+                return datetime.utcnow() - timedelta(days=365 * amount)
+            elif unit == 'month':
+                return datetime.utcnow() - timedelta(days=30 * amount)
+            elif unit == 'week':
+                return datetime.utcnow() - timedelta(weeks=amount)
+            elif unit == 'day':
+                return datetime.utcnow() - timedelta(days=amount)
+            elif unit == 'hour':
+                return datetime.utcnow() - timedelta(hours=amount)
+            elif unit == 'minute':
+                return datetime.utcnow() - timedelta(minutes=amount)
+            elif unit == 'second':
+                return datetime.utcnow() - timedelta(seconds=amount)
+
+    # If the format doesn't match the expected 'ago' format, use dateutil.parser
+    return dateutil.parser.parse(uploaded_date)
+
 
 
 def get_playlist_videos(playlist_id):
@@ -282,8 +288,11 @@ class RegisterView(View):
         playlist_id = "PLzkTtcbyuIZ8XFtDSXaS0QfqbT54wWC92"
         playlist_videos = self.fetch_playlist_data(playlist_id)
         videos_len = 0;
+        db_videos = Video.objects.all()
+        db_videos_len = len(db_videos)
         for video in playlist_videos:
             videos_len += len(video)
+        print(f'Quantidade de vídeos registrados: {db_videos_len}')
         print(f'Quantidade de vídeos retornados: {videos_len}')
 
         if playlist_videos:
@@ -297,6 +306,11 @@ class RegisterView(View):
 
             # Skip videos from the beginning of the playlist
             playlist_videos = playlist_videos[videos_to_skip:]
+            
+            skipped_videos_len = 0
+            for video in playlist_videos:
+                skipped_videos_len += len(video)
+            print(f'Quantide de vídeos cortados: {skipped_videos_len}')
 
             channel_list = []
             video_list = []
