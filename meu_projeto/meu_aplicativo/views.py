@@ -21,20 +21,24 @@ import time
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_exempt
 from django.views import View
+import concurrent.futures
 
 def channel_page(request, channel_id):
     
-    channel = Channel.objects.get(id=channel_id)
+        channel = Channel.objects.get(id=channel_id)
     
-    videos = Video.objects.filter(channel_id=channel_id)
-    
+        # Get videos without ordering
+        videos = Video.objects.filter(channel_id=channel_id)
 
-    context = {
-        'channel': channel,
-        'videos': videos,
-    }
+        # Parse 'uploadedDate' and sort videos in Python
+        videos = sorted(videos, key=lambda video: parse_uploaded_date(video.uploadedDate))
 
-    return render(request, 'channel_page.html', context)
+        context = {
+            'channel': channel,
+            'videos': videos,
+        }
+
+        return render(request, 'channel_page.html', context)
 
 
 def parse_uploaded_date(uploaded_date):
@@ -44,6 +48,9 @@ def parse_uploaded_date(uploaded_date):
     elif 'months ago' in uploaded_date:
         months_ago = int(uploaded_date.split()[0])
         return datetime.utcnow() - timedelta(days=30 * months_ago)
+    elif 'weeks ago' in uploaded_date:
+            weeks_ago = int(uploaded_date.split()[0])
+            return datetime.utcnow() - timedelta(weeks=weeks_ago)
     elif 'days ago' in uploaded_date:
         days_ago = int(uploaded_date.split()[0])
         return datetime.utcnow() - timedelta(days=days_ago)
@@ -165,6 +172,30 @@ class RegisterView(View):
         # You can add any additional logic or response here
         return JsonResponse({"message": "Registration process completed."})
 
+    def fetch_channel_data(self, channel_id):
+        base_url = "https://api.piped.privacydev.net/channel/"
+        url = f"{base_url}{channel_id}"
+
+        print(url)
+
+        for _ in range(10):  # Retry up to 3 times
+            try:
+                response = requests.get(url)
+
+                if response.status_code == 200:
+                    channel_info = response.json()
+                    return channel_info
+                else:
+                    print(f"Error: {response.status_code}")
+
+            except Exception as e:
+                print(f"An error occurred: {e}")
+
+            # Wait for 10 seconds before retrying
+            time.sleep(60)
+
+        return None
+
     def fetch_playlist_data(self, playlist_id):
         base_url = "https://api.piped.privacydev.net/playlists/"
         url = f"{base_url}{playlist_id}"
@@ -218,7 +249,13 @@ class RegisterView(View):
     def register_channel(self, channel_data):
         channel, created = Channel.objects.get_or_create(
             title=channel_data['title'],
+            defaults={
+                'logo': channel_data['logo'],
+                'wallpaper': channel_data['wallpaper'],
+                'description': channel_data['description'],
+            }
         )
+
         return channel
 
     def register_video(self, video_data, channel):
@@ -228,6 +265,7 @@ class RegisterView(View):
             defaults={
                 'url': video_data['url'],
                 'thumbnail': video_data['thumbnail'],
+                'uploadedDate': video_data['uploadedDate'],
             }
         )
         return video
@@ -237,39 +275,67 @@ class RegisterView(View):
         playlist_videos = self.fetch_playlist_data(playlist_id)
 
         if playlist_videos:
-            for test in playlist_videos:
-                for videos_set in test:  
-                            print('sucesso')
-                            
-                            url = videos_set.get('url', '')
-                            print(url)
-                            video_id = urllib.parse.parse_qs(urllib.parse.urlparse(url).query).get('v', [''])[0]
+            channel_list = []
+            video_list = []
 
-                            channel_url = videos_set.get('uploaderUrl', '')
-                            this_channel_id = urllib.parse.urlparse(channel_url).path.lstrip("/channel/").split("?")[0]
+            with concurrent.futures.ThreadPoolExecutor() as executor:
+                future_to_channel = {executor.submit(self.process_video_set, videos_set): videos_set for test in playlist_videos for videos_set in test}
+                
+                for future in concurrent.futures.as_completed(future_to_channel):
+                    videos_set = future_to_channel[future]
 
-                            if video_id:
-                                # Register channel and video
-                                channel_data = {
-                                    'title': this_channel_id,
-                                }
+                    try:
+                        channel, video = future.result()
+                        if channel and video:
+                            channel_list.append(channel)
+                            video_list.append(video)
+                            print(f"Successfully registered Video: {video.title} from Channel: {channel.title}")
+                        else:
+                            print(f"Failed to register Video: {video.title} from Channel: {channel.title}")
+                    except Exception as e:
+                        print(f"Error processing Video Set: {videos_set}. Error: {e}")
 
-                                channel = self.register_channel(channel_data)
-                                channel_saved = channel.save()  # Save the channel instance
-                                
-                                # Only include properties that are in the Video model
-                                video_info = {
-                                    'title': videos_set.get('title', ''),
-                                    'url': 'https://piped.privacydev.net/embed/' + video_id,
-                                    'thumbnail': videos_set.get('thumbnail', ''),
-                                }
+            # Bulk save
+            channels_saved = self.bulk_save(channel_list)
+            videos_saved = self.bulk_save(video_list)
 
-                                video = self.register_video(video_info, channel)
-                                video_saved = video.save()  # Save the video instance
+            for channel, video in zip(channels_saved, videos_saved):
+                if channel and video:
+                    print(f"Successfully registered Video: {video.title} from Channel: {channel.title}")
+                else:
+                    print(f"Failed to register Video: {video.title} from Channel: {channel.title}")
 
-                                if channel_saved and video_saved:
-                                    print(f"Successfully registered Video: {video.title} from Channel: {channel.title}")
-                                else:
-                                    print(f"Failed to register Video: {video.title} from Channel: {channel.title}")
+    def process_video_set(self, videos_set):
+        url = videos_set.get('url', '')
+        print(url)
+        video_id = urllib.parse.parse_qs(urllib.parse.urlparse(url).query).get('v', [''])[0]
+
+        channel_url = videos_set.get('uploaderUrl', '')
+        this_channel_id = urllib.parse.urlparse(channel_url).path.lstrip("/channel/").split("?")[0]
+
+        channel_data = self.fetch_channel_data(this_channel_id)
+
+        if video_id and channel_data:
+            # Optimize URL parsing
+            video_url = 'https://piped.privacydev.net/embed/' + video_id
+
+            # Simplify channel_data handling
+            channel_data['wallpaper'] = channel_data.get('bannerUrl', 'https://img.zcool.cn/community/03837b955deb1590000015995760355.jpg')
+
+            print(channel_data)
+
+            # Batch channel and video operations
+            channel = self.register_channel(channel_data)
+            video_info = {
+                'title': videos_set.get('title', ''),
+                'url': video_url,
+                'thumbnail': videos_set.get('thumbnail', ''),
+                'uploadedDate': videos_set.get('uploadedDate', ''),
+            }
+            video = self.register_video(video_info, channel)
+
+            return channel, video
+        else:
+            return None, None
 
     # The rest of the class remains unchanged

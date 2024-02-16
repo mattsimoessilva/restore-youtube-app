@@ -11,7 +11,7 @@
             <a href="{% url 'channel_page' video.channel.id %}">
                 <div class="channel-line">
                     <p class="channel-name">
-                        Canal
+                        {{ video.channel.title }}
                     </p>
                     <p>
                         <span class="material-symbols-outlined verified">
