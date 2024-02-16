@@ -76,6 +76,10 @@ def parse_uploaded_date(uploaded_date):
 
 
 def get_playlist_videos(playlist_id):
+    if uploaded_date.startswith('Streamed'):
+        # Extract the portion after 'Streamed'
+        uploaded_date = uploaded_date[len('Streamed'):].strip()
+        
     base_url = "https://api.piped.privacydev.net/playlists/"
     
     url = f"{base_url}{playlist_id}"
