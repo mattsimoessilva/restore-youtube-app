@@ -6,7 +6,7 @@
     <div class="direita"> <!-- Mantém a barra de pesquisa no canto direito -->
         <form class="form-inline" action="{% url 'search_videos' %}" method="get">
             <div class="search-box">
-                <input type="text" class="input-search" placeholder="Pesquisar Vídeos" name="q">
+                <input type="text" class="input-search" placeholder="Pesquisa" name="q">
             </div>
         </form>
     </div>
@@ -26,12 +26,12 @@
                         <img draggable="false" src="{{ video.thumbnail }}" alt="Thumbnail" class="episode-image">
                        
                         <br>
-                        <p class="episode-title"><b>{{ video.title }}</b></p>
-                        <p class="episode-channel-title">
-                            
+                        <p class="episode-title">
+                            <img draggable="false" src="{{ video.channel.logo }}"class="channel-icon" >
+                            <b>{{ video.title }}</b>
                         </p>
                         <p class="duration">
-                            {{ video.duration_formatted }}
+                            {{ video.channel.title }} • {{ video.uploadedDate }}
                         </p>
                     </div>
                 </a>
