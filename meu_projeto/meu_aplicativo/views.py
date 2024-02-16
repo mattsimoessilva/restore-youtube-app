@@ -45,6 +45,10 @@ def channel_page(request, channel_id):
 
 
 def parse_uploaded_date(uploaded_date):
+    if uploaded_date.startswith('Streamed'):
+        # Extract the portion after 'Streamed'
+        uploaded_date = uploaded_date[len('Streamed'):].strip()
+        
     if 'ago' in uploaded_date:
         match = re.match(r'(\d+)\s+(\w+)', uploaded_date)
         if match:
@@ -76,10 +80,7 @@ def parse_uploaded_date(uploaded_date):
 
 
 def get_playlist_videos(playlist_id):
-    if uploaded_date.startswith('Streamed'):
-        # Extract the portion after 'Streamed'
-        uploaded_date = uploaded_date[len('Streamed'):].strip()
-        
+
     base_url = "https://api.piped.privacydev.net/playlists/"
     
     url = f"{base_url}{playlist_id}"
