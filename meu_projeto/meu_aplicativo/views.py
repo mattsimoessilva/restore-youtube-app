@@ -290,17 +290,11 @@ class RegisterView(View):
 
 
     def register_playlist_data(self):
-        playlist_id = "PLzkTtcbyuIZ8XFtDSXaS0QfqbT54wWC92"
+        playlist_id = "PLzkTtcbyuIZ-nMOvWVSg_5PV4jjn0sUDp"
         playlist_videos = self.fetch_playlist_data(playlist_id)
-        videos_len = 0;
-        db_videos = Video.objects.all()
-        db_videos_len = len(db_videos)
-        for video in playlist_videos:
-            videos_len += len(video)
-        print(f'Quantidade de vídeos registrados: {db_videos_len}')
-        print(f'Quantidade de vídeos retornados: {videos_len}')
+        consolidated_dict = {video['url']: video for sublist in playlist_videos for video in sublist}
 
-        if playlist_videos:
+        if consolidated_dict:
             # Get the latest processed batch number
             latest_batch_number = Batch.objects.latest('number').number if Batch.objects.exists() else 0
 
@@ -324,7 +318,7 @@ class RegisterView(View):
             thread_count = 4  # Adjust this number based on your system and experimentation
 
             with concurrent.futures.ThreadPoolExecutor(max_workers=thread_count) as executor:
-                future_to_channel = {executor.submit(self.process_video_set, videos): videos for videos in playlist_videos}
+                future_to_channel = {executor.submit(self.process_video_set, consolidated_dict[url]): url for url in consolidated_dict}
 
                 for future in concurrent.futures.as_completed(future_to_channel):
                     videos = future_to_channel[future]
@@ -342,17 +336,15 @@ class RegisterView(View):
             self.bulk_save(channel_list)
             self.bulk_save(video_list)
 
-            if len(video_list) < 388:
+            if len(video_list) < len(consolidated_dict):
                 print("Algo deu errado, número de vídeos cadastrados não é o mesmo da playlist")
                 print(f'Tamanho do playlist_videos: {len(playlist_videos)}')
-            elif len(video_list) >= 388:
+            elif len(video_list) >= len(consolidated_dict):
                 print("Todos os vídeos cadastrados com sucesso")
 
 
-    def process_video_set(self, videos):
-        results = []
-
-        for video in videos:
+    def process_video_set(self, video):
+            results = []
             url = video.get('url', '')
             print(url)
             video_id = urllib.parse.parse_qs(urllib.parse.urlparse(url).query).get('v', [''])[0]
@@ -384,6 +376,7 @@ class RegisterView(View):
                     'url': video_url,
                     'thumbnail': video.get('thumbnail', ''),
                     'uploadedDate': video.get('uploadedDate', ''),
+                    'duration': video.get('duration', '')
                 }
 
                 video_registration = self.register_video(video_info, channel)
@@ -391,16 +384,16 @@ class RegisterView(View):
             else:
                 results.append((None, None))
 
-        current_batch = Batch.objects.get()
+            current_batch = Batch.objects.get()
 
-        # Update the batch number
-        current_batch.number = current_batch.number + 1
-        current_batch.save()
+            # Update the batch number
+            current_batch.number = current_batch.number + 1
+            current_batch.save()
 
-        # Print the updated batch number
-        print(f'Processed batch {current_batch.number}')
-            
-        return results
+            # Print the updated batch number
+            print(f'Processed batch {current_batch.number}')
+                
+            return results
 
     def bulk_save(self, instances):
         # Perform bulk save operation

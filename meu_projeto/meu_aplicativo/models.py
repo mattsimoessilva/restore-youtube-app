@@ -30,6 +30,7 @@ class Video(models.Model):
     url = models.URLField()
     thumbnail = models.URLField()
     uploadedDate = models.CharField(max_length=50)
+    duration = models.CharField(max_length=100)
 
     def __str__(self):
         return self.title
