@@ -912,7 +912,7 @@ h1 {
 .info-position {
   position: relative;
   top: -2vh;
-  left: 0vh;
+  left: 1vh;
 }
 
 .subscribers-video-player {
