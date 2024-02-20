@@ -260,9 +260,7 @@ class RegisterView(View):
                 time.sleep(60)
 
         # If all retries fail, raise an exception or return a default value
-        raise Exception("Failed to fetch playlist data after multiple attempts")
-
-                
+        raise Exception("Failed to fetch playlist data after multiple attempts")   
 
     def register_channel(self, channel_data):
         channel, created = Channel.objects.get_or_create(
@@ -284,13 +282,15 @@ class RegisterView(View):
                 'url': video_data['url'],
                 'thumbnail': video_data['thumbnail'],
                 'uploadedDate': video_data['uploadedDate'],
+                'duration': video_data['duration'],
+                'views': video_data['views'],
             }
         )
         return video
 
 
     def register_playlist_data(self):
-        playlist_id = "PLzkTtcbyuIZ-nMOvWVSg_5PV4jjn0sUDp"
+        playlist_id = "PLquQykA5gHepESxUGpNL8dX6_HlI0lCt5"
         playlist_videos = self.fetch_playlist_data(playlist_id)
         consolidated_dict = {video['url']: video for sublist in playlist_videos for video in sublist}
 
@@ -376,8 +376,11 @@ class RegisterView(View):
                     'url': video_url,
                     'thumbnail': video.get('thumbnail', ''),
                     'uploadedDate': video.get('uploadedDate', ''),
-                    'duration': video.get('duration', '')
+                    'duration': video['duration'],
+                    'views': video['views'],
                 }
+
+                print(f'Video info: {video_info}')
 
                 video_registration = self.register_video(video_info, channel)
                 results.append((channel, video_registration))
