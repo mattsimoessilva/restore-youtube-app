@@ -173,6 +173,13 @@
   margin-left: 5vh;
 }
 
+.episode-grid-related {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2vh;
+  margin-left: 1vh;
+}
+
 #video-frame {
   height: 95vh;
   width: 180vh;
