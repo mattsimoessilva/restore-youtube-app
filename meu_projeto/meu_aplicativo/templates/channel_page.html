@@ -12,14 +12,20 @@
     </div>
 </div>
 
+<img src="{{ channel.wallpaper }}" class="channel-wallpaper"> 
+<p class="channel-title-test">
+    <img src="{{ channel.logo }}" class="channel-icon-largest">
+    {{ channel.title }}
+</p>
+<br>
+<p class="channel-description-test">
+    {{ channel.description }}
+</p>
+
 <div class="my-container dragscroll">
-    <p class="channel-title-largest">
-        
-      
-    </p>
     <br>
     <br>
-    <h3>{{ channel.title }}</h3>
+    <h3>Vídeos</h3>
     <br>
     <div class="episode-grid">
         {% for video in videos %}
