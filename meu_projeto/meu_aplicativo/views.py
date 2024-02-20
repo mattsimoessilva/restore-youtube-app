@@ -153,7 +153,7 @@ def search_videos(request):
     random_videos = videos[:20]
 
     context = {
-        'content': random_videos,
+        'videos': random_videos,
         'query': query,
     }
 
