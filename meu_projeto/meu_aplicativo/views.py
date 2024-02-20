@@ -39,6 +39,7 @@ def channel_page(request, channel_id):
         context = {
             'channel': channel,
             'videos': videos,
+            'video_count': len(videos),
         }
 
         return render(request, 'channel_page.html', context)
@@ -269,6 +270,7 @@ class RegisterView(View):
                 'logo': channel_data['logo'],
                 'wallpaper': channel_data['wallpaper'],
                 'description': channel_data['description'],
+                'subscribers': channel_data['subscribers'],
             }
         )
 
@@ -361,12 +363,14 @@ class RegisterView(View):
             if video_id and channel_data:
                 # Optimize URL parsing
                 video_url = 'https://invidious.fdn.fr/embed/' + video_id
+                thumbnail_url = 'https://img.youtube.com/vi/' + video_id + '/maxresdefault.jpg'
 
                 channel_data = {
                     'title': channel_data.get('name', ''),
                     'logo': channel_data.get('avatarUrl', ''),
                     'wallpaper': channel_data.get('bannerUrl', ''),
                     'description': channel_data.get('description', ''),
+                    'subscribers': channel_data['subscriberCount'],
                 }
 
                 # Batch channel and video operations
@@ -374,7 +378,7 @@ class RegisterView(View):
                 video_info = {
                     'title': video.get('title', ''),
                     'url': video_url,
-                    'thumbnail': video.get('thumbnail', ''),
+                    'thumbnail': thumbnail_url,
                     'uploadedDate': video.get('uploadedDate', ''),
                     'duration': video['duration'],
                     'views': video['views'],

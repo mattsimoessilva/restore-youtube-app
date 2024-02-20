@@ -538,6 +538,7 @@
 
    .channel-name {
      font-weight: bold;
+     color: #888;
    }
 
    .views,
@@ -711,8 +712,8 @@ a:hover {
 }
 
 .channel-icon {
-  width: 5vh;
-  height: 5vh;
+  width: 6vh;
+  height: 6vh;
   border-radius: 5vh;
   margin-right: 1vh;
 }
@@ -778,20 +779,24 @@ h1 {
   padding-top: 3.5vh;
   font-weight: lighter;
   font-size: 2.5vh;
-}
-
-.channel-line .verified {
-  padding-top: 3.5vh;
   margin-left: 1vh;
 }
 
-.verified {
-  color: gold;
+.channel-line .verified {
+  position: relative;
+  margin-left: 0.5vh;
+  top: 4vh;
+  color: #888;
+  font-size: 2.5vh;
+}
+
+.channel-line img {
+  position: relative;
+  top: 3.5vh;
 }
 
 .episode-channel-title .material-symbols-outlined {
   font-size: 2vh;
-  color: gold;
   vertical-align: bottom;
   margin-bottom: 1.2vh;
 }
@@ -863,11 +868,16 @@ h1 {
   display: inline;
   font-size: 6vh;
   padding-top: 2vh;
+  color: #888;
 }
 
 .channel-title-test img {
   margin-right: 2vh;
   margin-bottom: 4vh;
+}
+
+.channel-title-test span {
+  font-size: 5vh;
 }
 
 .channel-description-test {
@@ -876,4 +886,39 @@ h1 {
   padding-left: 10vh;
   padding-top: 5vh;
   width: 90%;
+}
+
+.little-channel-title span {
+  position: relative;
+  font-size: 2vh;
+  top: 0.3vh;
+}
+
+.little-channel-title {
+  padding-top: 0vh;
+  padding-left: 8vh;
+  font-size: 1.8vh;
+  display: inline;
+  color: gray;
+}
+
+.info-position {
+  position: relative;
+  top: -2vh;
+  left: 0vh;
+}
+
+.subscribers-video-player {
+  position: relative;
+  top: -2vh;
+  left: 8vh;
+  color: #888;
+}
+
+.channel-subtitle {
+  position: relative;
+  top: -7vh;
+  left: 34vh;
+  font-size: 2vh;
+  color: #888;
 }

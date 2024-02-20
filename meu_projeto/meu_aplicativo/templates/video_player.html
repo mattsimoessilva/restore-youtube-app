@@ -10,14 +10,19 @@
     <h1 class="video-title">{{ video.title }}</h1>
             <a href="{% url 'channel_page' video.channel.id %}">
                 <div class="channel-line">
+                    <img src="{{ video.channel.logo}}" class="channel-icon">
                     <p class="channel-name">
                         {{ video.channel.title }}
                     </p>
                     <p>
                         <span class="material-symbols-outlined verified">
-                            verified
+                            check_circle
                         </span>
                     </p>
+            
+                </div>
+                <div class="subscribers-video-player">
+                    {{ video.channel.subscribers }} inscritos
                 </div>
             </a>
 </div>

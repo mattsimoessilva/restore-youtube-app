@@ -14,6 +14,7 @@ class Channel(models.Model):
     logo = models.URLField(null=True)
     wallpaper = models.URLField(null=True)
     description = models.CharField(max_length=5000, null=True)
+    subscribers = models.IntegerField()
 
     def __str__(self):
         return self.title
