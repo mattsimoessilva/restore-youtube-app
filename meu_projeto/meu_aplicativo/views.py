@@ -290,7 +290,7 @@ class RegisterView(View):
 
 
     def register_playlist_data(self):
-        playlist_id = "PLzkTtcbyuIZ-nMOvWVSg_5PV4jjn0sUDp"
+        playlist_id = Batch.objects.get(title='Study').playlist
         playlist_videos = self.fetch_playlist_data(playlist_id)
         consolidated_dict = {video['url']: video for sublist in playlist_videos for video in sublist}
 

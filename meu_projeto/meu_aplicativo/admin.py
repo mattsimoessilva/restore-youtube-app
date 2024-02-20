@@ -11,4 +11,4 @@ class VideoAdmin(admin.ModelAdmin):
     
 @admin.register(Batch)
 class BacthAdmin(admin.ModelAdmin):
-    list_display = ('number',)
+    list_display = ('title',)

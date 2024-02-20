@@ -2,7 +2,12 @@ from django.db import models
 import logging
 
 class Batch(models.Model):
+    title = models.CharField(max_length=100)
     number = models.IntegerField(unique=True)
+    playlist = models.CharField(max_length=100)
+    
+    def __str__(self):
+        return self.title
 
 class Channel(models.Model):
     title = models.CharField(max_length=100, unique=True)
@@ -43,3 +48,4 @@ class Video(models.Model):
         except Exception as e:
             logging.error(f"Error saving video: {e}")
             raise
+        
