@@ -164,10 +164,14 @@ def search_videos(request):
 def video_player(request, video_id, channel_id):
     
     video = Video.objects.get(id=video_id)
-    
+    videos = Video.objects.all().order_by('?')
+
+    # Select a random sample of 24 videos
+    random_videos = videos[:3]
 
     context = {
         'video': video,
+        'videos': random_videos,
     }
 
         
