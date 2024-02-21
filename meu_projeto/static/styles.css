@@ -179,7 +179,6 @@
   grid-template-columns: repeat(3, 1fr);
   gap: 2vh;
   margin-left: 1vh;
-  overflow: hidden;
 }
 
 #video-frame {
