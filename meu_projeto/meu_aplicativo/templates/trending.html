@@ -18,7 +18,7 @@
 <br>
 
 <div class="my-container">
-    <div class="episode-grid">
+    <div class="new-video-grid">
         {% for video in videos %}
             <a draggable="false" href="{% url 'video_player' video.id video.channel.id %}">
                 <div class="episode-list-thumbnail">

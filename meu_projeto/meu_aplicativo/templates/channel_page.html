@@ -24,7 +24,7 @@
     <br>
     <h3>Vídeos</h3>
     <br>
-    <div class="channel-video-grid">
+    <div class="new-video-grid">
         {% for video in videos %}
             <a draggable="false" href="{% url 'video_player' video.id video.channel.id %}">
                 <div class="episode-list-thumbnail">

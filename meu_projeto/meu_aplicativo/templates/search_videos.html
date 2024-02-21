@@ -19,7 +19,7 @@
 <div class="my-container">
     <h2>Resultado da Pesquisa "{{ query }}"</h2>
     <br>
-    <div class="episode-grid" id="video-grid">
+    <div class="new-video-grid" id="video-grid">
         {% for video in videos %}
             <a draggable="false" href="{% url 'video_player' video.id video.channel.id %}">
                 <div class="episode-list-thumbnail">
