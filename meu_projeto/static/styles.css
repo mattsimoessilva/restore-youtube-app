@@ -123,6 +123,7 @@
     grid-template-columns: repeat(1, 1fr) !important;
     gap: 20px;
     margin-left: -3vh !important;
+    overflow: hidden;
   }
 
   #video-frame {
@@ -178,6 +179,7 @@
   grid-template-columns: repeat(3, 1fr);
   gap: 2vh;
   margin-left: 1vh;
+  overflow: hidden;
 }
 
 #video-frame {
@@ -372,6 +374,7 @@
  .my-container {
    padding: 2% 5% 5% 5%;
    height: 100vmax;
+
  }
 
  .movie-container {
@@ -930,6 +933,7 @@ h1 {
   left: 34vh;
   font-size: 2vh;
   color: #888;
+  width: 50% !important;
 }
 
 .channel-list-title {
