@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="container">
+    <div class="direita"> <!-- Mantém a barra de pesquisa no canto direito -->
+        <form class="form-inline" action="{% url 'search_videos' %}" method="get">
+            <div class="search-box">
+                <input type="text" class="input-search" placeholder="Pesquisa" name="q">
+            </div>
+        </form>
+    </div>
+</div>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+<div class="my-container">
+    <div class="episode-grid">
+        {% for channel in channels %}
+            <a draggable="false" href="{% url 'channel_page' channel.id %}">
+                <p class="channel-list">
+                    <img draggable="false" src="{{ channel.logo }}"class="channel-icon-largest" onerror="this.onerror=null;this.src='https://i0.wp.com/www.ecosmartinc.com/wp-content/uploads/2021/07/placeholder.png?resize=768%2C512&ssl=1';">
+                    <p class="channel-list-title">
+                        {{ channel.title }} <span class="material-symbols-outlined">check_circle</span>
+                        <br>
+                        <div class="channel-list-subscribers">
+                            {{ channel.subscribers }} inscritos
+                        </div>
+                    </p>
+                </p>
+            </a>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}

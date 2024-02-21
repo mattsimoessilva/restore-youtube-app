@@ -43,6 +43,16 @@ def channel_page(request, channel_id):
         }
 
         return render(request, 'channel_page.html', context)
+    
+def channel_list(request):
+    
+        channels = Channel.objects.all()
+
+        context = {
+            'channels': channels,
+        }
+
+        return render(request, 'channel_list.html', context)
 
 
 def parse_uploaded_date(uploaded_date):
@@ -141,6 +151,33 @@ def lista_videos(request):
     }
 
     return render(request, 'lista_info.html', context)
+
+def trending(request):
+
+    videos_list = []
+
+    for video in Video.objects.all():
+        video_converted = video
+        video_converted.views = int(video_converted.views)
+        videos_list.append(video_converted)
+
+    # Sort the list in descending order and get the top 24 videos
+    videos_list.sort(key=lambda x: x.views, reverse=True)
+    videos_list = videos_list[:24]
+
+    # Shuffle the order
+    random.shuffle(videos_list)
+
+    random_videos = videos_list
+
+
+    context = {
+        'videos': random_videos,
+    }
+    
+    print(context)
+
+    return render(request, 'trending.html', context)
 
 
 def search_videos(request):

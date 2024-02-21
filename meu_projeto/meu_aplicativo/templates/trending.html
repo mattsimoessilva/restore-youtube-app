@@ -1,0 +1,48 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="container">
+    <div class="direita"> <!-- Mantém a barra de pesquisa no canto direito -->
+        <form class="form-inline" action="{% url 'search_videos' %}" method="get">
+            <div class="search-box">
+                <input type="text" class="input-search" placeholder="Pesquisa" name="q">
+            </div>
+        </form>
+    </div>
+</div>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+<div class="my-container">
+    <div class="episode-grid">
+        {% for video in videos %}
+            <a draggable="false" href="{% url 'video_player' video.id video.channel.id %}">
+                <div class="episode-list-thumbnail">
+                
+                    <img draggable="false" src="{{ video.thumbnail }}" alt="Thumbnail" class="episode-image" onerror="this.onerror=null;this.src='https://i0.wp.com/www.ecosmartinc.com/wp-content/uploads/2021/07/placeholder.png?resize=768%2C512&ssl=1';">
+                
+                    <br>
+                    <p class="episode-title">
+                        <img draggable="false" src="{{ video.channel.logo }}"class="channel-icon" onerror="this.onerror=null;this.src='https://i0.wp.com/www.ecosmartinc.com/wp-content/uploads/2021/07/placeholder.png?resize=768%2C512&ssl=1';">
+                        <b>{{ video.title }}</b>
+                    </p>
+                    <div class="info-position">
+                        <p class="little-channel-title">
+                            {{ video.channel.title }} <span class="material-symbols-outlined">check_circle</span>
+                        </p>
+                        <br>
+                        <p class="duration">
+                            {{ video.views}} visualizações • {{ video.uploadedDate }}
+                        </p>
+                    </div>
+                </div>
+            </a>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}

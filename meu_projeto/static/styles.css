@@ -885,6 +885,8 @@ h1 {
 
 .channel-title-test span {
   font-size: 5vh;
+  position: relative;
+  top: 0.5vh;
 }
 
 .channel-description-test {
@@ -928,4 +930,37 @@ h1 {
   left: 34vh;
   font-size: 2vh;
   color: #888;
+}
+
+.channel-list-title {
+  position: relative;
+  left: 35vh;
+  top: -20vh;
+  font-size: 3vh;
+  display: inline;
+  color: #888;
+}
+
+.channel-list-title span {
+  position: relative;
+  font-size: 3vh;
+  top: 0.5vh;
+}
+
+.channel-list-subscribers {
+  font-size: 2vh;
+  color: #888;
+  position: relative;
+  left: 35vh;
+  top: -18vh;
+}
+
+.channel-title {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  padding-top: 1.5vh;
+  padding-left: 1.5vh;
+  font-size: 2vh;
+  border-radius: 2vh;
 }
