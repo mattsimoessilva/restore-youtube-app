@@ -342,6 +342,12 @@ class RegisterView(View):
             self.bulk_save(channel_list)
             self.bulk_save(video_list)
 
+            current_batch = Batch.objects.get()
+
+            # Update the batch number
+            current_batch.number = len(Video.objects.all())
+            current_batch.save()
+
             if len(video_list) < len(consolidated_dict):
                 print("Algo deu errado, número de vídeos cadastrados não é o mesmo da playlist")
                 print(f'Tamanho do playlist_videos: {len(playlist_videos)}')
@@ -394,15 +400,6 @@ class RegisterView(View):
                 results.append((channel, video_registration))
             else:
                 results.append((None, None))
-
-            current_batch = Batch.objects.get()
-
-            # Update the batch number
-            current_batch.number = current_batch.number + 1
-            current_batch.save()
-
-            # Print the updated batch number
-            print(f'Processed batch {current_batch.number}')
                 
             return results
 
