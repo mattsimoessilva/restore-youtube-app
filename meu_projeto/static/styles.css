@@ -967,3 +967,10 @@ h1 {
   padding-left: 1.5vh;
   font-size: 2vh;
 }
+
+.channel-video-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2vh;
+  margin-left: 5vh;
+}
