@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<div class="container">
+    <div class="direita"> <!-- Mantém a barra de pesquisa no canto direito -->
+        <form class="form-inline" action="{% url 'search_videos' %}" method="get">
+            <div class="search-box">
+                <input type="text" class="input-search" placeholder="Pesquisa" name="q">
+            </div>
+        </form>
+    </div>
+</div>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+<div class="my-container">
+    <div class="category-grid">
+        {% for category in categories %}
+            <a draggable="false" href="">
+                <div class="category-list-thumbnail">
+                    <img draggable="false" src="{{ category.thumbnail }}" class="category-image">
+                    <p class="category-title staatliches-regular">
+                        {{ category.title }}
+                    </p>
+                </div>
+            </a>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock %}

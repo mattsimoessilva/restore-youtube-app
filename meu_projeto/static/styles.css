@@ -973,3 +973,11 @@ h1 {
   gap: 2vh;
   margin-left: 5vh;
 }
+
+.channel-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2vh;
+  margin-left: -5vh;
+  overflow: hidden;
+}
